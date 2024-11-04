@@ -1,0 +1,81 @@
+{% extends 'my_app/base.html' %}
+  
+{% block title %}Login{% endblock %}
+  
+{% block content %}
+
+<div class="container-login-form">
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="login-card">
+        <div class="login-form">
+            <a href="/" class="home-link">Home</a>
+            <h1 class="h1-login">Login</h1>
+            <p class="signup-text">
+                Don't have an account yet? <a href="/signup" class="signup-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Sign up</a>
+            </p>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                        <div class="modal-body">
+                            <p>"Select your role to sign up: Student or Teacher."</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href=""><button type="button" class="">Student</button></a>
+                            <a href=""><button type="button" class="">Teacher</button></a>
+                        </div>
+                </div>
+                </div>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group-login">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" class="input-login" placeholder="John Deo" required>
+                </div>
+                <div class="form-group-login">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="input-login" placeholder="••••••••" required>
+                </div>
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                <button type="submit" class="button-login">Login</button>
+            </form>
+            <footer class="footer-login">
+                © Copyright 2024 EduQuest website All Rights Reserved.
+            </footer>
+        </div>
+        <div class="image-section">
+            <div class="floating-shapes">
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+            </div>
+        </div>
+    </div>        
+</div>
+<div class="content">
+    <!-- Your page content here -->
+</div>
+<div class="container">
+    <!-- Footer -->
+    <footer class="py-3 my-4 mt-5 text-center">
+        <p class="mb-0">&copy; 2024 Company, EduPort &trade;</p>
+    </footer>
+</div>
+
+{% endblock %}
+
