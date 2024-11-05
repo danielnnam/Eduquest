@@ -1,0 +1,9 @@
+/* Student Dashboard
+=====================================-------------------------------------- */
+.course_header{
+    background-image: url(/static/images/dash_header.png);
+    background-size: cover ;
+    background-position: bottom;
+    background-color: rgb(15, 63, 125);
+    height: 33vh;
+}
