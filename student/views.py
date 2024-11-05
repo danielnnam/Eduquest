@@ -25,6 +25,10 @@ def student_dashboard(request):
     return render(request, 'students/dashboard.html')
 
 @login_required
+def course_list(request):
+    return render(request, 'students/course_list.html')
+
+@login_required
 def user_logout(request):
     logout(request)
     return redirect('login')  # Redirect to user login after logout
