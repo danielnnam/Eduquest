@@ -1,9 +1,160 @@
 /* Student Dashboard
 =====================================-------------------------------------- */
-.course_header{
-    background-image: url(/static/images/dash_header.png);
-    background-size: cover ;
-    background-position: bottom;
-    background-color: rgb(15, 63, 125);
-    height: 33vh;
+
+:root {
+    --space-blue: #1a2a6c;
+    --cosmic-purple: #5c258d;
+    --star-yellow: #ffd700;
+    --meteor-orange: #ff6b6b;
+    --planet-green: #4ecdc4;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--space-blue), var(--cosmic-purple));
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+.space-container {
+    position: relative;
+    padding: 2rem;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.star {
+    position: absolute;
+    background-color: #ffffff;
+    border-radius: 50%;
+    animation: twinkle 4s infinite ease-in-out;
+}
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+.planet {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    z-index: -1;
+    animation: orbit 20s infinite linear;
+}
+@keyframes orbit {
+    from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+}
+.dashboard-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--star-yellow);
+}
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--star-yellow);
+}
+.progress-cosmic {
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+}
+.progress-cosmic .progress-bar {
+    background-color: var(--meteor-orange);
+    transition: width 0.5s ease;
+}
+.nav-cosmic {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    padding: 0.5rem;
+}
+.nav-cosmic .nav-link {
+    color: #ffffff;
+    border-radius: 100px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    margin: 2px;
+}
+.nav-cosmic .nav-link:hover, .nav-cosmic .nav-link.active {
+    background-color: var(--star-yellow);
+    color: var(--space-blue);
+}
+.achievement-badge {
+    width: 50px;
+    height: 50px;
+    background-color: var(--planet-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+}
+.achievement-badge:hover {
+    transform: scale(1.1) rotate(15deg);
+}
+.nav-item {
+    position: relative;
+}
+.dropdown-menu{
+    backdrop-filter: blur(10px);
+}
+.dropdown-item:hover{
+    background-color: var(--star-yellow);
+    color: var(--space-blue);
+    /* color: #ffffff; */
+    border-radius: 100px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    margin: 2px;
+}
+
+
+/* Course list page styles */
+.course-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    height: 100%;
+}
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--star-yellow);
+}
+.course-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--star-yellow);
+}
+.course-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+.course-description {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+.course-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    opacity: 0.7;
 }
