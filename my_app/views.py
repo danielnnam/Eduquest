@@ -11,9 +11,7 @@ def index(request):
     return render(request, 'my_app/index.html')
 
 
-@login_required
-def student_dashboard(request):
-    return render(request, 'student/dashboard.html')
+
 
 # Login View for Students and Teachers
 def login_view(request):
