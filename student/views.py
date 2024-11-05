@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from student.forms import StudentRegistrationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 # Create your views here.
 
@@ -22,3 +23,8 @@ def register_student(request):
 @login_required
 def student_dashboard(request):
     return render(request, 'students/dashboard.html')
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect('login')  # Redirect to user login after logout
