@@ -1,12 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    Welcome {{ user.username }}!
-    <h1>Hello world</h1>
-</body>
-</html>
+{% extends 'students/base.html' %}
+  
+{% block title %}Dashboard{% endblock %}
+  
+{% block content %}
+<div class="container-lg">
+    <h1 class="mb-4" style="position: relative;z-index: 10000;"><span id="currentGreeting"></span> {{user.username}}</h1>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="dashboard-card">
+                <h2>Your Learning Journey</h2>
+                <div class="progress-cosmic mt-3 mb-2">
+                    <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <p>65% of your galaxy explored</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>Current Mission</h3>
+                        <p>Advanced JavaScript</p>
+                        <button class="btn btn-outline-light mt-2">Continue Learning</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>Upcoming Events</h3>
+                        <p>AI Workshop - 3 days left</p>
+                        <button class="btn btn-outline-light mt-2">View Schedule</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h3>Achievements</h3>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="achievement-badge">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-0">Code Master</h4>
+                        <p class="mb-0">Completed 5 coding challenges</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="achievement-badge">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-0">Dedicated Learner</h4>
+                        <p class="mb-0">Studied for 50 hours</p>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <h3>Recommended Courses</h3>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-rocket me-2"></i> Machine Learning Basics</li>
+                    <li class="mb-2"><i class="fas fa-rocket me-2"></i> Web Development Bootcamp</li>
+                    <li><i class="fas fa-rocket me-2"></i> Data Structures & Algorithms</li>
+                </ul>
+                <button class="btn btn-outline-light mt-2">Explore More</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <!-- Your page content here -->
+</div>
+<div class="container">
+    <!-- Footer -->
+    <footer class="py-3 my-4 mt-5 text-center">
+        <p class="mb-0">&copy; 2024 Company, EduPort &trade;</p>
+    </footer>
+</div>
+{% endblock %}
