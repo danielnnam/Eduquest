@@ -25,8 +25,8 @@ def login_view(request):
                 login(request, user)
                 if hasattr(user, 'student'):
                     return redirect('student_dashboard')
-                elif hasattr(user, 'teacher'):
-                    return redirect('teacher_dashboard')
+                elif hasattr(user, 'instructor'):
+                    return redirect('instructor_dashboard')
                 elif user.is_staff:
                     return redirect('admin_dashboard')
             else:
