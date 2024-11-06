@@ -120,6 +120,36 @@ body {
     margin: 2px;
 }
 
+.btn-cosmic {
+    background-color: var(--star-yellow);
+    color: var(--space-blue);
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+.btn-cosmic:hover {
+    background-color: var(--meteor-orange);
+    color: #ffffff;
+}
+.fixed-table {
+    @media (max-width:576px) {
+        width: 1000px; /* Set a fixed width */
+        min-width: 1000px; /* Prevent shrinking below this width */
+    }
+}
+
+/* Fix the height of the table */
+.fixed-table tbody, .fixed-table thead {
+    height: auto; /* Adjust height as needed */
+}
+
+/* Ensure columns have fixed width and prevent content wrapping */
+.fixed-table th, .fixed-table td {
+    padding: 1rem;
+    white-space: nowrp; /* Prevent text from wrapping */
+}
+
 
 /* Course list page styles */
 .course-card {

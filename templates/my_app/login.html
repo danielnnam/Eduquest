@@ -5,16 +5,16 @@
 {% block content %}
 
 <div class="container-login-form">
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
     <div class="login-card">
         <div class="login-form">
             <a href="/" class="home-link">Home</a>
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
             <h1 class="h1-login">Login</h1>
             <p class="signup-text">
                 Don't have an account yet? <a href="/signup" class="signup-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Sign up</a>
