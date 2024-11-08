@@ -18,8 +18,6 @@ body {
 .space-container {
     position: relative;
     padding: 2rem;
-    padding-left: 0px;
-    padding-right: 0px;
 }
 .star {
     position: absolute;
@@ -45,7 +43,7 @@ body {
 }
 .dashboard-card {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(10px); */
     border-radius: 20px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
@@ -76,19 +74,43 @@ body {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-radius: 50px;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
 }
+
 .nav-cosmic .nav-link {
     color: #ffffff;
     border-radius: 100px;
     padding: 0.5rem 1rem;
-    transition: all 0.3s ease;
     margin: 2px;
 }
+
 .nav-cosmic .nav-link:hover, .nav-cosmic .nav-link.active {
     background-color: var(--star-yellow);
     color: var(--space-blue);
 }
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.dropdown-menu {
+    background: rgba(0, 0, 0, 0.9);
+    border: none;
+    border-radius: 10px;
+}
+
+.dropdown-item {
+    color: #ffffff;
+    padding: 0.5rem 1.3rem;
+    border-radius: 100px;
+    margin: 2px;
+}
+
+.dropdown-item:hover, .dropdown-item.active {
+    background-color: var(--star-yellow);
+    color: var(--space-blue);
+}
+
 .achievement-badge {
     width: 50px;
     height: 50px;
@@ -104,11 +126,9 @@ body {
 .achievement-badge:hover {
     transform: scale(1.1) rotate(15deg);
 }
-.nav-item {
-    position: relative;
-}
+
 .dropdown-menu{
-    backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(10px); */
 }
 .dropdown-item:hover{
     background-color: var(--star-yellow);
@@ -116,7 +136,7 @@ body {
     /* color: #ffffff; */
     border-radius: 100px;
     padding: 0.5rem 1rem;
-    transition: all 0.3s ease;
+    /* transition: all 0.3s ease; */
     margin: 2px;
 }
 
@@ -131,6 +151,12 @@ body {
 .btn-cosmic:hover {
     background-color: var(--meteor-orange);
     color: #ffffff;
+}
+.table-cosmic {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    overflow: hidden;
 }
 .fixed-table {
     @media (max-width:576px) {
@@ -151,7 +177,8 @@ body {
 }
 
 
-/* Course list page styles */
+/* Course list page styles
+============================================----------------------------------------- */
 .course-card {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -187,4 +214,77 @@ body {
     justify-content: space-between;
     font-size: 0.8rem;
     opacity: 0.7;
+}   
+
+/* Edit Profile page style
+===================================-------------------------- */
+/* Container styling */
+.profile-form {
+    position: relative;
+    overflow: hidden;
+    /* z-index: -1; */
+}
+
+/* Pseudo-element for blurred background */
+.profile-form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit; /* Copy background properties */
+    backdrop-filter: blur(20px); /* Apply blur here */
+    z-index: -1; /* Ensure it stays behind the content */
+}
+
+.form-control{
+    padding: 11px;
+    color: black;
+    
+} 
+input[type="text"] {
+    background: #f4f6fb; /* Light, professional background color */
+    color: #333; /* Dark text for readability */
+    border: 1px solid #c0c5ce; /* Soft gray border */
+    border-radius: 5px; /* Subtle rounded corners */
+    padding: 12px 16px; /* Comfortable padding */
+    font-size: 15px; /* Standard, readable font size */
+    transition: all 0.3s ease; /* Smooth transition for interactivity */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Minimal shadow for slight depth */
+    outline: none; /* Removes default outline */
+}
+/* Placeholder text style */
+input[type="text"]::placeholder {
+    color: #7a869a; /* Light gray for placeholder text */
+    font-style: italic; /* Italic for differentiation */
+}
+
+input[type="email"] {
+    background: #f4f6fb; /* Light, professional background color */
+    color: #333; /* Dark text for readability */
+}
+/* input{
+background: var(--cosmic-purple);
+} */
+
+.h2-login {
+/* font-size: 2.5rem;    */
+font-weight: bold;
+margin-bottom: 0.5rem;
+position: relative;
+}
+.h2-login::after {
+content: '';
+display: block;
+width: 50px;
+height: 4px;
+background-color: orange;
+margin-top: 0.5rem;
+}
+.btn-close-sm {
+    width: 0.75rem;
+    height: 0.75rem;
+    padding: 0.25rem;
+    margin-right: 5px; /* Pushes the button inside a bit */
 }
