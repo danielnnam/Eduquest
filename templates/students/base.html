@@ -65,7 +65,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                                     <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile</a></li>
-                                    <li><a class="dropdown-item" href="">Change Password</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a></li>
                                     <li><a class="dropdown-item" href="{% url 'user_logout' %}">Logout</a></li>
                                 </ul>
                             </li>
@@ -135,6 +135,21 @@
         const currentGreeting = getGreeting(currentHour);
         const currentTime = `${currentHour.toString().padStart(2, '0')}:${currentMinutes.toString().padStart(2, '0')}`;
         document.getElementById('currentGreeting').innerHTML = `${currentGreeting}! `;
+
+        // message js
+        // Wait for the DOM to load
+        document.addEventListener("DOMContentLoaded", function() {
+            // Select the message container
+            const messageContainer = document.getElementById('message-container');
+            
+            // If there is a message container, hide it after 3 seconds (3000 ms)
+            if (messageContainer) {
+                setTimeout(function() {
+                    messageContainer.style.display = 'none';
+                }, 3000);
+            }
+        });
+</script>
     </script>
 </body>
 </html>
