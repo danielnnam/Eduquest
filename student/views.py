@@ -65,6 +65,7 @@ def change_password(request):
             if new_password == confirm_new_password:
                 request.user.set_password(new_password)
                 request.user.save()
+                messages.success(request, 'Your profile has been updated successfully.')  # Success message
                 update_session_auth_hash(request, request.user)  # Important!
                 return redirect('change_password')  # Redirect to a profile view or success page
             else:
@@ -73,8 +74,8 @@ def change_password(request):
         else:
             # error_message = "Current password is incorrect."
             messages.success(request, 'Current password is incorrect.')  # Success message
-    else:
-        messages.success(request, 'Your profile has been updated successfully.')  # Success message
+
+        
 
     return render(request, 'students/change_password.html', {
         # 'error_message': error_message,
