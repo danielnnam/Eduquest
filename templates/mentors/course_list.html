@@ -1,0 +1,64 @@
+{% extends 'mentors/base.html' %}
+  
+{% block title %}Course Lists{% endblock %}
+  
+{% block content %}
+
+<div class="dashboard-card">
+    <div class="float-ed">
+        <a href="{% url 'instructor_course_create' %}">
+            <button class="btn btn-secondary">Create New Course</button>
+        </a>
+    </div>
+    
+    <div class="row g-4 mt-2">
+        {% for course in page_obj %}
+        <div class="col-lg-4 col-12">
+            <div class="course-card-in">
+                <div class="course-icon">🚀</div>
+                <h2 class="course-title-in">{{ course.name }}</h2>
+                <p class="course-description-in">{{ course.description }}</p>
+                <div class="course-stats-in">
+                    <span>Students: 120</span>
+                    <span>Duration: {{ course.duration }}</span>
+                </div>
+                <div class="progress-bar-in">
+                    <div class="progress-in" style="width: 75%;"></div>
+                </div>
+                <div class="course-actions-in">
+                    <a href="{% url 'instructor_course_update' course.id %}">
+                        <button class="btn btn-primary">Edit Course</button>
+                    </a>
+                    <a href="{% url 'instructor_course_delete' course.id %}">
+                        <button class="btn btn-secondary">Delete Course</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <li>No courses available.</li>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination controls -->
+    <div class="pagination mt-3">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    
+</div>
+
+{% endblock %}
