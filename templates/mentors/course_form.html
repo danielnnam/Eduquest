@@ -1,0 +1,60 @@
+{% extends 'mentors/base.html' %}
+  
+{% block title %} {% if form.instance.pk %}Update Course{% else %}Create Course{% endif %} {% endblock %}
+
+{% block content %}
+{{ form.media }}
+
+<div class="container shadow p-lg-5 p-4 rounded-4 border-warning border profile-form">
+    <a href="{% url 'instructor_course_list' %}">
+        <button class="btn btn-secondary ">Back to Course List</button>
+    </a>
+
+    <h2 class="h2-login mt-4">{% if form.instance.pk %}Update Course{% else %}Create Course{% endif %}</h2>
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+        <div>
+            <label for="name">Name:</label>
+            <p class="mt-1">{{ form.name }}</p>
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <p class="mt-1">{{ form.description }}</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <label for="credits">Credits:</label>
+                <p class="mt-1">{{ form.credits }}</p>
+            </div>
+            <div class="col-lg-6 col-12">
+                <label for="duration">Duration:</label>
+                <p class="mt-1">{{ form.duration }}</p>
+            </div>
+
+            <div class="col-lg-6 col-12">
+                <label for="category">Category:</label>
+                <p class="mt-1">{{ form.category }}</p>
+            </div>
+            <div class="col-lg-6 col-12">
+                <label for="level">Level:</label>
+                <p class="mt-1">{{ form.level }}</p>
+            </div>
+
+            <div class="col-6">
+                <label for="price">Price:</label>
+                <p>{{ form.price }}</p>
+            </div>
+        </div>
+
+        <div>
+            <label for="syllabus">Syllabus:</label>
+            <div class="mt-1">
+                {{ form.syllabus }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-cosmic mt-4">{% if form.instance.pk %}Update Course{% else %}Create Course{% endif %}</button>
+    </form>
+</div>
+
+{% endblock %}
