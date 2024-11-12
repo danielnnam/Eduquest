@@ -41,8 +41,14 @@ INSTALLED_APPS = [
     'my_app', 
     'student',
     'instructors',
-    'administration'
+    'administration',
+    'ckeditor',
+    'ckeditor_uploader',
+    'widget_tweaks',
 ]
+
+# Configure CKEditor in your settings.py:
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
