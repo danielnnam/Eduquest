@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Instructor
+from .models import Course
 
 
 class InstructorRegistrationForm(UserCreationForm):
@@ -27,3 +28,42 @@ class InstructorRegistrationForm(UserCreationForm):
             )
             instructor.save()
         return user
+    
+# Course creation for instructors
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['name', 'description', 'duration', 'credits', 'category', 'level', 'syllabus', 'price', 'is_active']
+
+        widgets = {
+            
+           'name': forms.TextInput(attrs={
+               'class': 'form-control rounded-2 px-3',
+               'placeholder': 'Enter course name'
+           }),
+           'description': forms.Textarea(attrs={
+               'class': 'form-control rounded-2 px-3',
+               'placeholder': 'Enter course description',
+               'style': 'height: 150px;'
+           }),
+           'duration': forms.TextInput(attrs={
+               'class': 'form-control rounded-2 px-3',
+               'placeholder': 'Enter course duration'
+           }),
+           'credits': forms.TextInput(attrs={
+               'class': 'form-control rounded-2 px-3',
+               'placeholder': 'Enter course credits'
+           }),
+           'category': forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Choose course category'
+            }),
+            'level': forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Choose course level'
+            }),
+            'price': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter course price'
+            })
+        }
