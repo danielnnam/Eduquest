@@ -46,7 +46,7 @@
         <div class="star" style="top: 90%; left: 45%; width: 3px; height: 3px;"></div>
 
         <!-- Orbiting Planet -->
-        <div class="planet" style="background: radial-gradient(circle at 30% 30%, var(--planet-green), var(--space-blue)); top: 10%; right: 10%;"></div>
+        <!-- <div class="planet" style="background: radial-gradient(circle at 30% 30%, var(--planet-green), var(--space-blue)); top: 10%; right: 10%;"></div> -->
 
         <div class="container">
             <nav class="navbar navbar-expand-lg nav-cosmic mb-4">
@@ -58,10 +58,22 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+                                <a class="nav-link active" aria-current="page" href="{% url 'instructor_dashboard' %}">Dashboard</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">My Courses</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                      Courses menu
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                      <li><a class="dropdown-item" href="{% url 'instructor_course_list' %}">List Courses</a></li>
+                                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                  </div>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Students</a>
@@ -79,6 +91,15 @@
             {% block content %}
 
             {% endblock %} 
+            <div class="content">
+                <!-- Your page content here -->
+            </div>
+            <div class="container">
+                <!-- Footer -->
+                <footer class="py-3 my-4 mt-5 text-center">
+                    <p class="mb-0">&copy; 2024 Company, EduPort &trade;</p>
+                </footer>
+            </div>
         </div>
     </div>
 
