@@ -1,0 +1,29 @@
+{% extends 'mentors/base.html' %}
+  
+{% block title %}Delete Course{% endblock %}
+  
+{% block content %}
+<div class="row justify-content-center g-4">
+    <div class="col-12 col-md-8 col-lg-12">
+        <div class="del-wrapper p-4 p-md-5 text-center">
+            <div class="warning-icon mb-4">⚠️</div>
+            <p class="mb-3">Are you sure you want to delete the course:</p>
+            <p class="del-course-name mb-3 fs-4">"{{ course.name }}"</p>
+            <div class="d-flex flex-column flex-md-row justify-content-center align-items-center">
+                <form method="post" class="mb-3 mb-md-0 me-md-3">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-delete btn-lg px-4 py-2 rounded-pill">Confirm Delete</button>
+                </form>
+                <a href="{% url 'instructor_course_list' %}" class="btn btn-cancel btn-lg px-4 py-2 rounded-pill">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Note:</strong> This action cannot be undone. All course content, assignments, and student data associated with this course will be permanently removed.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+{% endblock %}
