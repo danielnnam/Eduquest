@@ -347,6 +347,10 @@ input[type="email"] {
 
 /* instructors delete course 
 ===========================================-------------------- */
+.del-wrapper{
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+}
 .del-h2 {
     color: var(--star-yellow);
     margin-bottom: 20px;
