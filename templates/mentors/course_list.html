@@ -4,7 +4,7 @@
   
 {% block content %}
 
-<div class="dashboard-card">
+<div class="course-warpper">
     <div class="float-ed">
         <a href="{% url 'instructor_course_create' %}">
             <button class="btn btn-secondary">Create New Course</button>
@@ -17,7 +17,7 @@
             <div class="course-card-in">
                 <div class="course-icon">🚀</div>
                 <h2 class="course-title-in">{{ course.name }}</h2>
-                <p class="course-description-in">{{ course.description }}</p>
+                <p class="course-description-in">{{ course.description|truncatewords:23|striptags|safe }}</p>
                 <div class="course-stats-in">
                     <span>Students: 120</span>
                     <span>Duration: {{ course.duration }}</span>
