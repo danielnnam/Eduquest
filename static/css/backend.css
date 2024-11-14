@@ -1,6 +1,8 @@
 /* Student Dashboard
 =====================================-------------------------------------- */
-
+*{
+    font-size: 17px;
+}
 :root {
     --space-blue: #1a2a6c;
     --cosmic-purple: #5c258d;
@@ -10,14 +12,16 @@
 }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, var(--space-blue), var(--cosmic-purple));
+    /* background: linear-gradient(135deg, var(--space-blue), var(--cosmic-purple)); */
+    background-color: rgb(0, 0, 0);
+    
     color: #ffffff;
     min-height: 100vh;
-    overflow-x: hidden;
-}
+    overflow-x: hidden;}
 .space-container {
     position: relative;
-    padding: 2rem;
+    padding: 0.2rem;
+    padding-top: 1rem;
 }
 .star {
     position: absolute;
@@ -51,7 +55,6 @@ body {
     border: 2px solid transparent;
 }
 .dashboard-card:hover {
-    transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     border-color: var(--star-yellow);
 }
@@ -97,13 +100,15 @@ body {
     background: rgba(0, 0, 0, 0.9);
     border: none;
     border-radius: 10px;
+    padding: 10px;
+    box-shadow: 1px 3px 4px;
 }
 
 .dropdown-item {
     color: #ffffff;
     padding: 0.5rem 1.3rem;
     border-radius: 100px;
-    margin: 2px;
+    margin: 3px;
 }
 
 .dropdown-item:hover, .dropdown-item.active {
@@ -125,19 +130,6 @@ body {
 }
 .achievement-badge:hover {
     transform: scale(1.1) rotate(15deg);
-}
-
-.dropdown-menu{
-    /* backdrop-filter: blur(10px); */
-}
-.dropdown-item:hover{
-    background-color: var(--star-yellow);
-    color: var(--space-blue);
-    /* color: #ffffff; */
-    border-radius: 100px;
-    padding: 0.5rem 1rem;
-    /* transition: all 0.3s ease; */
-    margin: 2px;
 }
 
 .btn-cosmic {
@@ -181,7 +173,6 @@ body {
 ============================================----------------------------------------- */
 .course-card {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
@@ -190,7 +181,6 @@ body {
     height: 100%;
 }
 .course-card:hover {
-    transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     border-color: var(--star-yellow);
 }
@@ -220,22 +210,7 @@ body {
 ===================================-------------------------- */
 /* Container styling */
 .profile-form {
-    position: relative;
     overflow: hidden;
-    /* z-index: -1; */
-}
-
-/* Pseudo-element for blurred background */
-.profile-form::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: inherit; /* Copy background properties */
-    backdrop-filter: blur(20px); /* Apply blur here */
-    z-index: -1; /* Ensure it stays behind the content */
 }
 
 .form-control{
@@ -254,6 +229,7 @@ input[type="text"] {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Minimal shadow for slight depth */
     outline: none; /* Removes default outline */
 }
+
 /* Placeholder text style */
 input[type="text"]::placeholder {
     color: #7a869a; /* Light gray for placeholder text */
@@ -264,27 +240,170 @@ input[type="email"] {
     background: #f4f6fb; /* Light, professional background color */
     color: #333; /* Dark text for readability */
 }
-/* input{
-background: var(--cosmic-purple);
-} */
+
 
 .h2-login {
-/* font-size: 2.5rem;    */
-font-weight: bold;
-margin-bottom: 0.5rem;
-position: relative;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    position: relative;
 }
 .h2-login::after {
-content: '';
-display: block;
-width: 50px;
-height: 4px;
-background-color: orange;
-margin-top: 0.5rem;
+    content: '';
+    display: block;
+    width: 50px;
+    height: 4px;
+    background-color: orange;
+    margin-top: 0.5rem;
 }
 .btn-close-sm {
     width: 0.75rem;
     height: 0.75rem;
     padding: 0.25rem;
-    margin-right: 5px; /* Pushes the button inside a bit */
+    margin-right: 5px; 
+}
+
+/* instructors course_list page styles
+====================================------------------------------ */
+.course-card-in {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 15px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.course-warpper{
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.course-icon-in {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--star-yellow);
+}
+
+.course-title-in {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--star-yellow);
+}
+
+.course-description-in {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+
+.course-stats-in {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-bottom: 15px;
+}
+
+.progress-bar-in {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-in {
+    height: 100%;
+    background: var(--meteor-orange);
+    transition: width 0.3s ease;
+}
+
+.course-actions-in {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Instructors create/update course
+======================================--------------------------- */
+
+/* ckeditor.css */
+.django-ckeditor-widget{
+    width: 100%;
+}
+
+/* instructors delete course 
+===========================================-------------------- */
+.del-h2 {
+    color: var(--star-yellow);
+    margin-bottom: 20px;
+    font-size: 28px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.warning-icon {
+    font-size: 64px;
+    color: var(--meteor-orange);
+    margin-bottom: 20px;
+}
+
+.del-p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.del-course-name {
+    font-weight: bold;
+    color: var(--star-yellow);
+    font-size: 20px;
+    margin: 10px 0;
+}
+.del-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.btn-delete {
+    background-color: var(--meteor-orange);
+    color: #ffffff;
+}
+
+.btn-delete:hover {
+    background-color: #ff4f4f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+}
+.btn-cancel {
+    background-color: transparent;
+    color: var(--star-yellow);
+    border: 2px solid var(--star-yellow);
+    margin-left: 10px;
+}
+
+.btn-cancel:hover {
+    background-color: var(--star-yellow);
+    color: var(--space-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
 }
