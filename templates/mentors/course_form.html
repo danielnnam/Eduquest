@@ -5,9 +5,9 @@
 {% block content %}
 {{ form.media }}
 
-<div class="container p-lg-5 p-4 rounded-4 border-warning border profile-form">
+<div class="container p-lg-5 p-3 rounded-4 border-warning border profile-form">
     <a href="{% url 'instructor_course_list' %}">
-        <button class="btn btn-secondary ">Back to Course List</button>
+        <button class="btn btn-secondary bi bi-chevron-left">Back to Course List</button>
     </a>
 
     <h2 class="h2-login mt-4">{% if form.instance.pk %}Update Course{% else %}Create Course{% endif %}</h2>
@@ -40,7 +40,7 @@
                 <p class="mt-1">{{ form.level }}</p>
             </div>
 
-            <div class="col-6">
+            <div class="col-lg-6 col-12">
                 <label for="price">Price:</label>
                 <p>{{ form.price }}</p>
             </div>
