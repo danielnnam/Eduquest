@@ -14,26 +14,28 @@
     <div class="row g-4 mt-2">
         {% for course in page_obj %}
         <div class="col-lg-4 col-12">
-            <div class="course-card-in">
-                <div class="course-icon">🚀</div>
-                <h2 class="course-title-in">{{ course.name }}</h2>
-                <p class="course-description-in">{{ course.description|truncatewords:23|striptags|safe }}</p>
-                <div class="course-stats-in">
-                    <span>Students: 120</span>
-                    <span>Duration: {{ course.duration }}</span>
+            <a href="{% url 'instructor_course_detail' course.id %}">
+                <div class="course-card-in">
+                    <div class="course-icon">🚀</div>
+                    <h2 class="course-title-in"><a href="{% url 'instructor_course_detail' course.id %}" class="nav-link">{{ course.name }}</a></h2>
+                    <p class="course-description-in">{{ course.description|truncatewords:23|striptags|safe }}</p>
+                    <div class="course-stats-in">
+                        <span>Students: 120</span>
+                        <span>Duration: {{ course.duration }}</span>
+                    </div>
+                    <div class="progress-bar-in">
+                        <div class="progress-in" style="width: 75%;"></div>
+                    </div>
+                    <div class="course-actions-in">
+                        <a href="{% url 'instructor_course_update' course.id %}">
+                            <button class="btn btn-primary">Edit Course</button>
+                        </a>
+                        <a href="{% url 'instructor_course_delete' course.id %}">
+                            <button class="btn btn-secondary">Delete Course</button>
+                        </a>
+                    </div>
                 </div>
-                <div class="progress-bar-in">
-                    <div class="progress-in" style="width: 75%;"></div>
-                </div>
-                <div class="course-actions-in">
-                    <a href="{% url 'instructor_course_update' course.id %}">
-                        <button class="btn btn-primary">Edit Course</button>
-                    </a>
-                    <a href="{% url 'instructor_course_delete' course.id %}">
-                        <button class="btn btn-secondary">Delete Course</button>
-                    </a>
-                </div>
-            </div>
+            </a>
         </div>
         {% empty %}
         <li>No courses available.</li>
@@ -41,11 +43,11 @@
     </div>
     
     <!-- Pagination controls -->
-    <div class="pagination mt-3">
+    <div class="pagination mt-5 mx-auto justify-content-center  ">
         <span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                <a href="?page=1" class="btn btn-cosmic">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-cosmic">previous</a>
             {% endif %}
     
             <span class="current">
@@ -53,8 +55,8 @@
             </span>
     
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-cosmic">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-light">last &raquo;</a>
             {% endif %}
         </span>
     </div>
