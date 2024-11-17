@@ -43,7 +43,7 @@ def instructor_course_list(request):
 @login_required
 def instructor_course_create(request):
     if request.method == 'POST':
-        form = CourseForm(request.POST)
+        form = CourseForm(request.POST, request.FILES)
         if form.is_valid():
             course = form.save(commit=False)
             course.created_by = request.user  # Set the instructor as the creator
@@ -72,3 +72,10 @@ def instructor_course_delete(request, course_id):
         course.delete()
         return redirect('instructor_course_list')
     return render(request, 'mentors/course_confirm_delete.html', {'course': course})
+
+@login_required
+def instructor_course_detail(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    # quizzes = course.quizzes.all()
+    # modules = CourseModule.objects.filter(course=course)
+    return render(request, 'mentors/course_detail.html', {'course': course})
