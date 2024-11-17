@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Instructor
+from .models import Instructor, Lesson, Module, Topic
 from .models import Course
 
 
@@ -33,7 +33,7 @@ class InstructorRegistrationForm(UserCreationForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['name', 'description', 'duration', 'credits', 'category', 'level', 'syllabus', 'price', 'is_active']
+        fields = ['name', 'description', 'duration', 'credits', 'category', 'level', 'syllabus', 'price', 'is_active', 'language', 'image', 'video']
 
         widgets = {
             
@@ -65,5 +65,50 @@ class CourseForm(forms.ModelForm):
             'price': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter course price'
-            })
+            }),
+            'language': forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Choose Language'
+            }),
+            'image': forms.ClearableFileInput(attrs={
+                'class': 'form-control',
+                'type' : 'file',
+                'onchange': 'uploadPhoto()', 
+                'accept' : 'image/*',
+                'id' : 'fileInput',
+            }),
+            'video': forms.ClearableFileInput(attrs={
+                'class': 'form-control',
+                'type' : 'file',
+                'onchange': 'uploadVideo()', 
+                'accept' : 'video/*',
+                'id' : 'fileInputv',
+            }),
         }
+
+class ModuleForm(forms.ModelForm):
+    class Meta:
+        model = Module
+        fields = [ 'title', 'description']
+        widgets = {
+            
+           'title': forms.TextInput(attrs={
+               'class': 'form-control rounded-2 px-3',
+               'placeholder': 'Enter module name'
+           }),
+           'description': forms.Textarea(attrs={
+               'class': 'form-control rounded-2 px-3',
+               'placeholder': 'Enter course description',
+               'style': 'height: 150px;'
+           }),
+        }
+
+class TopicForm(forms.ModelForm):
+    class Meta:
+        model = Topic
+        fields = ['module', 'title', 'description']
+
+class LessonForm(forms.ModelForm):
+    class Meta:
+        model = Lesson
+        fields = ['topic', 'title', 'content']
