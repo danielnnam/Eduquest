@@ -1,0 +1,17 @@
+{% extends 'mentors/base.html' %}
+  
+{% block title %}Add Module{% endblock %}
+  
+{% block content %}
+
+<div class="container">
+    <h2>Add Module</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+    <a href="{% url 'list_modules' form.instance.course.id %}" class="btn btn-secondary mt-3">Back to Modules</a>
+</div>
+
+{% endblock %}
