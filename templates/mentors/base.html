@@ -26,6 +26,7 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
     <!-- Slick CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
@@ -153,6 +154,42 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             addStars();
+        });
+
+
+        // progress form
+        $(document).ready(function() {
+            let currentStep = 1;
+
+            // Move to the next step
+            $('.nextBtn').on('click', function() {
+                console.log("Next button clicked!");
+                if ($("#courseForm")[0].checkValidity()) {
+                    $(`#step${currentStep}`).hide();
+                    currentStep++;
+                    $(`#step${currentStep}`).show();
+                    updateProgressBar();
+                } else {
+                    $("#courseForm")[0].reportValidity();
+                }
+            });
+
+            // Move to the previous step
+            $('.prevBtn').on('click', function() {
+                $(`#step${currentStep}`).hide();
+                currentStep--;
+                $(`#step${currentStep}`).show();
+                updateProgressBar();
+            });
+
+            // Update progress bar
+            function updateProgressBar() {
+                let progress = (currentStep / 2) * 100;
+                $('#progressBar').css('width', `${progress}%`);
+                $('#progressBar').text(`Step ${currentStep} of 2`);
+            }
+
+           
         });
     </script>
 </body>
