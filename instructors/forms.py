@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Instructor, Lesson, Module, Topic
+from .models import Instructor, Module
 from .models import Course
 
 
@@ -103,12 +103,3 @@ class ModuleForm(forms.ModelForm):
            }),
         }
 
-class TopicForm(forms.ModelForm):
-    class Meta:
-        model = Topic
-        fields = ['module', 'title', 'description']
-
-class LessonForm(forms.ModelForm):
-    class Meta:
-        model = Lesson
-        fields = ['topic', 'title', 'content']
