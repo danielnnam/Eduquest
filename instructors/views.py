@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import InstructorRegistrationForm
+from .forms import InstructorRegistrationForm, ModuleForm
 from django.contrib.auth import login
-from .models import Instructor
+from .models import Instructor, Module
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Course
@@ -76,6 +76,22 @@ def instructor_course_delete(request, course_id):
 @login_required
 def instructor_course_detail(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
+    modules = course.modules.all()
     # quizzes = course.quizzes.all()
     # modules = CourseModule.objects.filter(course=course)
-    return render(request, 'mentors/course_detail.html', {'course': course})
+    return render(request, 'mentors/course_detail.html', {'course': course, 'modules': modules})
+
+
+@login_required
+def add_module(request, course_id):
+    course = get_object_or_404(Course, id=course_id)  # Get the course object
+    if request.method == 'POST':
+        form = ModuleForm(request.POST)
+        if form.is_valid():
+            module = form.save(commit=False)  # Don't save to the database yet
+            module.course = course  # Set the course
+            module.save()  # Now save it
+            return redirect('instructor_course_detail', course_id=course.id)  # Redirect to course detail
+    else:
+        form = ModuleForm()
+    return render(request, 'mentors/add_module.html', {'form': form, 'course': course})
