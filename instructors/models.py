@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import User
@@ -50,7 +51,64 @@ class Course(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+    language = models.CharField(max_length=50, choices=[('English', 'English'), ('French', 'French'), ('Spanish', 'Spanish')], null=True)
+    image = models.ImageField(upload_to='course_images/', blank=True, null=True)
+    video = models.FileField(upload_to='course_videos/', blank=True, null=True)
+
+    @property
+    def alt_text(self):
+        return os.path.basename(self.image.path)
 
     def __str__(self):
         return self.name
 
+
+class Module(models.Model):
+    course = models.ForeignKey(Course, related_name='modules', on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.title
+
+class Content(models.Model):
+    CONTENT_TYPE_CHOICES = [
+        ('text', 'Text'),
+        ('video', 'Video'),
+        ('document', 'Document'),
+    ]
+
+    module = models.ForeignKey(Module, related_name='contents', on_delete=models.CASCADE)
+    topic = models.CharField(max_length=200)
+    content_type = models.CharField(max_length=50, choices=CONTENT_TYPE_CHOICES)
+    content_data_text = models.TextField(blank=True, null=True)
+    content_data_video = models.URLField(blank=True, null=True)
+    content_data_document = models.FileField(upload_to='documents/', blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        # Ensure only one content_data field is populated based on content_type
+        if self.content_type == 'text':
+            self.content_data_video = None
+            self.content_data_document = None
+        elif self.content_type == 'video':
+            self.content_data_text = None
+            self.content_data_document = None
+        elif self.content_type == 'document':
+            self.content_data_text = None
+            self.content_data_video = None
+        super().save(*args, **kwargs)
+
+
+class StudentProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, null=True, blank=True)
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, null=True, blank=True)
+    completed = models.BooleanField(default=False)
+    progress_percentage = models.FloatField(default=0.0)  # Track progress as a percentage
+
+    class Meta:
+        unique_together = ('user', 'course', 'module', 'content')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.course.title} Progress"
