@@ -1,0 +1,169 @@
+{% extends 'mentors/base.html' %}
+  
+{% block title %}Course Details{% endblock %}
+  
+{% block content %}
+
+<a href="{% url 'instructor_course_list' %}">
+    <button class="btn btn-secondary ms-2"><i class="bi bi-box-arrow-in-left"></i> Back to Course List</button>
+</a>
+<div class="glass-effect mt-3">
+    <!-- <h1>Course Details</h1> -->
+    <div class="row p-lg-2 p-0 mt-2 g-4">
+        <div class="col-lg-8 col-12">
+            <div>
+                <h1 class="fw-bold text-cosmic">{{ course.name }}</h1>
+                <p class="mt-3">{{ course.description }}</p>
+                <ul class="d-flex flex-wrap list-unstyled gap-3">
+                    <li class="d-flex align-items-center">
+                        <i class="bi bi-reception-4 me-2"></i> {{ course.level }}
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-octagon-fill me-2"></i> Last updated {{ course.updated_at|date:"m/Y" }}
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <i class="bi bi-globe me-2"></i> {{ course.language }}
+                    </li>
+                </ul>
+                
+                <div class="mt-3">  
+                    <video controls class="w-100 border rounded-3" style="box-shadow: 4px 4px 12px black">
+                        <source src="{{ course.video.url }}" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+  
+            <!-- description -->
+            <div class="bg-dark mt-3 text-light rounded-top">
+                
+                <div class="p-3">
+                    <div class="border-bottom border-secondary pb-2">
+                        <h3>Course description</h3>
+                    </div>
+                    <div class="mt-3">
+                        <p>{{ course.description }}</p>
+                    </div>
+        
+                    <!-- What you’ll learn -->
+                    <div class="section bg-dark text-light">
+                        <h4>What you’ll learn</h4>
+                        <div class="row">
+                            <div class="lessons-grid mt-2" style="width: 70%;">
+                                {% for module in modules %}
+                                {% for lesson in module.course_lessons.all %}
+                                    <div class="lesso">
+                                    <li>{{ lesson.title }}</li>
+                                    </div>
+                                {% endfor %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <small class="mt-5">As it so contrasted oh estimating instrument. Size like body some one had. Are conduct viewing boy minutes warrant the expense? Tolerably behavior may admit daughters offending her ask own. Praise effect wishes change way and any wanted. Lively use looked latter regard had. Do he it part more last in.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="bg-dark text-light p-3 rounded-2 shadow">
+                        <div class="pb-2">
+                            <h3> ${{ course.price }}</h3>
+                        </div>
+                
+                        <div class="border-top p-2 border-secondary">
+                            <h5 class="mt-2">This course includes</h5>
+                
+                            <div class="row mt-4">
+                                <div class="col-6">
+                                    <p>Lectures</p>
+                                </div>
+                                <div class="col-6">
+                
+                                </div>
+                
+                                <div class="col-6">
+                                    <p>Duration</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="float-end">{{ course.duration }}</p>
+                                </div>
+                
+                                <div class="col-6">
+                                    <p>Level</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="float-end">{{ course.level }}</p>
+                                </div>
+                
+                                <div class="col-6">
+                                    <p>Lanaguage</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="float-end">{{ course.language }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-lg-2 mt-3">
+                <div class="bg-dark text-light p-3 rounded-2 shadow">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <h3 class="h2-login">Modules</h3> 
+                        </div>
+                        <div class="col ">
+                            <div class="float-end">
+                                <a href="{% url 'add_module' course.id %}" class="btn btn-success m">Create Module</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-0">
+                        <ul class="list-group">
+                            {% for module in modules %}
+                            <li class="list-group-item mt-2">
+                                <p>{{ module.title|truncatewords:6 }}</p>
+                                <a href="{% url 'content_list' module.id %}">-View Contents</a>  <!-- Link to add content -->
+                                <a href="{% url 'edit_module' module.id %}" class="btn btn-warning">Edit</a>
+                                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ module.id }}">Delete</button>
+
+                                <!-- Delete Confirmation Modal -->
+                                <div class="modal fade" id="deleteModal{{ module.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ module.id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel{{ module.id }}">Confirm Deletion</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete this module -"{{ module.title }}" ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form method="post" action="{% url 'delete_module' module.id %}">
+                                                    {% csrf_token %}
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% empty %}
+                            <li class="list-group-item">No modules available for this course.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+{% endblock %}
