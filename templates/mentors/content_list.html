@@ -1,0 +1,29 @@
+<!-- mentors/content_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Content List for {{ module.title }}</title>
+</head>
+<body>
+    <h1>Content List for Module: {{ module.title }}</h1>
+    <ul>
+        {% for content in contents %}
+            <li>
+                <strong><a href="{% url 'content_detail' content.id %}">{{ content.topic }}</a></strong> - {{ content.content_type }}
+                {% if content.content_data_text %}
+                    <p>{{ content.content_data_text }}</p>
+                {% elif content.content_data_video %}
+                    <p>Video: <a href="{{ content.content_data_video }}">{{ content.content_data_video }}</a></p>
+                {% elif content.content_data_document %}
+                    <p>Document: <a href="{{ content.content_data_document.url }}">{{ content.content_data_document.name }}</a></p>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No content available for this module.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'create_content' module.id %}">Add New Content</a>
+<a href="{% url 'instructor_course_detail' module.course.id %}">Back to Course Detail</a>
+</body>
+</html>
