@@ -1,0 +1,51 @@
+{% extends 'mentors/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Edit Content: {{ content.topic }}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="topic">Topic</label>
+            <input type="text" class="form-control" id="topic" name="topic" value="{{ content.topic }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="content_type">Content Type</label>
+            <select class="form-control" id="content_type" name="content_type" required>
+                <option value="text" {% if content.content_type == 'text' %}selected{% endif %}>Text</option>
+                <option value="video" {% if content.content_type == 'video' %}selected{% endif %}>Video</option>
+                <option value="document" {% if content.content_type == 'document' %}selected{% endif %}>Document</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="text_content" style="display: {% if content.content_type == 'text' %}block{% else %}none{% endif %};">
+            <label for="content_data_text">Text Content</label>
+            <textarea class="form-control" id="content_data_text" name="content_data_text">{{ content.content_data_text }}</textarea>
+        </div>
+
+        <div class="form-group" id="video_content" style="display: {% if content.content_type == 'video' %}block{% else %}none{% endif %};">
+            <label for="content_data_video">Video URL</label>
+            <input type="text" class="form-control" id="content_data_video" name="content_data_video" value="{{ content.content_data_video }}">
+        </div>
+
+        <div class="form-group" id="document_content" style="display: {% if content.content_type == 'document' %}block{% else %}none{% endif %};">
+            <label for="content_data_document">Upload Document</label>
+            <input type="file" class="form-control" id="content_data_document" name="content_data_document">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+    <a href="{% url 'mentor_content_view' %}" class="btn btn-secondary">Cancel</a>
+</div>
+
+<script>
+    document.getElementById('content_type').addEventListener('change', function() {
+        var selectedType = this.value;
+        document.getElementById('text_content').style.display = selectedType === 'text' ? 'block' : 'none';
+        document.getElementById('video_content').style.display = selectedType === 'video' ? 'block' : 'none';
+        document.getElementById('document_content').style.display = selectedType === 'document' ? 'block' : 'none';
+    });
+</script>
+{% endblock %}
