@@ -1,0 +1,21 @@
+{% extends 'mentors/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ content.topic }}</h1>
+    <p><strong>Content Type:</strong> {{ content.content_type }}</p>
+
+    {% if content.content_type == 'text' %}
+        <h3>Content:</h3>
+        <p>{{ content.content_data_text }}</p>
+    {% elif content.content_type == 'video' %}
+        <h3>Video:</h3>
+        <p><a href="{{ content.content_data_video }}" target="_blank">{{ content.content_data_video }}</a></p>
+    {% elif content.content_type == 'document' %}
+        <h3>Document:</h3>
+        <a href="{{ content.content_data_document.url }}" target="_blank">Download Document</a>
+    {% endif %}
+
+    <a href="{% url 'content_list' content.module.id %}" class="btn btn-primary">Back to Content List</a>
+</div>
+{% endblock %}
