@@ -1,0 +1,59 @@
+{% extends 'mentors/base.html' %}
+  
+{% block title %}Create Content{% endblock %}
+  
+{% block content %}
+
+<div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="topic">Content Topic:</label>
+        <input type="text" id="topic" name="topic" required>
+    
+        <label for="content_type">Content Type:</label>
+        <select id="content_type" name="content_type" onchange="updateForm()">
+            <option value="">Select Content Type</option>
+            <option value="text">Text</option>
+            <option value="video">Video</option>
+            <option value="document">Document</option>
+        </select>
+    
+        <div id="textFields" class="contentFields" style="display:none;">
+            <label for="textContent">Text Content:</label>
+            <textarea id="textContent" name="content_data_text"></textarea>
+        </div>
+    
+        <div id="videoFields" class="contentFields" style="display:none;">
+            <label for="videoUrl">Video URL:</label>
+            <input type="url" id="videoUrl" name="content_data_video" placeholder="Enter video URL">
+        </div>
+    
+        <div id="documentFields" class="contentFields" style="display:none;">
+            <label for="documentUpload">Upload Document:</label>
+            <input type="file" id="documentUpload" name="content_data_document">
+        </div>
+    
+        <button type="submit">Create Content</button>
+    </form>
+    
+    <script>
+    function updateForm() {
+        const contentType = document.getElementById('content_type').value;
+        const fields = document.querySelectorAll('.contentFields');
+        
+        // Hide all fields initially
+        fields.forEach(field => field.style.display = 'none');
+    
+        // Show fields based on selected content type
+        if (contentType === 'text') {
+            document.getElementById('textFields').style.display = 'block';
+        } else if (contentType === 'video') {
+            document.getElementById('videoFields').style.display = 'block';
+        } else if (contentType === 'document') {
+            document.getElementById('documentFields').style.display = 'block';
+        }
+    }
+    </script>
+</div>
+
+{% endblock %}
