@@ -102,6 +102,8 @@ body {
     border-radius: 10px;
     padding: 10px;
     box-shadow: 1px 3px 4px;
+    position: absolute;
+    z-index: 1000;
 }
 
 .dropdown-item {
@@ -211,6 +213,7 @@ body {
 /* Container styling */
 .profile-form {
     overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .form-control{
@@ -410,4 +413,13 @@ input[type="email"] {
     color: var(--space-blue);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+}
+
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
 }
