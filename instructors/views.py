@@ -132,7 +132,7 @@ def create_content(request, module_id):
         topic = request.POST.get('topic')
         content_type = request.POST.get('content_type')
         content_data_text = request.POST.get('content_data_text')
-        content_data_video = request.POST.get('content_data_video')
+        content_data_video = request.FILES.get('content_data_video')
         content_data_document = request.FILES.get('content_data_document')
 
         # Create the content object based on the selected type
@@ -161,7 +161,7 @@ def edit_content(request, content_id):
         topic = request.POST.get('topic')
         content_type = request.POST.get('content_type')
         content_data_text = request.POST.get('content_data_text')
-        content_data_video = request.POST.get('content_data_video')
+        content_data_video = request.FILES.get('content_data_video')
         content_data_document = request.FILES.get('content_data_document')
 
         # Update the content object based on the selected type
