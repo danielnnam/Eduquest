@@ -17,7 +17,8 @@ body {
     
     color: #ffffff;
     min-height: 100vh;
-    overflow-x: hidden;}
+    overflow-x: hidden;
+}
 .space-container {
     position: relative;
     padding: 0.2rem;
@@ -422,4 +423,43 @@ input[type="email"] {
     padding: 20px;
     border-radius: 10px;
     color: white;
+}
+
+
+/* instructors edit module 
+------------======================================= */
+.form-wrapper{
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+}
+.edit-banner{
+    background: linear-gradient(137deg,#fff 17.57%,#d6ebff 98.39%);
+    color: black;
+}
+.bg-neon{
+    background-color: #190546!important;
+}
+.bg-neon-content{
+    background-color: rgb(178, 174, 189);
+}
+
+.content-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+.content-card:hover {
+    transform: translateY(-5px);
+}
+.content-type {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+.content-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
