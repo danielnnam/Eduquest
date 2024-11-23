@@ -1,29 +1,57 @@
-<!-- mentors/content_list.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Content List for {{ module.title }}</title>
-</head>
-<body>
-    <h1>Content List for Module: {{ module.title }}</h1>
-    <ul>
-        {% for content in contents %}
-            <li>
-                <strong><a href="{% url 'content_detail' content.id %}">{{ content.topic }}</a></strong> - {{ content.content_type }}
-                {% if content.content_data_text %}
-                    <p>{{ content.content_data_text }}</p>
-                {% elif content.content_data_video %}
-                    <p>Video: <a href="{{ content.content_data_video }}">{{ content.content_data_video }}</a></p>
-                {% elif content.content_data_document %}
-                    <p>Document: <a href="{{ content.content_data_document.url }}">{{ content.content_data_document.name }}</a></p>
-                {% endif %}
-            </li>
-        {% empty %}
-            <li>No content available for this module.</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'create_content' module.id %}">Add New Content</a>
-<a href="{% url 'instructor_course_detail' module.course.id %}">Back to Course Detail</a>
-</body>
-</html>
+{% extends 'mentors/base.html' %}
+
+{% block title %} Content List {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div>
+        <a href="{% url 'instructor_course_detail' module.course.id %}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back to Course Detail</a>
+    </div>
+    <div class="p-lg-5 px-3 p-5 mt-3 edit-banner rounded-3">
+        <span class="fw-bold text-secondary">Content List for Module:</span>
+        <h3>{{ module.title }}</h3>
+    </div>
+
+    <div class="form-wrapper bg-neo p-lg-4 p-4 px-3 mt-3">
+        <!-- Content management -->
+        <h2 class="h2-login">Manage Content</h2>
+        <a href="{% url 'create_content' module.id %}" class="btn btn-cosmic mt-3"><i class="fa-solid fa-plus-circle"></i> Add New Content</a>
+
+        <div class="table-responsive rounded-3 mt-3">
+            <table id="quizTable" class="table table-striped table-dark fixed-table rounded-3">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Content Type</th>
+                    <th scope="col">Content Topic</th>
+                    <th scope="col">View Details</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for content in contents %}
+                    <tr>
+                        <th scope="row">{{ content.id }}</th>
+                        <td style="text-transform: capitalize;">{{ content.content_type }}</td>
+                        <td><a href="{% url 'content_detail' content.id %}" class="nav-link">{{ content.topic|truncatewords:10|striptags|safe }}</a></td>
+                        <td><a href="{% url 'content_detail' content.id %}" class="text-warning">View Details</a></td>
+                        <td>
+                            <a href="{% url 'edit_content' content.id %}" class="btn btn-success"><i class="fa-solid fa-edit"></i> Edit</a>
+                            
+                            <a href="{% url 'delete_content' content.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <div class="no-content bg-danger px-3">
+                        <p>No content available.</p>
+                    </div>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
