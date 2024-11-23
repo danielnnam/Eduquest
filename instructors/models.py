@@ -81,8 +81,8 @@ class Content(models.Model):
     module = models.ForeignKey(Module, related_name='contents', on_delete=models.CASCADE)
     topic = models.CharField(max_length=200)
     content_type = models.CharField(max_length=50, choices=CONTENT_TYPE_CHOICES)
-    content_data_text = models.TextField(blank=True, null=True)
-    content_data_video = models.URLField(blank=True, null=True)
+    content_data_text = RichTextField(null=True)
+    content_data_video = models.FileField(upload_to='contents_videos/', blank=True, null=True)
     content_data_document = models.FileField(upload_to='documents/', blank=True, null=True)
 
     def save(self, *args, **kwargs):
