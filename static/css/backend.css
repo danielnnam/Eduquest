@@ -12,8 +12,8 @@
 }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* background: linear-gradient(135deg, var(--space-blue), var(--cosmic-purple)); */
-    background-color: rgb(0, 0, 0);
+    background: linear-gradient(1135deg, var(--space-blue), var(--cosmic-purple));
+    /* background-color: rgb(0, 0, 0); */
     
     color: #ffffff;
     min-height: 100vh;
@@ -440,7 +440,7 @@ input[type="email"] {
     background-color: #190546!important;
 }
 .bg-neon-content{
-    background-color: rgb(178, 174, 189);
+    background-color: rgb(13, 1, 43)!important;
 }
 
 .content-card {
