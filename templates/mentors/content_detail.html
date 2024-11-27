@@ -1,24 +1,51 @@
 {% extends 'mentors/base.html' %}
 
 {% block content %}
-<div class="container">
-    <h1>{{ content.topic }}</h1>
-    <p><strong>Content Type:</strong> {{ content.content_type }}</p>
+<div class="container-lg">
+    <div class="mb-4 ">
+        <a href="{% url 'content_list' content.module.id %}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back to Content List</a>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="sidenav">
+                <div class="bg-neon p-3 rounded-top">
+                    <h4>{{ content.topic }}</h4>
+                    <p><strong>Content Type:</strong> {{ content.content_type }}</p>
+                </div>
+            </div>
+        </div>
 
-    {% if content.content_type == 'text' %}
-        <h3>Content:</h3>
-        <p>{{ content.content_data_text }}</p>
-    {% elif content.content_type == 'video' %}
-        <h3>Video:</h3>
-        <video controls class="w-100 border rounded-3" style="box-shadow: 4px 4px 12px black">
-            <source src="{{ content.content_data_video.url }}" type="video/mp4">
-        </video>
-        <p><a href="{{ content.content_data_video.url }}" target="_blank">{{ content.content_data_video }}</a></p>
-    {% elif content.content_type == 'document' %}
-        <h3>Document:</h3>
-        <a href="{{ content.content_data_document.url }}" target="_blank">Download Document</a>
-    {% endif %}
-
-    <a href="{% url 'content_list' content.module.id %}" class="btn btn-primary">Back to Content List</a>
+        <div class="col-lg-8 col-12">
+            <div class="bg-neon-content p-lg-4 p-3 col-12">
+                <div class="post-content">
+                    <h3 class="fw-bold pb-4">{{ content.topic }}</h3>
+                    {% if content.content_type == 'text' %}
+                    <p class="fs-5">{{ content.content_data_text }}</p>
+                    {% elif content.content_type == 'video' %}
+                        <video controls class="w-100 border rounded-3" style="box-shadow: 4px 4px 12px black">
+                            <source src="{{ content.content_data_video.url }}" type="video/mp4">
+                        </video>
+                        <p><a href="{{ content.content_data_video }}" class="mt-4 btn btn-cosmic">Click here to Download</a></p>
+                    {% elif content.content_type == 'document' %}
+                        <div class="viewe">
+                            <div class="content p-lg-3 p-0">
+                                <div class="document">
+                                    <svg width="225" height="300" viewBox="0 0 225 300" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="225" height="300" fill="#ffffff"/>
+                                        <rect x="20" y="20" width="185" height="20" fill="#e0e0e0"/>
+                                        <rect x="20" y="60" width="185" height="10" fill="#e0e0e0"/>
+                                        <rect x="20" y="80" width="185" height="10" fill="#e0e0e0"/>
+                                        <rect x="20" y="100" width="185" height="10" fill="#e0e0e0"/>
+                                        <rect x="20" y="120" width="100" height="10" fill="#e0e0e0"/>
+                                    </svg>
+                                </div>
+                                <a href="{{ content.content_data_document.url }}" class="btn btn-cosmic">Download Document</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
