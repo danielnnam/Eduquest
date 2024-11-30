@@ -24,7 +24,7 @@
         <div id="textFields" class="contentFields" style="display:none;">
             <label for="textContent">Text Content:</label>
             <textarea id="textContent" name="content_data_text" class="form-control mt-2 mb-2" style="height: 8rem;"></textarea>
-        </div>
+        </div>     
     
         <div id="videoFields" class="contentFields" style="display:none;">
             <label for="videoUrl">Video URL:</label>
@@ -43,14 +43,25 @@
     function updateForm() {
         const contentType = document.getElementById('content_type').value;
         const fields = document.querySelectorAll('.contentFields');
-        
+
         // Hide all fields initially
         fields.forEach(field => field.style.display = 'none');
-    
+
         // Show fields based on selected content type
         if (contentType === 'text') {
             document.getElementById('textFields').style.display = 'block';
-        } else if (contentType === 'video') {
+            // Initialize CKEditor if not already initialized
+            if (!CKEDITOR.instances.textContent) {
+                CKEDITOR.replace('textContent'); // Initialize CKEditor
+            }
+        } else {
+            // Destroy CKEditor instance when not needed
+            if (CKEDITOR.instances.textContent) {
+                CKEDITOR.instances.textContent.destroy();
+            }
+        }
+
+        if (contentType === 'video') {
             document.getElementById('videoFields').style.display = 'block';
         } else if (contentType === 'document') {
             document.getElementById('documentFields').style.display = 'block';
