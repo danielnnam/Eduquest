@@ -3,112 +3,168 @@
 {% block title %}Course List{% endblock %}
   
 {% block content %}
-<div class="container">
-    <h1 class="mb-4">Explore the Cosmos of Knowledge</h1>
-
+<div class="container mt-5">
     <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="course-card">
-                <div class="course-icon">
-                    <i class="fas fa-rocket"></i>
+        <!-- Filter Column -->
+        <div class="col-md-3 col-12">
+            <form id="filterForm" method="GET" action="{% url 'course_list' %}"> <!-- Update with your view name -->
+                <div class="filter-section border del-wrapper">
+                    <div class="border-bottom p-3">
+                        <div class="row">
+                            <div class="col-lg-6 col-12">
+                                <h4>Filters</h4>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <button class="btn btn-secondary btn-sm float-end" type="button" onclick="resetFilters()">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary d-md-none mb-3" type="button" data-toggle="collapse" data-target="#filterDropdown" aria-expanded="false" aria-controls="filterDropdown">
+                        Toggle Filters
+                    </button>
+                    <div class="collapse d-md-block p-3" id="filterDropdown">
+                        <!-- Skill Level Filter -->
+                        <div class="mt-3 mb-4">
+                            <h5>Skill Level</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="skillLevel" value="beginner" id="level-beginner" {% if request.GET.skillLevel == 'beginner' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="level-beginner">Beginner</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="skillLevel" value="intermediate" id="level-intermediate" {% if request.GET.skillLevel == 'intermediate' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="level-intermediate">Intermediate</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="skillLevel" value="advanced" id="level-advanced" {% if request.GET.skillLevel == 'advanced' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="level-advanced">Advanced</label>
+                            </div>
+                        </div>
+
+                        <!-- Categories Filter -->
+                        <div class="mt-3 mb-4">
+                            <h5 class="mt-4">Categories</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="artificial-intelligence" id="category-artificial-intelligence" {% if request.GET.category == 'artificial-intelligence' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="category-artificial-intelligence">Artificial Intelligence</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="data-science" id="category-data-science" {% if request.GET.category == 'data-science' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="category-data-science">Data Science</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="web-development" id="category-web-development" {% if request.GET.category == 'web-development' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="category-web-development">Web Development</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="mobile-app-development" id="category-mobile-app-development" {% if request.GET.category == 'mobile-app-development' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="category-mobile-app-development">Mobile App Development</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="cloud-computing" id="category-cloud-computing" {% if request.GET.category == 'cloud-computing' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="category-cloud-computing">Cloud Computing</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="networking" id="category-networking" {% if request.GET.category == 'networking' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="category-networking">Networking</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="database-management" id="category-database-management" {% if request.GET.category == 'database-management' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="category-database-management">Database Management</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="software-engineering" id="category-software-engineering" {% if request.GET.category == 'software-engineering' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="category-software-engineering">Software Engineering</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="it-project-management" id="category-it-project-management" {% if request.GET.category == 'it-project-management' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="category-it-project-management">IT Project Management</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="computer-science" id="category-computer-science" {% if request.GET.category == 'computer-science' %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="category-computer-science">Computer Science</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h2 class="course-title">Intro to Astrophysics</h2>
-                <p class="course-description">Embark on a journey through the fundamentals of astrophysics and explore the mysteries of the universe.</p>
-                <div class="progress-cosmic mb-3">
-                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="course-stats">
-                    <span>12 Modules</span>
-                    <span>36 Hours</span>
-                    <span>Beginner</span>
-                </div>
-            </div>
+            </form>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="course-card">
-                <div class="course-icon">
-                    <i class="fas fa-atom"></i>
+
+        <!-- Course List Column -->
+        <div class="col-md-9 col-12" id="coursesContainer">
+            <div class="row" id="coursesRow">
+                <div class="row mb-3">
+                    <div class="col-lg-6 col-12">
+                        <h3>Courses</h3>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <button class="btn btn-cosmic float-end" id="viewAllCourses">View all courses <i class="fa-solid fa-arrow-right"></i></button>
+                        <button class="btn btn-cosmic float-end d-none" id="showLessCourses">Show less <i class="fa-solid fa-arrow-up"></i></button>
+                    </div>
                 </div>
-                <h2 class="course-title">Quantum Mechanics</h2>
-                <p class="course-description">Dive into the bizarre world of quantum mechanics and understand the behavior of matter at its smallest scales.</p>
-                <div class="progress-cosmic mb-3">
-                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                
+                {% for course in courses %}
+                <div class="col-md-6 mb-4 course-item" 
+                     data-skill-level="{{ course.level }}" 
+                     data-category="{{ course.category }}">
+                    <div class="course-card" style="overflow: hidden;">
+                        <div class="mt-4">
+                            <p class="badge edit-banner">{{ course.category }}</p>
+                        </div>
+                        <h2 class="course-title text-capitalize text-warning">{{ course.name }}</h2>
+                        <p class="course-description">{{ course.description|truncatewords:15 }}</p>
+                        <div class="progress-cosmic mb -3">
+                            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="course-stats">
+                            <span>{{ course.number_of_modules }} Modules</span>
+                            <span>{{ course.duration }}</span>
+                            <span>{{ course.level }}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="course-stats">
-                    <span>10 Modules</span>
-                    <span>30 Hours</span>
-                    <span>Intermediate</span>
+                {% empty %}
+                <div class="col-12">
+                    <p class="text-center">No courses available at the moment.</p>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="course-card">
-                <div class="course-icon">
-                    <i class="fas fa-satellite"></i>
-                </div>
-                <h2 class="course-title">Space Engineering</h2>
-                <p class="course-description">Learn the principles of spacecraft design, propulsion systems, and the challenges of space exploration.</p>
-                <div class="progress-cosmic mb-3">
-                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <div class="course-stats">
-                <span>15 Modules</span>
-                <span>45 Hours</span>
-                <span>Advanced</span>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="course-card">
-            <div class="course-icon">
-                <i class="fas fa-meteor"></i>
-            </div>
-            <h2 class="course-title">Planetary Geology</h2>
-            <p class="course-description">Explore the geological processes that shape planets and moons in our solar system and beyond.</p>
-            <div class="progress-cosmic mb-3">
-                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <div class="course-stats">
-                <span>8 Modules</span>
-                <span>24 Hours</span>
-                <span>Intermediate</span>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="course-card">
-            <div class="course-icon">
-                <i class="fas fa-user-astronaut"></i>
-            </div>
-            <h2 class="course-title">Astronaut Training</h2>
-            <p class="course-description">Experience a simulated astronaut training program and learn about life in space.</p>
-            <div class="progress-cosmic mb-3">
-                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <div class="course-stats">
-                <span>20 Modules</span>
-                <span>60 Hours</span>
-                <span>Advanced</span>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="course-card">
-            <div class="course-icon">
-                <i class="fas fa-galaxy"></i>
-            </div>
-            <h2 class="course-title">Galactic Astronomy</h2>
-            <p class="course-description">Study the structure and evolution of galaxies, from the Milky Way to the edges of the observable universe.</p>
-            <div class="progress-cosmic mb-3">
-                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <div class="course-stats">
-                <span>14 Modules</span>
-                <span>42 Hours</span>
-                <span>Intermediate</span>
+                {% endfor %}
             </div>
         </div>
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    const viewAllBtn = document.getElementById('viewAllCourses');
+    const showLessBtn = document.getElementById('showLessCourses');
+    const hiddenCourses = document.querySelectorAll('.course-item.d-none');
+
+    // Show all courses
+    viewAllBtn.addEventListener('click', function () {
+        hiddenCourses.forEach(course => course.classList.remove('d-none'));
+        viewAllBtn.classList.add('d-none'); // Hide "View All" button
+        showLessBtn.classList.remove('d-none'); // Show "Show Less" button
+    });
+
+    // Show less courses
+    showLessBtn.addEventListener('click', function () {
+        hiddenCourses.forEach(course => course.classList.add('d-none'));
+        showLessBtn.classList.add('d-none'); // Hide "Show Less" button
+        viewAllBtn.classList.remove('d-none'); // Show "View All" button
+    });
+
+
+    // Reset filter function
+    function resetFilters() {
+        // Clear the selected radio buttons
+        const radios = document.querySelectorAll('input[type="radio"]');
+        radios.forEach(radio => {
+            radio.checked = false;
+        });
+
+        // Reset the form action to clear the URL parameters
+        const form = document.getElementById('filterForm');
+        form.action = form.action.split('?')[0]; // Remove query parameters
+        form.submit(); // Submit the form to refresh the page
+    }
+</script>
 {% endblock %}
