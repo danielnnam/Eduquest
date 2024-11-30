@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from instructors.models import Course
+from django.http import JsonResponse
 from student.forms import StudentRegistrationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -83,7 +85,21 @@ def change_password(request):
 
 @login_required
 def course_list(request):
-    return render(request, 'students/course_list.html')
+    courses = Course.objects.all()  # Get all courses initially
+
+
+    # Get filter parameters from the request
+    skill_level = request.GET.get('skillLevel')
+    category = request.GET.get('category')
+
+    # Filter courses based on selected skill level and category
+    if category:
+        courses = courses.filter(category=category)
+    if skill_level:
+        courses = courses.filter(level=skill_level)
+
+    return render(request, 'students/course_list.html', {'courses': courses})
+
 
 @login_required
 def user_logout(request):
