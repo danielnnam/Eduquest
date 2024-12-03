@@ -218,6 +218,157 @@
         </div>
     </div>
 
+
+
+
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Filter Column -->
+            <div class="col-md-3 col-12">
+                <div class="filter-section border del-wrapper">
+                    <div class="border-bottom p-3">
+                        <div class="row">
+                            <div class="col-lg-6 col-12">
+                                <h4>Filters</h4>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <button class="btn btn-secondary btn-sm float-end" id="resetFilters">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary d-md-none mb-3" type="button" data-toggle="collapse" data-target="#filterDropdown" aria-expanded="false" aria-controls="filterDropdown">
+                        Toggle Filters
+                    </button>
+                    <div class="collapse d-md-block p-3" id="filterDropdown">
+                        <!-- Skill Level Filter -->
+                        <div class="mt-3 mb-4">
+                            <h5>Skill Level</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="skillLevel" value="beginner" id="level-beginner">
+                                <label class="form-check-label" for="level-beginner">Beginner</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="skillLevel" value="intermediate" id="level-intermediate">
+                                <label class="form-check-label" for="level-intermediate">Intermediate</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="skillLevel" value="advanced" id="level-advanced">
+                                <label class="form-check-label" for="level-advanced">Advanced</label>
+                            </div>
+                        </div>
+    
+                        <!-- Categories Filter -->
+                        <div class="mt-3 mb-4">
+                            <h5 class="mt-4">Categories</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="artificial-intelligence" id="category-artificial-intelligence">
+                                <label class="form-check-label" for="category-artificial-intelligence">Artificial Intelligence</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="data-science" id="category-data-science">
+                                <label class="form-check-label" for="category-data-science">Data Science</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="web-development" id="category-web-development">
+                                <label class="form-check-label" for="categoryweb-development">Web Development</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="mobile-app-development" id="category-mobile-app-development">
+                                <label class="form-check-label" for="category-mobile-app-development">Mobile App Development</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="cloud-computing" id="category-cloud-computing">
+                                <label class="form-check-label" for="category-cloud-computing">Cloud Computing</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="networking" id="category-networking">
+                                <label class="form-check-label" for="category-networking">Networking</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="database-management" id="category-database-management">
+                                <label class="form-check-label" for="category-database-management">Database Management</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="software-engineering" id="category-software-engineering">
+                                <label class="form-check-label" for="category-software-engineering">Software Engineering</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="it-project-management" id="category-it-project-management">
+                                <label class="form-check-label" for="category-it-project-management">IT Project Management</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" value="computer-science" id="category-computer-science">
+                                <label class="form-check-label" for="category-computer-science">Computer Science</label>
+                            </div>
+                        </div>
+    
+                        <!-- <button type="button" class="btn btn-primary mt-3" id="applyFilters">Apply Filters</button> -->
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Course List Column -->
+            <div class="col-md-9 col-12" id="coursesContainer">
+                <div class="row" id="coursesRow">
+                    <div class="row mb-3">
+                        <div class="col-lg-6 col-12">
+                            <h3>Courses</h3>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <button class="btn btn-cosmic float-end" id="viewAllCourses">View all courses <i class="fa-solid fa-arrow-right"></i></button>
+                            <button class="btn btn-cosmic float-end d-none" id="showLessCourses">Show less <i class="fa-solid fa-arrow-up"></i></button>
+                        </div>
+                    </div>
+                    
+                    {% for course in courses %}
+                    <div class="col-md-6 mb-4 course-item {% if forloop.counter > 6 %}d-none{% endif %}" 
+                         data-skill-level="{{ course.level }}" 
+                         data-category="{{ course.category }}">
+                        <div class="course-card course-item" style="overflow: hidden;">
+                            <div class="course-icon">
+                                <i class="fas fa-galaxy"></i>
+                            </div>
+                            <h2 class="course-title text-capitalize">{{ course.name }}</h2>
+                            <p class="course-description">{{ course.description|truncatewords:15 }}</p>
+                            <div class="progress-cosmic mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="course-stats">
+                                <span>{{ course.number_of_modules }} Modules</span>
+                                <span>{{ course.duration }}</span>
+                                <span>{{ course.level }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <p class="text-center">No courses available at the moment.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']  # Order comments by creation date
+
+
+        <!-- form -->
+        class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Add your comment...'}),
+        }
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Add more stars dynamically
@@ -255,3 +406,115 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+<!-- Course detail -->
+
+
+<div class="container mt-5">
+    <div style="margin-top: -1.6rem;">
+        <a href="{% url 'course_list' %}">
+            <button class="btn bg-module-btn btn-sm text-light">
+                <i class="fa-solid fa-arrow-left"></i> 
+                Back to course lists
+            </button>
+        </a>
+    </div>
+    <div class="p-lg-5 px-3 p-5 mt-3 edit-banner rounded-3 overflow-hidden">
+        <span class="fw-bold text-secondary">Content List for Module:</span>
+        <h1 class="fw-bold">{{ course.name }}</h1>
+        <div class="mt-4 fw-bold text-secondary">
+            <p>{{ course.description }}</p>
+        </div>
+        <div class="mt-5 mb-3">
+            <button class="btn bg-module-btn btn-lg text-light">
+                Start This Course Today
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="m-lg-4 p-0 px-lg-2 mt-3">
+        <div class="row g-2">
+            <div class="col-lg-8 col-12">
+
+                <div class="row g-2">
+                    <div class="col-12">
+                        <div class="m-0 dashboard-card border-0 rounded-2 p-lg-5 p-3 overflow-hidden">
+                            <div>
+                                <h4>{{ course.name }}</h4>
+                                <p>{{ course.description }}</p>
+            
+                                <div class="mt-4 pt-1">
+                                    <h3 class="fw-bold">Table of Content</h3>
+                                </div>
+
+                                <div class="mt-4 pt-1">
+                                    <h3 class="fw-bold">Evaluate Yourself with Quiz</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="dashboard-card border-0 m-0 rounded-2">
+                            <div class="module-banner rounded-3">
+                                <h1 class="course-title fw-bold">{{ module.name }}</h1>
+                                <p class="description mt-1 fw-semibold text-secondary">{{ module.description }}</p>
+                                <div class="mt-4 mb-3">
+                                    <button class="btn bg-module-btn btn-lg text-light">
+                                        Start This Path Today
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="row g-2">
+                    <div class="col-12">
+                        <div class="m-0 dashboard-card border-0 rounded-2 p-4">
+                            <div>
+                                <h4>Your Progress</h4>
+                                <!-- Progress bar -->
+                                <p class="mt-4">Lesson Completion</p>
+                                <div class="progress rounded-5">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressBar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Step 1 of 3</div>
+                                </div>
+
+                                <div class="d-flex flex-lg-row p-1 mt-3">
+                                    <p class="flex-grow-1">Quiz</p>
+                                    <p>0%</p>
+                                </div>
+                                <div class="progress rounded-5 ">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressBar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Step 1 of 3</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="bg-neo dashboard-card border-0 m-0 rounded-2">
+                            <h4>Prerequisites</h4>
+                            <p>{{ course.prerequisites|safe }}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
