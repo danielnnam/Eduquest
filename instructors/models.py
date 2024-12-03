@@ -54,7 +54,7 @@ class Course(models.Model):
     language = models.CharField(max_length=50, choices=[('English', 'English'), ('French', 'French'), ('Spanish', 'Spanish')], null=True)
     image = models.ImageField(upload_to='course_images/', blank=True, null=True)
     video = models.FileField(upload_to='course_videos/', blank=True, null=True)
-
+    instructor = models.ForeignKey(Instructor, related_name='courses', on_delete=models.CASCADE)  # Add this line
     @property
     def alt_text(self):
         return os.path.basename(self.image.path)
