@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from instructors.models import Course
 from django.http import JsonResponse
 from student.forms import StudentRegistrationForm
@@ -99,6 +99,20 @@ def course_list(request):
         courses = courses.filter(level=skill_level)
 
     return render(request, 'students/course_list.html', {'courses': courses})
+
+@login_required
+def course_detail(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    modules = course.modules.all()  # Get all modules for the course
+    content_topics = []  # Initialize an empty list to store content topics
+    for module in modules:
+        content_topics.extend(module.contents.values_list('topic', flat=True))  # Get all content topics for each module
+    return render(request, 'students/course_detail.html', {
+        'course': course,
+        'content_topics': content_topics,
+        'instructor_name': course.instructor.user,
+        'instructor_department': course.instructor.department
+        })
 
 
 @login_required
