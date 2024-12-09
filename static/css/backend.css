@@ -788,3 +788,55 @@ input[type="email"] {
         font-size: 2.5rem;
     }
 }
+
+/* wishlist page */
+
+.fixed-table {
+    @media (max-width:576px) {
+        width: 1000px; /* Set a fixed width */
+        min-width: 1000px; /* Prevent shrinking below this width */
+    }
+}
+
+/* Fix the height of the table */
+.fixed-table tbody, .fixed-table thead {
+    height: auto; /* Adjust height as needed */
+}
+
+/* Ensure columns have fixed width and prevent content wrapping */
+.fixed-table th, .fixed-table td {
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.no-bg .list-group-item {
+    background-color: transparent !important; /* Removes background color */
+    border: none; /* Removes borders if needed */
+    color: white;
+}
+
+.no-bg .list-group-item .badge {
+    background-color: #007bff; /* Keeps the badge styling intact */
+    color: #fff;
+}
+
+.no-bg .tr {
+    background-color: transparent !important; /* Removes background color */
+    border: none; /* Removes borders if needed */
+    color: white;
+}
+
+.custom-no-bg {
+    background-color: transparent !important;
+}
+
+.custom-no-bg th,
+.custom-no-bg td {
+    background-color: transparent !important;
+}
+
+.course-name {
+    max-width: 200px; /* Adjust to your desired width */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
