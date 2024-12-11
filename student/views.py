@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from instructors.models import Course
+from student.models import Cart, CartItem, Course
 from django.http import JsonResponse
 from student.forms import StudentRegistrationForm
 from django.contrib import messages
@@ -113,6 +113,20 @@ def course_detail(request, course_id):
         'instructor_name': course.instructor.user,
         'instructor_department': course.instructor.department
         })
+
+@login_required
+def add_to_cart(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    # Check if the course is already in the cart
+    if not cart.items.filter(course=course).exists():
+        CartItem.objects.create(cart=cart, course=course)
+        messages.success(request, f"{course.name} has been added to your cart.")
+    else:
+        messages.info(request, f"You already have {course.name} in your cart.")
+
+    return redirect('view_cart')
 
 
 @login_required
