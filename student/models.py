@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from instructors.models import Course
 # Create your models here.
 
 class Student(models.Model):
@@ -19,3 +20,10 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.user.username}'s Cart"
+
