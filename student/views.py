@@ -142,6 +142,20 @@ def view_cart(request):
     }
     return render(request, 'students/wishlist.html', context)
 
+@login_required
+def delete_cart_item(request, item_id):
+    cart_item = get_object_or_404(CartItem, id=item_id)
+
+    if cart_item.cart.user != request.user:
+        messages.error(request, 'You do not have permission to delete this item.')
+        return redirect('view_cart')  # Redirect to the cart view
+
+    if request.method == 'POST':
+        cart_item.delete()
+        messages.success(request, 'Item Removed successfully.')
+        return redirect('view_cart')  # Redirect to the cart view
+
+    return redirect('view_cart')  # Redirect for any other method
 
 @login_required
 def user_logout(request):
