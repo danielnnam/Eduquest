@@ -130,6 +130,20 @@ def add_to_cart(request, course_id):
 
 
 @login_required
+def view_cart(request):
+    cart = get_object_or_404(Cart, user=request.user)
+    cart_items = cart.items.all()
+
+    total_amount = sum(item.get_total_price() for item in cart_items)
+    print(cart_items)
+    context = {
+        'cart_items': cart_items,
+        'total_amount': total_amount,
+    }
+    return render(request, 'students/wishlist.html', context)
+
+
+@login_required
 def user_logout(request):
     logout(request)
     return redirect('login')  # Redirect to user login after logout
