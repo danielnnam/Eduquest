@@ -27,3 +27,12 @@ class Cart(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Cart"
 
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.course.name} in {self.cart.user.username}'s Cart"
+
+    def get_total_price(self):
+        return self.course.price  # No need to multiply by quantity``
