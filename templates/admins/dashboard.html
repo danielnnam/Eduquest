@@ -1,0 +1,161 @@
+{% extends 'admins/base.html' %}
+  
+{% block title %}Dashboard{% endblock %}
+  
+{% block content %}
+
+<h1 class="mb-4">Admin Command Center</h1>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="dashboard-card">
+            <div class="card-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <h3>Total Users</h3>
+            <p class="fs-2">5,678</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="dashboard-card">
+            <div class="card-icon">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <h3>Active Instructors</h3>
+            <p class="fs-2">42</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="dashboard-card">
+            <div class="card-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <h3>Total Courses</h3>
+            <p class="fs-2">120</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="dashboard-card">
+            <div class="card-icon">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <h3>Monthly Revenue</h3>
+            <p class="fs-2">$45,678</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mb-4">
+        <div class="dashboard-card">
+            <h3 class="mb-3">Recent User Activities</h3>
+            <div class="table-responsive"> 
+                <table class="table table-cosmic">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Action</th>
+                            <th>Date</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Emma Thompson</td>
+                            <td>Course Enrollment</td>
+                            <td>2024-03-15</td>
+                            <td><button class="btn btn-cosmic btn-sm">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>Michael Chen</td>
+                            <td>New Course Creation</td>
+                            <td>2024-03-14</td>
+                            <td><button class="btn btn-cosmic btn-sm">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>Sophia Rodriguez</td>
+                            <td>Profile Update</td>
+                            <td>2024-03-13</td>
+                            <td><button class="btn btn-cosmic btn-sm">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>Liam O'Connor</td>
+                            <td>Payment Processed</td>
+                            <td>2024-03-12</td>
+                            <td><button class="btn btn-cosmic btn-sm">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="dashboard-card">
+            <h3 class="mb-3">System Health</h3>
+            <div class="mb-3">
+                <p>Server Uptime: 99.9%</p>
+                <div class="progress-cosmic">
+                    <div class="progress-bar" role="progressbar" style="width: 99.9%;" aria-valuenow="99.9" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <p>Database Performance: 85%</p>
+                <div class="progress-cosmic">
+                    <div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <p>Storage Capacity: 70%</p>
+                <div class="progress-cosmic">
+                    <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <p>API Response Time: 95%</p>
+                <div class="progress-cosmic">
+                    <div class="progress-bar" role="progressbar" style="width: 95%;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="dashboard-card">
+            <h3 class="mb-3">User Growth</h3>
+            <!-- <canvas id="userGrowthChart"></canvas> -->
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="dashboard-card">
+            <h3 class="mb-3">Pending Approvals</h3>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-transparent text-white">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">New Instructor Application</h5>
+                        <small>3 pending</small>
+                    </div>
+                    <button class="btn btn-cosmic btn-sm">Review</button>
+                </li>
+                <li class="list-group-item bg-transparent text-white">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Course Publication Requests</h5>
+                        <small>7 pending</small>
+                    </div>
+                    <button class="btn btn-cosmic btn-sm">Review</button>
+                </li>
+                <li class="list-group-item bg-transparent text-white">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Refund Requests</h5>
+                        <small>2 pending</small>
+                    </div>
+                    <button class="btn btn-cosmic btn-sm">Review</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
