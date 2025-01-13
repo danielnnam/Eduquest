@@ -5,6 +5,13 @@
 {% block content %}
 
 <div class="container py-5">
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <div class="" style="margin-top: -2rem;">
         <a href="{% url 'course_list' %}">
             <button class="btn bg-module-btn btn-sm text-light">
@@ -25,7 +32,7 @@
             <div class="d-flex flex-wrap justify-content-between mb-4 col-lg-7 col-12 mt-4">
                 <div class="info-item">
                     <i class="fas fa-user-astronaut info-icon"></i>
-                    <span>Dr. Stella Nova</span>
+                    <span class="text-capitalize">{{ instructor_name }}</span>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-clock info-icon"></i>
@@ -102,7 +109,7 @@
                             </div>
                         </div>
                     </div>
-                    <p>Dr. Stella Nova is a renowned astrophysicist with over 15 years of experience in research and teaching. Her work on stellar evolution has been published in top scientific journals, and she's a frequent speaker at international astronomy conferences.</p>
+                    <p><span class="text-capitalize">{{ instructor_name }}</span> is a renowned astrophysicist with over 15 years of experience in research and teaching. Her work on stellar evolution has been published in top scientific journals, and she's a frequent speaker at international astronomy conferences.</p>
                 </div>
             </div>
             
@@ -132,6 +139,10 @@
                                 <button class="btn btn-add-to-cart btn-primary w-100 mb-3">
                                     <i class="fas fa-rocket me-2"></i>Enroll Now
                                 </button>
+                                <form method="POST" action="{% url 'add_to_cart' course.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </form>
                             </div>
                         </div>                        
                     </div>

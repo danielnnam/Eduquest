@@ -53,11 +53,17 @@
                                 <ul class="dropdown-menu" aria-labelledby="coursesDropdown">
                                     <li><a class="dropdown-item" href="#">My Courses</a></li>
                                     <li><a class="dropdown-item {% if request.path == '/student/course_lists/' %} active {% endif %}" href="{% url 'course_list' %}">Available Courses</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Achievements</a>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'view_cart' %}">
+                                    My Wishlist 
+                                    {% if cart_item_count > 0 %}
+                                        <span>({{ cart_item_count }})</span>
+                                    {% else %}
+                                        <span>(0)</span>
+                                    {% endif %}
+                                </a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle {% if request.path == '/student/edit-profile/' %} active {% elif request.path == '/student/change-password/'%} active {% endif %}" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

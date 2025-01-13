@@ -4,13 +4,17 @@
 {% block content %}
 <div class="container mt-5">
     {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
+    <div class="overlay"></div>
+    <div class="alert-container position-fixed start-50 translate-middle-x" style="z-index: 1055;">
+        {% for message in messages %}
+        <div class="alert alert-dismissible notify fade show {{ message.tags }}" style="background-color: rgba(20, 20, 40, 0.85); color: white; border: 1px solid #ffffff;" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
     {% endif %}
-
+    
 
     <main>
         <!-- =======================
@@ -69,7 +73,7 @@
                                                     <div class="d-flex align-items-center">
                                                         <!-- Image -->
                                                         <div class="w-100px w-md-80px me-3">
-                                                            <img src="{{ item.course.image.url }}" class="rounded img-fluid shadow" style="object-fit: cover;" width="100px" height="50px" alt="">
+                                                            <img src="{{ item.course.image.url }}" class="rounded img-fluid shadow" style="object-fit: contain; width: 100px; height: 4rem; border-radius: 20px;" alt="">
                                                         </div>
                                                         <!-- Title -->
                                                         <h6 class="mb-0 text-truncate course-name" style="max-width: 200px;">	
@@ -96,20 +100,6 @@
                                 <p>Your cart is empty.</p>
                                 {% endif %}
                             </div>
-        
-                            <!-- Coupon input and button -->
-                            <div class="row g-3 mt-2">
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <input class="form-control form-control " placeholder="COUPON CODE">
-                                        <button type="button" class="btn btn-primary">Apply coupon</button>
-                                    </div>
-                                </div>
-                                <!-- Update button -->
-                                <div class="col-md-6 text-md-end">
-                                    <button class="btn btn-primary btn-lg mb-0" disabled="">Update cart</button>
-                                </div>
-                            </div>	
                         </div>
                     </div>
                     <!-- Main content END -->
@@ -123,14 +113,6 @@
         
                             <!-- Price and detail -->                            
                             <ul class="list-group mb-2 no-bg">
-                                <!-- <li class="list-group-item d-flex justify-content-between px-0 align-items-center">
-                                    <span class="h5 mb-0">A list item</span>
-                                    <span class="badge text-bg-primary rounded-pill">14</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between px-0 align-items-center">
-                                    <span class="h5 mb-0">A second list item</span>
-                                    <span class="badge text-bg-primary rounded-pill">2</span>
-                                </li> -->
                                 <li class="list-group-item d-flex justify-content-between px-0 align-items-center">
                                     <span class="h5 mb-0">Total</span>
                                     <span class="h5 mb-0">${{ total_amount }}</span>
@@ -143,7 +125,7 @@
                             </div>
         
                             <!-- Content -->
-                            <p class="small mb-0 mt-2 text-center">By completing your purchase, you agree to these <a href="#"><strong>Terms of Service</strong></a></p>
+                            <p class="small mb-0 mt-3 text-center">By completing your purchase, you agree to these <a href="#" class="nav-link text-primary fs-6"><strong>Terms of Service</strong></a></p>
         
                         </div>
                         <!-- Card total END -->
@@ -158,5 +140,18 @@
         
     </main>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const alerts = document.querySelectorAll('.notify');
+    alerts.forEach((alert) => {
+        setTimeout(() => {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        }, 3000); // 5000ms = 5 seconds
+    });
+});
+
+</script>
 
 {% endblock %}
