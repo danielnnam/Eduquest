@@ -121,12 +121,40 @@
                             
                             <!-- Button -->
                             <div class="d-grid">
-                                <a href="checkout.html" class="btn btn-lg fs-6 btn-success">Proceed to Checkout</a>
+                                <!-- Checkout Form -->
+                                <form method="POST" action="{% url 'checkout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success text-light form-control">Proceed to Checkout</button>
+                                </form>
+                                <!-- <button class="btn btn-success" id="checkout-button" data-bs-toggle="modal" data-bs-target="#checkoutModal">Proceed to Checkout</button> -->
+
+                                <!-- <a class="btn btn-lg fs-6 btn-success" id="checkout-button">Proceed to Checkout</a> -->
                             </div>
         
                             <!-- Content -->
                             <p class="small mb-0 mt-3 text-center">By completing your purchase, you agree to these <a href="#" class="nav-link text-primary fs-6"><strong>Terms of Service</strong></a></p>
-        
+                            
+
+                            <!-- Checkout Confirmation Modal -->
+                            <div class="modal fade text-dark" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Cart Checkout</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to purchase the following items?</p>
+                                            <ul id="checkout-items"></ul>
+                                            <h3>Total Amount: <span id="checkout-total" class="fs-4">${{ total_amount }}</span></h3>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="confirm-checkout">Confirm Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
                         </div>
                         <!-- Card total END -->
                     </div>
@@ -138,17 +166,61 @@
         <!-- =======================
         Page content END -->
         
+
     </main>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const alerts = document.querySelectorAll('.notify');
-    alerts.forEach((alert) => {
-        setTimeout(() => {
-            const bsAlert = new bootstrap.Alert(alert);
-            bsAlert.close();
-        }, 3000); // 5000ms = 5 seconds
+        const alerts = document.querySelectorAll('.notify');
+        alerts.forEach((alert) => {
+            setTimeout(() => {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }, 3000); // 5000ms = 5 seconds
+        });
+    });
+
+    document.getElementById('checkout-button').addEventListener('click', function() {
+        // Populate the checkout items
+        const itemsList = document.getElementById('checkout-items');
+        itemsList.innerHTML = ''; // Clear previous items
+        {% for item in cart_items %}
+            itemsList.innerHTML += '<li>{{ item.course.name }} - Price: ${{ item.get_total_price }}</li>';
+        {% endfor %}
+        document.getElementById('checkout-total').innerText = '{{ total_amount }}';
+    });
+
+    document.getElementById('confirm-checkout').addEventListener('click', function() {
+    // Use AJAX to submit the checkout
+    fetch('/checkout/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}' // Include CSRF token
+        },
+        body: JSON.stringify({
+            'action': 'checkout' // You can add more data if needed
+        })
+    })
+    .then(response => {
+        // Check if the response is OK (status in the range 200-299)
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert('Checkout successful!');
+            $('#checkoutModal').modal('hide'); // Hide the modal
+            location.reload(); // Reload the page to update the cart
+        } else {
+            alert('Checkout failed: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+        alert('An error occurred: ' + error.message);
     });
 });
 
