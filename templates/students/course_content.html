@@ -1,0 +1,183 @@
+{% extends 'students/base.html' %}
+
+{% block content %}
+    <div class="container px-4">
+        <div class="row g-3">
+            <div class="col-lg-4 col-12 p-2">
+                <div class="row g-2 ">
+                    <div class="col-12">
+                        <div class="rounded-2 p-3 shadow-lg" style="border: solid 1px rgba(137, 43, 226, 0.189);">
+                            <a href="#" class="nav-link" data-bs-toggle="tooltip" data-bs-title="Traning page" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip">
+                                <h5 class="mt-1"><i class="bi bi-chevron-left"></i> Back</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="rounded-2 p-3 shadow-lg" style="border: solid 1px rgba(137, 43, 226, 0.189);">
+                            {% for topic in topics %}
+                                    <li>
+                                        <span style="font-size: 1.5em; color: #337ab7;">&#9679;</span> 
+                                        <a href="">{{ topic.title }}</a>
+                                        
+                                    </li>
+                            {% endfor %}
+                            <div class="">
+                                <h6>{{ course.name }}</h6>
+                                <div class="p-1 pt-0">
+                                    {% if contents %}
+                                        {% for content in contents %}
+                                            <a href="?content_id={{ content.id }}" class="text-decoration-none d-flex align-items-center gap-2 text-light">
+                                                {% if content.id in completed_content_ids %}
+                                                    <i class="bi bi-check-circle-fill" style="color: green;"></i>  <!-- ✅ Show checkmark -->
+                                                {% else %}
+                                                    <i class="bi bi-circle"></i>  <!-- ⚪ Default bullet -->
+                                                {% endif %}
+                                                {{ content.topic }}
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>No content available</p>
+                                    {% endif %}
+                                </div>
+                            </div>                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-12">
+                <div class="rounded-3 shadow-lg p-2" style="border: solid 1px rgba(137, 43, 226, 0.189);">
+                    <div class="content-viewer-container">
+                        {% if selected_content %}
+
+                            <!-- Content Section -->
+                            <div class="content-body p-">
+                                {% if show_completion_page %}
+                                    <!-- ✅ Show Completion Page -->
+                                    <div class="text-center px-0 p-3">
+                                        <div class="completion-box rounded">
+                                            <div class="mb-4">
+                                                <i class="bi bi-award-fill text-warning" style="font-size: 60px;"></i>
+                                            </div>
+                                            <h2 class="text-success fw-bold">🎉 Congratulations! 🎉</h2>
+                                            <p class="lead text-secondary">You've successfully completed <strong>{{ course.name }}</strong>!</p>
+                                            
+                                            <div class="mt-3">
+                                                <p class="text-secondary">Your learning journey doesn't stop here. Keep exploring and growing!</p>
+                                            </div>
+                                            
+                                            <div class="mt-4">
+                                                <a href="#" class="btn btn-outline-success disabled">Download Certificate (Coming Soon)</a>
+                                            </div>
+                                            
+                                            <div class="mt-4">
+                                                <a href="{% url 'my_courses' %}" class="btn btn-primary">📚 Back to Courses</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                            
+                                {% else %}
+                                
+                                <!-- Topic Heading -->
+                                <h3 class="topic-heading text-center mb-3 p-lg-3 p-2">{{ selected_content.topic }}</h3>
+                                    
+                                <!-- ✅ Show Course Content -->
+                                {% if selected_content.content_type == 'text' %}
+                                    <div class="content-text p-3 shadow-sm rounded">
+                                        {{ selected_content.content_data_text|safe }}
+                                    </div>
+                        
+                                {% elif selected_content.content_type == 'video' %}
+                                    <div class="content-video">
+                                        <video controls class="rounded-3 w-100 video-thumbnail shadow">
+                                            <source src="{{ selected_content.content_data_video.url }}" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
+                            
+                                {% elif selected_content.content_type == 'document' %}
+                                    <div class="container-viewer shadow-sm p-3">
+                                        <div class="viewer">
+                                            <div class="header fw-bold">Document Viewer</div>
+                                            <div class="content">
+                                                <div class="document text-center">
+                                                    <svg width="225" height="300" viewBox="0 0 225 300" xmlns="http://www.w3.org/2000/svg">
+                                                        <rect width="225" height="300" fill="#ffffff"/>
+                                                        <rect x="20" y="20" width="185" height="20" fill="#e0e0e0"/>
+                                                        <rect x="20" y="60" width="185" height="10" fill="#e0e0e0"/>
+                                                        <rect x="20" y="80" width="185" height="10" fill="#e0e0e0"/>
+                                                        <rect x="20" y="100" width="185" height="10" fill="#e0e0e0"/>
+                                                        <rect x="20" y="120" width="100" height="10" fill="#e0e0e0"/>
+                                                    </svg>
+                                                </div>
+                                                <p class="description text-muted text-center">
+                                                    This is a document. Click the button below to download.
+                                                </p>
+                                                <div class="text-center">
+                                                    <a href="{{ selected_content.content_data_document.url }}" class="btn btn-primary shadow">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill mb-1 me-1" viewBox="0 0 16 16">
+                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                                        </svg>
+                                                        View Document
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            
+                                <!-- Navigation Buttons -->
+                                <div class="d-flex justify-content-between p-3">
+                                    {% if previous_content %}
+                                        <a href="?content_id={{ previous_content.id }}" class="btn btn-dark">Previous</a>
+                                    {% else %}
+                                        <button class="btn btn-dark" disabled>Previous</button>
+                                    {% endif %}
+                                    
+                                    {% if next_content %}
+                                        <a href="?content_id={{ next_content.id }}" class="btn btn-light">Next</a>
+                                    {% else %}
+                                        <button class="btn btn-dark" disabled>Next</button>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+
+                        {% else %}
+                            <p class="text-muted text-center">Select a content topic to view its details.</p>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get the elements
+        const playButton = document.getElementById('playVideo');
+        const videoOverlay = document.getElementById('videoOverlay');
+        const closeVideoButton = document.getElementById('closeVideo');
+        const videoPlayer = document.getElementById('videoPlayer');
+    
+        // Show the video overlay when the play button is clicked
+        playButton.addEventListener('click', () => {
+            videoOverlay.classList.remove('d-none'); // Show the overlay
+            if (videoPlayer) {
+                videoPlayer.play(); // Play the video automatically
+            }
+        });
+    
+        // Close the video overlay when the close button is clicked
+        closeVideoButton.addEventListener('click', () => {
+            videoOverlay.classList.add('d-none'); // Hide the overlay
+            if (videoPlayer) {
+                videoPlayer.pause(); // Pause the video
+                videoPlayer.currentTime = 0; // Reset the video to the beginning (optional)
+            }
+        });
+    </script>
+{% endblock %}
