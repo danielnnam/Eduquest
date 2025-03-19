@@ -1,0 +1,21 @@
+{% extends 'students/base.html' %}
+
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="row w-100">
+        <div class="col-lg-6 col-md-8 col-12 mx-auto">
+            <div class="shadow-lg p-4 text-center" style="border-radius: 15px; border: solid 1px rgba(41, 74, 172, 0.264);">
+                <div class="text-success mb-3">
+                    <i class="bi bi-patch-check-fill" style="font-size: 4rem;"></i> <!-- Success Icon -->
+                </div>
+                <h1 class="fw-bold">Checkout Successful!</h1>
+                <p class="fs-5 text-secondary">Thank you for your purchase. You have been successfully enrolled in your courses.</p>
+                <a href="{% url 'view_cart' %}" class="btn btn-lg btn-primary w-100 mt-3">Go to Wishlist</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
