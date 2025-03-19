@@ -1,0 +1,99 @@
+{% extends 'students/base.html' %}
+{% block title %}My Wishlist{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container py-2">
+    <h1 class="mb-4">My Courses</h1>
+    
+    <!-- Stats Row -->
+    <div class="row mb-4">
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card stats-card">
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ active_course_count }}</h3>
+                    <p class="text-muted">Active Courses</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card stats-card">
+                <div class="card-body text-center">
+                    <h3 class="card-title">85%</h3>
+                    <p class="text-muted">Average Progress</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card stats-card">
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ completed_course_count }}</h3>
+                    <p class="text-muted">Completed Courses</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card stats-card">
+                <div class="card-body text-center">
+                    <h3 class="card-title">4.8</h3>
+                    <p class="text-muted">Average Rating</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Courses Grid -->
+    <div class="row">
+        {% if enrolled_courses %}
+            {% for enrollment in enrolled_courses %}
+                <div class="col-lg-4 col-md-6 mb-4 d-flex">  <!-- d-flex to make all columns the same height -->
+                    <a href="{% url 'content_view' enrollment.course.id %}" class="nav-link w-100">  
+                        <div class="card students-course-card h-100 d-flex flex-column">  
+                            <img src="{{ enrollment.course.image.url }}" 
+                                 class="img-fluid rounded-top-3" 
+                                 style="height: 30vh; object-fit: cover; object-position: top;" 
+                                 alt="{{ enrollment.course.title }}">
+    
+                            <div class="card-body d-flex flex-column">
+                                <span class="badge 
+                                    {% if enrollment.completed %}
+                                        bg-success
+                                    {% else %}
+                                        bg-primary
+                                    {% endif %}
+                                    badge-custom">
+                                    {% if enrollment.completed %}
+                                        Completed
+                                    {% else %}
+                                        In Progress
+                                    {% endif %}
+                                </span>
+
+
+
+                                <h5 class="card-title">{{ enrollment.course.title }}</h5>
+                                <p class="card-text flex-grow-1">{{ enrollment.course.description|truncatewords:15 }}</p>  <!-- flex-grow-1 to fill space -->
+    
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">{{ enrollment.course.duration }}</small>
+                                    <small class="text-muted">4.5 <i class="fas fa-star text-warning"></i></small>
+                                </div>
+    
+                                <div class="progre mt-3"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>You are not enrolled in any courses yet.</p>
+            <a href="{% url 'view_cart' %}" class="btn btn-primary w-50">Go to Cart</a>
+        {% endif %}
+    </div>
+    
+</div>
+
+{% endblock %}
+
