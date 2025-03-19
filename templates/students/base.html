@@ -51,7 +51,7 @@
                                     Courses
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="coursesDropdown">
-                                    <li><a class="dropdown-item" href="#">My Courses</a></li>
+                                    <li><a class="dropdown-item {% if request.path == '/student/my-courses/' %} active {% endif %}" href="{% url 'my_courses' %}">My Courses</a></li>
                                     <li><a class="dropdown-item {% if request.path == '/student/course_lists/' %} active {% endif %}" href="{% url 'course_list' %}">Available Courses</a></li>
                                 </ul>
                             </li>
@@ -135,19 +135,7 @@
             }
         }
 
-        // Simulate progress update
-        function updateProgress() {
-            const progressBar = document.querySelector('.progress-bar');
-            let progress = 65;
-            setInterval(() => {
-                progress += Math.random() * 2;
-                if (progress > 100) progress = 100;
-                progressBar.style.width = `${progress}%`;
-                progressBar.setAttribute('aria-valuenow', progress);
-                document.querySelector('.progress-cosmic + p').textContent = `${Math.round(progress)}% of your galaxy explored`;
-            }, 3000);
-        }
-
+        
         document.addEventListener('DOMContentLoaded', () => {
             addStars();
             updateProgress();
