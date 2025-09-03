@@ -1,0 +1,56 @@
+{% extends "my_app/base.html" %}
+{% load static %}
+
+{% block title %}{{ blog.title }} - EduQuest{% endblock %}
+
+
+
+{% block content %}
+{{ form.media }}
+<div class="container py-">
+    <div class="mt-4 mb-3">
+        <a href="{% url 'blog' %}" class="btn btn-outline-primary">← Back to Blog List</a>
+    </div>
+
+    {% if blog.image %}
+    <div class="position-relative mb-4">
+        <!-- Blog Image -->
+        <img src="{{ blog.image.url }}" 
+             class="img-fluid rounded w-100" 
+             style="height: 20rem; object-fit: cover;" 
+             alt="{{ blog.title }}">
+
+        <!-- Dark overlay for contrast -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 rounded" 
+             style="background: rgba(0,0,0,0.4);">
+        </div>
+
+        <!-- Title Overlay (Bottom-Left) -->
+        <div class="position-absolute bottom-0 start-0 w-100 px-4 pb-3">
+            <h1 class="fw-bold text-white display-5" 
+                style="text-shadow: 0 2px 8px rgba(0,0,0,0.7); margin-bottom: 0.5rem;">
+                {{ blog.title }}
+            </h1>
+        </div>
+    </div>
+    {% endif %}
+
+    <p class="text-end">Published on {{ blog.created_at|date:"F d, Y" }}</p>
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-12">
+            <div class="blog-content">
+                {{ blog.content|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- prism.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+{% endblock %}

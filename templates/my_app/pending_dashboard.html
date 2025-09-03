@@ -1,0 +1,72 @@
+{% extends "my_app/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center shadow-lg p-5 bg-white rounded">
+            <!-- Branding/logo -->
+            <img src="{% static 'images/logo.png' %}" alt="cosmic learn" height="60" class="mb-4">
+
+            <h2 class="text-danger fw-bold">Your Tutor Account is Pending Approval</h2>
+            <p class="text-muted mb-4">
+                Your registration was successful. Our team is reviewing your account for approval.
+                Once approved, you'll gain full access to your dashboard and features.
+            </p>
+
+            <!-- Status card -->
+            <div class="alert alert-warning">
+                <strong>Status:</strong> <span class="fw-bold">Pending Approval</span><br>
+                <small>This process may take up to 24 hours.</small>
+            </div>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Contact Admin Form -->
+            <div class="card mx-auto" style="max-width: 600px;">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Contact Administrator</h5>
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_subject" class="form-label">Subject</label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                                <div class="text-danger small">{{ form.subject.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_message" class="form-label">Message</label>
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                                <div class="text-danger small">{{ form.message.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Logout Button -->
+            <div class="mt-4">
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger">Logout</button>
+                </form>
+                
+            </div>
+
+            <!-- Footer / Info -->
+            <div class="mt-4 text-muted small">
+                <em>Thank you for your interest in becoming an instructor with us.</em><br>
+                <em>We’ll notify you via email once your account is approved.</em>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

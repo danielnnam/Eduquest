@@ -35,13 +35,115 @@
 
     <!-- css styles -->
     <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    
+
+
+
+
 </head>
 <body>
-    <div>
+
+    <div  class="body-index">
+        <header id="header" class="header-index">
+        
+            <nav class="navbar navbar-expand-lg p-3 nav-index">
+                <div class="container-fluid container">
+                    <a href="{% url 'index' %}" class="logo">TechEdu</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse mx-auto justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-light active" aria-current="page" href="{% url 'courses_list' %}">Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="{% url 'about' %}">About us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="{% url 'contact' %}">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="{% url 'blog' %}">Blog</a>
+                        </li>
+                        <div class="ms-5">
+                            <a href="{% url 'login' %}"><button class="btn-index">Login</button> </a>
+                            <a href="{% url 'register_student' %}"><button class="btn-index">Register</button> </a>
+                        </div>
+                    </ul>
+                </div>
+                </div>
+            </nav>
+        </header>
+        
         {% block content %}
 
         {% endblock %} 
+
+        <footer class="bg-dark text-light pt-5 pb-3 mt-5">
+  <div class="container">
+    <div class="row">
+      <!-- Courses -->
+      <div class="col-md-3 mb-4">
+        <h5 class="fw-bold mb-3">Courses</h5>
+        <ul class="list-unstyled">
+          <li><a href="{% url 'courses_list' %}" class="text-light text-decoration-none">Web Development</a></li>
+          <li><a href="{% url 'courses_list' %}" class="text-light text-decoration-none">AI & Machine Learning</a></li>
+          <li><a href="{% url 'courses_list' %}" class="text-light text-decoration-none">Cybersecurity</a></li>
+          <li><a href="{% url 'courses_list' %}" class="text-light text-decoration-none">Data Science</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div class="col-md-3 mb-4">
+        <h5 class="fw-bold mb-3">Resources</h5>
+        <ul class="list-unstyled">
+          <li><a href="{% url 'blog' %}" class="text-light text-decoration-none">Blog</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Tutorials</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Documentation</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Community</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div class="col-md-3 mb-4">
+        <h5 class="fw-bold mb-3">Company</h5>
+        <ul class="list-unstyled">
+          <li><a href="{% url 'courses_list' %}" class="text-light text-decoration-none">Courses</a></li>
+          <li><a href="{% url 'about' %}" class="text-light text-decoration-none">About Us</a></li>
+          <li><a href="{% url 'contact' %}" class="text-light text-decoration-none">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div class="col-md-3 mb-4">
+        <h5 class="fw-bold mb-3">Legal</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-light text-decoration-none">Terms of Service</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Privacy Policy</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Cookie Policy</a></li>
+        </ul>
+      </div>
     </div>
+
+    <!-- Social Icons -->
+    <div class="text-center my-4">
+      <a href="#" class="text-light mx-2"><i class="fab fa-facebook fa-lg"></i></a>
+      <a href="#" class="text-light mx-2"><i class="fab fa-twitter fa-lg"></i></a>
+      <a href="#" class="text-light mx-2"><i class="fab fa-linkedin fa-lg"></i></a>
+      <a href="#" class="text-light mx-2"><i class="fab fa-github fa-lg"></i></a>
+    </div>
+
+    <!-- Copyright -->
+    <div class="text-center border-top pt-3">
+      <p class="mb-0">&copy; {{ now|date:"Y" }} TechEdu. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+
+
 
     <!-- Include Bootstrap JS (optional for form behaviors) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

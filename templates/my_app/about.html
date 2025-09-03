@@ -1,0 +1,75 @@
+{% extends "my_app/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="about-hero text-center py-5 shadow-lg">
+  <div class="container">
+    <h1 class="display-4">About TechEdu</h1>
+    <p class="lead">Empowering learners with skills for the future.</p>
+  </div>
+</section>
+
+<section class="about-content py-5">
+  <div class="container">
+    <div class="row align-items-center mb-5">
+      <div class="col-md-6">
+        <img src="{% static 'images/1393484-apple-m3-chip.webp' %}" class="img-fluid rounded" alt="Learning Together">
+      </div>
+      <div class="col-md-6">
+        <h2>Who We Are</h2>
+        <p>
+          TechEdu is an online learning platform dedicated to bridging the gap between 
+          education and technology. Our mission is to provide high-quality, affordable, 
+          and accessible courses for students, professionals, and lifelong learners.
+        </p>
+        <p>
+          With expert instructors and practical, hands-on projects, we prepare learners 
+          to thrive in the ever-evolving digital world.
+        </p>
+      </div>
+    </div>
+
+    <div class="row text-center mb-5">
+      <div class="col-md-4">
+        <i class="bi bi-lightbulb display-4 text-warning mb-3"></i>
+        <h4>Our Mission</h4>
+        <p>
+          To empower students and professionals with knowledge and skills that 
+          drive innovation and create real-world impact.
+        </p>
+      </div>
+      <div class="col-md-4">
+        <i class="bi bi-people display-4 text-primary mb-3"></i>
+        <h4>Our Community</h4>
+        <p>
+          A global community of learners and instructors sharing knowledge, 
+          collaborating, and building a brighter future together.
+        </p>
+      </div>
+      <div class="col-md-4">
+        <i class="bi bi-award display-4 text-success mb-3"></i>
+        <h4>Our Values</h4>
+        <p>
+          We value innovation, collaboration, integrity, and a passion for 
+          continuous learning in everything we do.
+        </p>
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <h2>Why Choose Us?</h2>
+        <ul class="list-unstyled">
+          <li>✅ Learn from expert instructors with real-world experience</li>
+          <li>✅ Flexible online courses accessible anytime, anywhere</li>
+          <li>✅ Practical projects to build your portfolio</li>
+          <li>✅ Career support and mentorship</li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <img src="{% static 'images/why_choose_us.webp' %}" class="img-fluid rounded" alt="Our Team">
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -5,38 +5,7 @@
   
 {% block content %}
 
-<div class="body-index">
-    <header id="header" class="header-index">
-        
-        <nav class="navbar navbar-expand-lg p-3 nav-index">
-            <div class="container-fluid container">
-                <a href="#" class="logo">TechEdu</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse mx-auto justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-light active" aria-current="page" href="#">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light disabled" aria-disabled="true">Disabled</a>
-                    </li>
-                    <div class="ms-5">
-                        <a href="{% url 'login' %}"><button class="btn-index">Login</button> </a>
-                        <a href="{% url 'register_student' %}"><button class="btn-index">Register</button> </a>
-                    </div>
-                </ul>
-              </div>
-            </div>
-          </nav>
-    </header>
+<div>
     
     <main>
         <section class="hero-index">
@@ -47,66 +16,53 @@
             </div>
         </section>
     
-        <section id="features" class="features">
+        <section id="features" class="features py-5">
             <div class="container">
-                <h2>Why Choose TechEdu?</h2>
-                <div class="slick-carousel">
-                    <div class="carousel-cell">
-                        <img src="/placeholder.svg?height=80&width=80" alt="Learn Anywhere Icon" width="80" height="80">
+                <h2 class="text-center mb-4">Why Choose TechEdu?</h2>
+                <div class="row text-center mt-3">
+                    <div class="col-md-3 mb-4">
+                        <i class="bi bi-laptop" style="font-size: 3rem;"></i>
                         <h3>Learn Anywhere</h3>
                         <p>Access our courses from any device, anytime, anywhere in the world.</p>
                     </div>
-                    <div class="carousel-cell">
-                        <img src="/placeholder.svg?height=80&width=80" alt="Expert Instructors Icon" width="80" height="80">
+                    <div class="col-md-3 mb-4">
+                        <i class="bi bi-person-badge" style="font-size: 3rem;"></i>
                         <h3>Expert Instructors</h3>
                         <p>Learn from industry professionals with years of real-world experience.</p>
                     </div>
-                    <div class="carousel-cell">
-                        <img src="/placeholder.svg?height=80&width=80" alt="Career Support Icon" width="80" height="80">
+                    <div class="col-md-3 mb-4">
+                        <i class="bi bi-person-check" style="font-size: 3rem;"></i>
                         <h3>Career Support</h3>
                         <p>Get personalized career guidance and job placement assistance.</p>
                     </div>
-                    <div class="carousel-cell">
-                        <img src="/placeholder.svg?height=80&width=80" alt="Hands-on Projects Icon" width="80" height="80">
+                    <div class="col-md-3 mb-4">
+                        <i class="bi bi-tools" style="font-size: 3rem;"></i>
                         <h3>Hands-on Projects</h3>
                         <p>Build your portfolio with real-world projects and case studies.</p>
                     </div>
                 </div>
-                
             </div>
         </section>
-    
+
+        <!-- Top courses  -->
         <section id="courses" class="courses-index">
             <div class="container">
                 <h2>Our Top Courses</h2>
                 <div class="course-grid-index">
+                    {% for course in latest_courses %}
                     <div class="course-card-index">
-                        <img  src="{% static 'images/4ksht40o.png' %}" alt="Web Development Course" width="300" height="200">
+                        <img src="{{ course.image.url }}" alt="{{ course.title }}" width="300" height="200">
                         <div class="course-content-index">
-                            <h3>Full-Stack Web Development</h3>
-                            <p>Master front-end and back-end technologies to become a versatile web developer.</p>
-                            <a href="#" class="btn-index">Learn More</a>
+                            <h3>{{ course.title }}</h3>
+                            <p>{{ course.description|truncatewords:20 }}</p>
+                            <a href="{% url 'course_detail' course.id %}" class="btn-index">Learn More</a>
                         </div>
                     </div>
-                    <div class="course-card-index">
-                        <img src="{% static 'images/n5zefcdl.png' %}" alt="AI and Machine Learning Course" width="300" height="200">
-                        <div class="course-content-index">
-                            <h3>AI and Machine Learning</h3>
-                            <p>Dive into the world of artificial intelligence and machine learning algorithms.</p>
-                            <a href="#" class="btn-index">Learn More</a>
-                        </div>
-                    </div>
-                    <div class="course-card-index">
-                        <img src="{% static 'images/m9u9wwxm.png' %}" alt="Cybersecurity Course" width="300" height="200">
-                        <div class="course-content-index">
-                            <h3>Cybersecurity Essentials</h3>
-                            <p>Learn to protect systems and networks from digital threats and vulnerabilities.</p>
-                            <a href="#" class="btn-index">Learn More</a>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>
+
     
         <section id="testimonials" class="testimonials-index">
             <div class="container">
@@ -132,57 +88,12 @@
             <div class="container">
                 <h2>Ready to Start Your Tech Journey?</h2>
                 <p>Join thousands of students who have transformed their careers with TechEdu. Enroll now and take the first step towards your future in tech.</p>
-                <a href="#">
-                    <button class="btn btn-light">Enroll Now</button>
-                </a>
+                <a href="" class="btn-index btn-light">Enroll Now</a>
             </div>
         </section>
     </main>
     
-    <footer class="footer-index">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-section">
-                    <h3>Courses</h3>
-                    <ul>
-                        <li><a href="#">Web Development</a></li>
-                        <li><a href="#">AI & Machine Learning</a></li>
-                        <li><a href="#">Cybersecurity</a></li>
-                        <li><a href="#">Data Science</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Resources</h3>
-                    <ul>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Tutorials</a></li>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Community</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Company</h3>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Partners</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Legal</h3>
-                    <ul>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2024 TechEdu. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    
 </div>
 
 

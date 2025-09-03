@@ -1,0 +1,49 @@
+{% extends "my_app/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="contact-hero text-center py-5 shadow">
+  <div class="container">
+    <h1 class="display-4">Contact & Support</h1>
+    <p class="lead">We’re here to help. Reach out anytime.</p>
+  </div>
+</section>
+
+<section class="contact-section py-5">
+  <div class="container">
+    <div class="row">
+      <!-- Contact Info -->
+      <div class="col-md-5 mb-4">
+        <h2>Get in Touch</h2>
+        <p>If you have questions about our courses, need technical support, or just want to say hello, our team is ready to assist you.</p>
+        
+        <ul class="list-unstyled">
+          <li><i class="bi bi-envelope-fill text-primary"></i> support@techedu.com</li>
+          <li><i class="bi bi-telephone-fill text-success"></i> +234 800 123 4567</li>
+          <li><i class="bi bi-geo-alt-fill text-danger"></i> Abuja, Nigeria</li>
+        </ul>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-md-7">
+        <h2>Send Us a Message</h2>
+        <form>
+          <div class="mb-3">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="name" placeholder="John Doe">
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Your Email</label>
+            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" rows="5" placeholder="Write your message here..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
