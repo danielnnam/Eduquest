@@ -291,13 +291,7 @@ label-login {
     padding: 0 20px;
 }
 .header-index {
-    background-color: var(--header-background);
-    backdrop-filter: blur(10px);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    transition: all 0.3s ease;
+
 }
 .nav-index {
     display: flex;
