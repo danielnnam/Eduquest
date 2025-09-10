@@ -1,119 +1,67 @@
 {% extends 'students/base.html' %}
-  
+
 {% block title %}Course List{% endblock %}
-  
+
 {% block content %}
+<div class="container"><small class="text">Total courses: <strong>{{ courses|length }}</strong></small></div>
 <div class="container mt-5">
     <div class="row">
         <!-- Filter Column -->
-        <div class="col-md-3 col-12">
-            <form id="filterForm" method="GET" action="{% url 'course_list' %}"> <!-- Update with your view name -->
-                <div class="filter-section border del-wrapper rounded-4">
-                    <div class="border-bottom p-3">
-                        <div class="row">
-                            <div class="col-lg-6 col-12">
-                                <h4>Filters</h4>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <button class="btn bg-module-btn btn-sm float-end" type="button" onclick="resetFilters()">Reset</button>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary d-md-none mb-3" type="button" data-toggle="collapse" data-target="#filterDropdown" aria-expanded="false" aria-controls="filterDropdown">
-                        Toggle Filters
-                    </button>
-                    <div class="collapse d-md-block p-3" id="filterDropdown">
-                        <!-- Skill Level Filter -->
-                        <div class="mt-3 mb-4">
-                            <h5 class="mb-3 fw-bold">Skill Level</h5>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="skillLevel" value="beginner" id="level-beginner" {% if request.GET.skillLevel == 'beginner' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="level-beginner">Beginner</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="skillLevel" value="intermediate" id="level-intermediate" {% if request.GET.skillLevel == 'intermediate' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="level-intermediate">Intermediate</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="skillLevel" value="advanced" id="level-advanced" {% if request.GET.skillLevel == 'advanced' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="level-advanced">Advanced</label>
-                            </div>
-                        </div>
-
-                        <!-- Categories Filter -->
-                        <div class="mt-3 mb-4">
-                            <h5 class="mt-4 mb-3 fw-bold">Categories</h5>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="category" value="artificial-intelligence" id="category-artificial-intelligence" {% if request.GET.category == 'artificial-intelligence' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="category-artificial-intelligence">Artificial Intelligence</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="category" value="data-science" id="category-data-science" {% if request.GET.category == 'data-science' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="category-data-science">Data Science</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="category" value="web-development" id="category-web-development" {% if request.GET.category == 'web-development' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="category-web-development">Web Development</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="category" value="mobile-app-development" id="category-mobile-app-development" {% if request.GET.category == 'mobile-app-development' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="category-mobile-app-development">Mobile App Development</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="category" value="cloud-computing" id="category-cloud-computing" {% if request.GET.category == 'cloud-computing' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="category-cloud-computing">Cloud Computing</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="category" value="networking" id="category-networking" {% if request.GET.category == 'networking' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="category-networking">Networking</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="category" value="database-management" id="category-database-management" {% if request.GET.category == 'database-management' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="category-database-management">Database Management</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="category" value="software-engineering" id="category-software-engineering" {% if request.GET.category == 'software-engineering' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="category-software-engineering">Software Engineering</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="category" value="it-project-management" id="category-it-project-management" {% if request.GET.category == 'it-project-management' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="category-it-project-management">IT Project Management</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="category" value="computer-science" id="category-computer-science" {% if request.GET.category == 'computer-science' %}checked{% endif %} onchange="this.form.submit()">
-                                <label class="form-check-label" for="category-computer-science">Computer Science</label>
-                            </div>
-                        </div>
-                    </div>
+        <div class="col-md-3 col-12 mb-4">
+            <div class="border rounded-4 p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="mb-0">Filters</h4>
+                    <button class="btn btn-outline-secondary btn-sm" id="resetFilters">Reset</button>
                 </div>
-            </form>
+                <div class="mb-4">
+                    <label for="skillLevel" class="fw-bold mb-2">Skill Level</label>
+                    <select class="form-select" id="skillLevel">
+                        <option value="">All</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="category" class="fw-bold mb-2">Category</label>
+                    <select class="form-select" id="category">
+                        <option value="">All</option>
+                        <option value="Artificial Intelligence">Artificial Intelligence</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Mobile App Development">Mobile App Development</option>
+                        <option value="Cloud Computing">Cloud Computing</option>
+                        <option value="Networking">Networking</option>
+                        <option value="Database Management">Database Management</option>
+                        <option value="Software Engineering">Software Engineering</option>
+                        <option value="IT Project Management">IT Project Management</option>
+                        <option value="Computer Science">Computer Science</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <!-- Course List Column -->
         <div class="col-md-9 col-12" id="coursesContainer">
-            <div class="row" id="coursesRow">
-                <div class="row mb-3">
-                    <div class="col-lg-6 col-12">
-                        <h3 class="fw-bold">Courses</h3>
-                    </div>
-                    <div class="col-lg-6 col-12">
-                        <button class="btn btn-cosmic float-end" id="viewAllCourses">View all courses <i class="fa-solid fa-arrow-right"></i></button>
-                        <button class="btn btn-cosmic float-end d-none" id="showLessCourses">Show less <i class="fa-solid fa-arrow-up"></i></button>
-                    </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="fw-bold mb-0">Courses</h3>
+                <div class="text-end me-2">
+                    <div><small id="showingText" class="text"></small></div>
                 </div>
-                
+            </div>
+            <div class="row" id="coursesRow">
                 {% for course in courses %}
-                <div class="col-md-6 mb-4 course-item" 
-                     data-skill-level="{{ course.level }}" 
+                <div class="col-md-6 mb-4 course-item"
+                     data-skill-level="{{ course.level }}"
                      data-category="{{ course.category }}">
-                    <a href="{% url 'course_detail' course.id %}" class="text-light" style="text-decoration: none ;">
+                    <a href="{% url 'course_detail' course.id %}" class="text-light" style="text-decoration: none;">
                         <div class="course-card border-light border-0" style="overflow: hidden;">
                             <div class="mt-4">
                                 <p class="badge edit-banner">{{ course.category }}</p>
                             </div>
                             <h2 class="course-title text-capitalize text-warning">{{ course.name }}</h2>
                             <p class="course-description">{{ course.description|truncatewords:15 }}</p>
-                            <div class="progress-cosmic mb -3">
+                            <div class="progress-cosmic mb-3">
                                 <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                             <div class="course-stats">
@@ -125,48 +73,83 @@
                     </a>
                 </div>
                 {% empty %}
-                <div class="col-12">
+                <div class="col-12 no-courses-msg" style="display: none;">
                     <p class="text-center">No courses available at the moment.</p>
                 </div>
                 {% endfor %}
+            </div>
+            <div id="limitNote" class="mt-2 text-muted" style="display: none;">
+                Only first 6 shown — use filters to reveal other courses.
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    const viewAllBtn = document.getElementById('viewAllCourses');
-    const showLessBtn = document.getElementById('showLessCourses');
-    const hiddenCourses = document.querySelectorAll('.course-item.d-none');
+    (function () {
+        const MAX_VISIBLE_WITHOUT_FILTER = 6;
+        const skillSelect = document.getElementById('skillLevel');
+        const categorySelect = document.getElementById('category');
+        const resetBtn = document.getElementById('resetFilters');
+        const showingText = document.getElementById('showingText');
+        const limitNote = document.getElementById('limitNote');
 
-    // Show all courses
-    viewAllBtn.addEventListener('click', function () {
-        hiddenCourses.forEach(course => course.classList.remove('d-none'));
-        viewAllBtn.classList.add('d-none'); // Hide "View All" button
-        showLessBtn.classList.remove('d-none'); // Show "Show Less" button
-    });
+        function filterCourses() {
+            const skillLevel = skillSelect.value;
+            const category = categorySelect.value;
+            const courses = Array.from(document.querySelectorAll('.course-item'));
 
-    // Show less courses
-    showLessBtn.addEventListener('click', function () {
-        hiddenCourses.forEach(course => course.classList.add('d-none'));
-        showLessBtn.classList.add('d-none'); // Hide "Show Less" button
-        viewAllBtn.classList.remove('d-none'); // Show "View All" button
-    });
+            // Determine which courses match filters
+            const matched = courses.filter(course => {
+                const matchesSkill = !skillLevel || course.dataset.skillLevel === skillLevel;
+                const matchesCategory = !category || course.dataset.category === category;
+                return matchesSkill && matchesCategory;
+            });
 
+            const filtersActive = !!(skillLevel || category);
 
-    // Reset filter function
-    function resetFilters() {
-        // Clear the selected radio buttons
-        const radios = document.querySelectorAll('input[type="radio"]');
-        radios.forEach(radio => {
-            radio.checked = false;
+            // If no filters active, show only first MAX_VISIBLE_WITHOUT_FILTER matched items
+            let shownCount = 0;
+            courses.forEach((course, idx) => {
+                if (matched.includes(course)) {
+                    if (!filtersActive && shownCount >= MAX_VISIBLE_WITHOUT_FILTER) {
+                        course.classList.add('d-none');
+                    } else {
+                        course.classList.remove('d-none');
+                        shownCount++;
+                    }
+                } else {
+                    course.classList.add('d-none');
+                }
+            });
+
+            // Update "No courses" message(s)
+            document.querySelectorAll('.no-courses-msg').forEach(msg => {
+                msg.style.display = shownCount === 0 ? 'block' : 'none';
+            });
+
+            // Update showing text and limit note
+            const total = document.querySelectorAll('.course-item').length;
+            showingText.textContent = `Showing ${shownCount} of ${total}`;
+            if (!filtersActive && matched.length > MAX_VISIBLE_WITHOUT_FILTER) {
+                limitNote.style.display = 'block';
+            } else {
+                limitNote.style.display = 'none';
+            }
+        }
+
+        skillSelect.addEventListener('change', filterCourses);
+        categorySelect.addEventListener('change', filterCourses);
+
+        resetBtn.addEventListener('click', function() {
+            skillSelect.value = '';
+            categorySelect.value = '';
+            filterCourses();
         });
 
-        // Reset the form action to clear the URL parameters
-        const form = document.getElementById('filterForm');
-        form.action = form.action.split('?')[0]; // Remove query parameters
-        form.submit(); // Submit the form to refresh the page
-    }
+        document.addEventListener('DOMContentLoaded', function() {
+            filterCourses();
+        });
+    })();
 </script>
 {% endblock %}
