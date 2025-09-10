@@ -1,7 +1,7 @@
 {% extends 'students/base.html' %}
 {% load static %}
 {% block title %}{{ course.name }} Details{% endblock %}
-  
+
 {% block content %}
 
 <div class="container py-5">
@@ -12,24 +12,24 @@
             {% endfor %}
         </ul>
     {% endif %}
-    <div class="" style="margin-top: -2rem;">
+    <div style="margin-top: -2rem;">
         <a href="{% url 'course_list' %}">
-            <button class="btn bg-module-btn btn-sm text-light">
-                <i class="fa-solid fa-arrow-left"></i> 
+            <button class="btn bg-module-btn btn-sm text-light" type="button">
+                <i class="fa-solid fa-arrow-left"></i>
                 Back to course lists
             </button>
         </a>
     </div>
-    
-    <header class="rounded-3 p-lg-5 px-3 p-2 mt-3 edit-banner text-cente mt-4">
+
+    <header class="rounded-3 p-lg-5 px-3 p-2 edit-banner  mt-4">
         <div class="container">
             <div class="mt-4">
                 <p class="badge bg-module-btn">{{ course.category }}</p>
             </div>
             <h1 class="course-title-detail">{{ course.name }}</h1>
-            <p class="course-subtitl col-lg-8 col-12">{{ course.description }}</p>
+            <p class="course-subtitle col-lg-10 col-12">{{ course.description }}</p>
 
-            <div class="d-flex flex-wrap justify-content-between mb-4 col-lg-7 col-12 mt-4">
+            <div class="d-flex flex-wrap justify-content-between mb-4 col-lg-8 col-12 mt-4">
                 <div class="info-item">
                     <i class="fas fa-user-astronaut info-icon"></i>
                     <span class="text-capitalize">{{ instructor_name }}</span>
@@ -46,39 +46,13 @@
                     <i class="fas fa-users info-icon"></i>
                     <span>2,345 students enrolled</span>
                 </div>
-            <!-- <div class="floating-planet" style="top: 20%; left: 10%;"></div> -->
-            <!-- <div class="floating-planet" style="top: 60%; right: 15%;"></div> -->
+            </div>
         </div>
     </header>
-    
+
     <div class="container mt-4">
         <div class="row">
             <div class="col-lg-8 col-12">
-                <!-- <div class="cosmic-card">
-                    <h2 class="mb-4">Course Overview</h2>
-                    <div class="d-flex flex-wrap justify-content-between mb-4">
-                        <div class="info-item">
-                            <i class="fas fa-user-astronaut info-icon"></i>
-                            <span>Dr. Stella Nova</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-clock info-icon"></i>
-                            <span>{{ course.duration }}</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-signal info-icon"></i>
-                            <span>{{ course.level }}</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-users info-icon"></i>
-                            <span>2,345 students enrolled</span>
-                        </div>
-                    </div>
-                    <p class="course-description">
-                        {{ course.description }}
-                    </p>
-                </div> -->
-                
                 <div class="cosmic-card">
                     <h3 class="mb-4">What You'll Learn</h3>
                     <ul class="topic-list">
@@ -89,17 +63,21 @@
                         {% endfor %}
                     </ul>
                 </div>
-                
+
                 <div class="cosmic-divider"></div>
-                
+
                 <div class="cosmic-card">
                     <h3 class="mb-4">Meet Your Instructor</h3>
                     <div class="d-lg-flex d-block align-items-center mb-3">
-                        <img src="https://via.placeholder.com/100" alt="Dr. Stella Nova" class="instructor-img me-4">
-                        <div class="mt-lg-0 mt-2">
+                                {% if instructor_image %}
+                                <img src="{{ instructor_image.url }}" alt="{{ instructor_name }}" class="instructor-img me-4">
+                                {% else %}
+                                <img src="{% static 'images/OIP (8).jpg' %}" alt="{{ instructor_name }}" class="instructor-img me-4">
+                                {% endif %}
+                                <div class="mt-lg-0 mt-2">
                             <h4 class="mb-2">{{ instructor_name }}</h4>
                             <p class="mb-2">{{ instructor_department }}</p>
-                            <div class="star-rating">
+                            <div class="star-rating" aria-hidden="true">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -112,54 +90,73 @@
                     <p><span class="text-capitalize">{{ instructor_name }}</span> is a renowned astrophysicist with over 15 years of experience in research and teaching. Her work on stellar evolution has been published in top scientific journals, and she's a frequent speaker at international astronomy conferences.</p>
                 </div>
             </div>
-            
+
             <div class="col-lg-4">
                 <div class="sticky-top" style="top: 2rem;">
                     <div class="cosmic-card p-1">
                         <div class="row">
-                            <div class="col-12">                                
+                            <div class="col-12">
                                 <!-- Video Thumbnail with Play Button -->
+                                {% if course.image %}
                                 <div class="video-thumbnail position-relative w-100 rounded-3" 
-                                style="height: 50vh; background: url('{{ course.image.url }}') center/cover no-repeat; cursor: pointer;" 
-                                id="playVideo">
+                                     style="height: 50vh; background: url('{{ course.image.url }}') center/cover no-repeat; cursor: pointer;"
+                                     id="playVideo">
+                                {% else %}
+                                <div class="video-thumbnail position-relative w-100 rounded-3"
+                                     style="height: 50vh; background: url('https://via.placeholder.com/800x450') center/cover no-repeat; cursor: pointer;"
+                                     id="playVideo">
+                                {% endif %}
                                     <!-- Blue Overlay -->
-                                    <div class="overlay position-absolute w-100 h-100" style="background-color: rgba(0, 0, 0, 0.602);"></div>
-                                    
-                                    <!-- Play Button -->
-                                    <div class="play-button position-absolute top-50 start-50 translate-middle">
+                                    <div class="overlay position-absolute w-100 h-100" style="background-color: rgba(0, 0, 0, 0.6);"></div>
+
+                                    <!-- Play Button (hide if no video) -->
+                                    {% if course.video %}
+                                    <div class="play-button position-absolute top-50 start-50 translate-middle" aria-hidden="true">
                                         <i class="fas fa-play-circle text-white" style="font-size: 3rem;"></i>
                                     </div>
+                                    {% else %}
+                                    <div class="play-button position-absolute top-50 start-50 translate-middle text-white" style="font-size:1rem;">
+                                        Preview not available
+                                    </div>
+                                    {% endif %}
                                 </div>
 
                             </div>
                             <div class="col-12 p-4">
                                 <!-- Course Details and Enroll Button -->
-                                <p class="price fs-3 mb-0">${{ course.price }}</p> 
+                                <p class="price fs-3 mb-0">${{ course.price|default:"0.00" }}</p>
                                 <p class="mt-2"><i class="fas fa-shield-alt me-2"></i>30-Day Money-Back Guarantee</p>
-                                <button class="btn btn-add-to-cart btn-primary w-100 mb-3">
-                                    <i class="fas fa-rocket me-2"></i>Enroll Now
-                                </button>
+
                                 <form method="POST" action="{% url 'add_to_cart' course.id %}">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                    <button class="btn btn-add-to-cart btn-primary w-100 mb-3" type="submit">
+                                        <i class="fas fa-rocket me-2"></i>Enroll Now
+                                    </button>
                                 </form>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
 
                     <!-- Full-Screen Video Overlay -->
-                    <div id="videoOverlay" class="video-overlay d-none">
+                    <div id="videoOverlay" class="video-overlay d-none" aria-hidden="true" role="dialog" aria-label="Course preview">
                         <div class="video-container position-relative">
                             <!-- Close Button -->
-                            <button class="close-video position-absolute" id="closeVideo" style="top: 10px; right: 10px; font-size: 2rem; background: transparent; border: none; color: white; cursor: pointer;">&times;</button>
+                            <button class="close-video position-absolute" id="closeVideo" aria-label="Close preview" style="top: 10px; right: 10px; font-size: 2rem; background: transparent; border: none; color: white; cursor: pointer;">&times;</button>
+
+                            {% if course.video %}
                             <!-- Video Player -->
-                            <video controls class="video-player w-100" id="videoPlayer">
+                            <video controls class="video-player w-100" id="videoPlayer" preload="metadata">
                                 <source src="{{ course.video.url }}" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
+                            {% else %}
+                            <div class="p-4 text-white">
+                                <p>Preview is not available for this course.</p>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
-                    
+
                     <div class="cosmic-card mt-4">
                         <h4 class="mb-3">This course includes:</h4>
                         <ul class="list-unstyled">
@@ -177,28 +174,48 @@
     </div>
 
 <script>
-    // Get the elements
-    const playButton = document.getElementById('playVideo');
+document.addEventListener('DOMContentLoaded', function () {
+    const playArea = document.getElementById('playVideo');
     const videoOverlay = document.getElementById('videoOverlay');
     const closeVideoButton = document.getElementById('closeVideo');
     const videoPlayer = document.getElementById('videoPlayer');
 
-    // Show the video overlay when the play button is clicked
-    playButton.addEventListener('click', () => {
-        videoOverlay.classList.remove('d-none'); // Show the overlay
-        if (videoPlayer) {
-            videoPlayer.play(); // Play the video automatically
-        }
-    });
+    if (playArea) {
+        playArea.addEventListener('click', function () {
+            // Only show overlay if there is a playable video
+            if (videoPlayer) {
+                videoOverlay.classList.remove('d-none');
+                videoOverlay.setAttribute('aria-hidden', 'false');
+                try { videoPlayer.play(); } catch (e) { /* autoplay may be blocked */ }
+            }
+        });
+    }
 
-    // Close the video overlay when the close button is clicked
-    closeVideoButton.addEventListener('click', () => {
-        videoOverlay.classList.add('d-none'); // Hide the overlay
-        if (videoPlayer) {
-            videoPlayer.pause(); // Pause the video
-            videoPlayer.currentTime = 0; // Reset the video to the beginning (optional)
+    if (closeVideoButton) {
+        closeVideoButton.addEventListener('click', function () {
+            if (videoPlayer) {
+                videoPlayer.pause();
+                videoPlayer.currentTime = 0;
+            }
+            if (videoOverlay) {
+                videoOverlay.classList.add('d-none');
+                videoOverlay.setAttribute('aria-hidden', 'true');
+            }
+        });
+    }
+
+    // Close overlay on Escape
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && videoOverlay && !videoOverlay.classList.contains('d-none')) {
+            if (videoPlayer) {
+                videoPlayer.pause();
+                videoPlayer.currentTime = 0;
+            }
+            videoOverlay.classList.add('d-none');
+            videoOverlay.setAttribute('aria-hidden', 'true');
         }
     });
+});
 </script>
 
 {% endblock %}
