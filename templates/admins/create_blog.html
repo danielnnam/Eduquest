@@ -1,0 +1,15 @@
+{% extends "admins/home.html" %}
+{% load static %}
+{% block title %}Create Blog Post{% endblock %}
+{% block content %}
+{{ form.media }}
+<div class="container my-5">
+    <h2>Create Blog Post</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Publish</button>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
