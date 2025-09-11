@@ -1,0 +1,95 @@
+{% extends 'admins/home.html' %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-4">All Instructors</h2>
+
+<!-- Stats Row -->
+    <div class="row mb-4" style="position: relative; z-index: 1; overflow: visible;">
+        <div class="col-md-4 col-sm-6 mb-3">
+            <div class="card stats-card border border-1 border-success">
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ active_instructors }}</h3>
+                    <p class="">Active Tutors</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 mb-3">
+            <div class="card stats-card border border-1 border-warning">
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ pending_instructors }}</h3>
+                    <p>Pending Tutors</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 mb-3">
+            <div class="card stats-card border border-1 border-primary">
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ total_courses }}</h3>
+                    <p>Total  Courses</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body table-responsive">
+            <table id="instructorsTable" class="table table-bordered table-hover nowrap" style="width:100%">
+              <thead class="table-dark">
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Courses</th>
+                  <th>Joined</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for instructor in instructors %}
+                <tr>
+                <td>{{ instructor.user }}</td>
+                <td>{{ instructor.user.email }}</td>
+                <td>{{ instructor.user.course_set.count }}</td>
+                <td>{{ instructor.user.date_joined|date:"M d, Y" }}</td>
+                <td>
+                    {% if instructor.user.is_active %}
+                    <span class="badge bg-success">Active</span>
+                    {% else %}
+                    <span class="badge bg-warning text-dark">Pending</span>
+                    {% endif %}
+                </td>
+                <td class="d-flex gap-1 flex-wrap">
+                    <a href="{% url 'admin_instructor_detail' instructor.id %}" class="btn btn-sm btn-primary">View</a>
+
+                    <!-- Suspend / Activate Toggle -->
+                    <a href="{% url 'toggle_instructor_status' instructor.id %}"
+                    class="btn btn-sm {% if instructor.user.is_active %}btn-danger{% else %}btn-success{% endif %}">
+                    {% if instructor.user.is_active %}Suspend{% else %}Activate{% endif %}
+                    </a>
+                </td>
+                </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="mb-5"></div>
+
+<script>
+  $(document).ready(function () {
+    $('#instructorsTable').DataTable({
+      responsive: true,
+      pageLength: 10,
+      lengthChange: false,
+      language: {
+        searchPlaceholder: "Search instructors...",
+        search: ""
+      }
+    });
+  });
+</script>
+{% endblock %}
