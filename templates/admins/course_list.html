@@ -1,0 +1,68 @@
+{% extends 'admins/home.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">Courses</h2>
+        <a href="#" class="btn btn-primary">+ Add New Course</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body table-responsive">
+            <table id="courseTable" class="display table table-bordered table-hover nowrap" style="width:100%">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Published</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.category }}</td>
+                        <td>
+                            {% if course.is_free %}
+                                <span class="badge bg-success">Free</span>
+                            {% else %}
+                                ${{ course.discount_price|default:course.price }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if course.is_active %}
+                                <span title="Published">✅</span>
+                            {% else %}
+                                <span title="Not Published">❌</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ course.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#courseTable').DataTable({
+            responsive: true,
+            language: {
+                searchPlaceholder: "Search courses...",
+                search: ""
+            },
+            pageLength: 10,
+            lengthChange: false
+        });
+    });
+</script>
+{% endblock %}
