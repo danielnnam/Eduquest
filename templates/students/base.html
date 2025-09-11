@@ -2,179 +2,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %} {% endblock %}</title>
-    <!-- Bootstrap cdn -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %}Student Dashboard{% endblock %}</title>
 
+		<!-- jQuery (required by DataTables) -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<!-- Bootstrap Icons -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+	<!-- Font Awesome (both v6 and v4 compatibility) -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- css styles -->
-    <link rel="stylesheet" href="{% static '/css/backend.css' %}">
+	<!-- DataTables CSS -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+	<!-- Custom CSS -->
+	<link rel="stylesheet" href="{% static 'css/backend.css' %}">
+
 </head>
+
 <body>
-    <div class="space-container">
-        <!-- Stars -->
-        <div class="star" style="top: 10%; left: 5%; width: 2px; height: 2px;"></div>
-        <div class="star" style="top: 30%; left: 15%; width: 3px; height: 3px;"></div>
-        <div class="star" style="top: 50%; left: 25%; width: 1px; height: 1px;"></div>
-        <div class="star" style="top: 70%; left: 35%; width: 2px; height: 2px;"></div>
-        <div class="star" style="top: 90%; left: 45%; width: 3px; height: 3px;"></div>
+	<div class="space-container">
+		<!-- Stars -->
+		<div class="star" style="top: 10%; left: 5%; width: 2px; height: 2px;"></div>
+		<div class="star" style="top: 30%; left: 15%; width: 3px; height: 3px;"></div>
+		<div class="star" style="top: 50%; left: 25%; width: 1px; height: 1px;"></div>
+		<div class="star" style="top: 70%; left: 35%; width: 2px; height: 2px;"></div>
+		<div class="star" style="top: 90%; left: 45%; width: 3px; height: 3px;"></div>
 
-        <!-- Orbiting Planet -->
-        <!-- <div class="planet d-lg-block d-none" style="background: radial-gradient(circle at 30% 30%, var(--planet-green), var(--space-blue)); top: 10%; right: 10%;"></div> -->
+		<div class="container">
+			<nav class="navbar navbar-expand-lg nav-cosmic mb-4">
+				<div class="container-fluid">
+					<a class="navbar-brand text-white" href="#">Cosmic Learn</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+						aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarNav">
+						<ul class="navbar-nav ms-auto">
+							<!-- Dashboard -->
+							<li class="nav-item">
+								<a class="nav-link {% if request.path == '/student/dashboard/' %} active {% endif %}"
+									href="{% url 'student_dashboard' %}">Dashboard</a>
+							</li>
 
-        <div class="container">
-            <nav class="navbar navbar-expand-lg nav-cosmic mb-4">
-                <div class="container-fluid">
-                    <a class="navbar-brand text-white" href="#">Cosmic Learn</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
-                                <a class="nav-link {% if request.path == '/student/dashboard/' %} active {% endif %}" href="{% url 'student_dashboard' %}">Dashboard</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle {% if request.path == '/student/course_lists/' %} active {% endif %}" href="#" id="coursesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Courses
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="coursesDropdown">
-                                    <li><a class="dropdown-item {% if request.path == '/student/my-courses/' %} active {% endif %}" href="{% url 'my_courses' %}">My Courses</a></li>
-                                    <li><a class="dropdown-item {% if request.path == '/student/course_lists/' %} active {% endif %}" href="{% url 'course_list' %}">Available Courses</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{% url 'view_cart' %}">
-                                    My Wishlist 
-                                    {% if cart_item_count > 0 %}
-                                        <span>({{ cart_item_count }})</span>
-                                    {% else %}
-                                        <span>(0)</span>
-                                    {% endif %}
-                                </a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle {% if request.path == '/student/edit-profile/' %} active {% elif request.path == '/student/change-password/'%} active {% endif %}" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Profile
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                                    <li><a class="dropdown-item {% if request.path == '/student/edit-profile/' %} active {% endif %}" href="{% url 'edit_profile' %}"><i class="fa-solid fa-user me-1"></i> Edit Profile</a></li>
-                                    <li><a class="dropdown-item {% if request.path == '/student/change-password/' %} active {% endif %}" href="{% url 'change_password' %}"><i class="fa-solid fa-lock me-1"></i> Change Password</a></li>
-                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-power-off me-1"></i> Logout</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            
-        </div>
+							<!-- Courses -->
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle {% if request.path == '/student/course_lists/' or request.path == '/student/my-courses/' %} active {% endif %}"
+									href="#" id="coursesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									Courses
+								</a>
+								<ul class="dropdown-menu" aria-labelledby="coursesDropdown">
+									<li>
+										<a class="dropdown-item {% if request.path == '/student/my-courses/' %} active {% endif %}"
+											href="{% url 'my_courses' %}">My Courses</a>
+									</li>
+									<li>
+										<a class="dropdown-item {% if request.path == '/student/course_lists/' %} active {% endif %}"
+											href="{% url 'course_list' %}">Available Courses</a>
+									</li>
+								</ul>
+							</li>
 
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="backdrop-filter: blr(30px);">
-            <div class="modal-dialog modal-dialog-centered text-dark">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Logout warning</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Hello {{ request.user.username }}, Are you sure you want to logout
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <!-- <button type="button" class="btn btn-primary">Understood</button> -->
-                        <a href="{% url 'user_logout' %}"  class="btn btn-danger">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% block content %}
+							<!-- Wishlist -->
+							<li class="nav-item">
+								<a class="nav-link {% if request.path == '/student/wishlist/' %} active {% endif %}"
+									href="{% url 'view_cart' %}">
+									My Wishlist
+									{% if cart_item_count > 0 %}
+									<span>({{ cart_item_count }})</span>
+									{% else %}
+									<span>(0)</span>
+									{% endif %}
+								</a>
+							</li>
 
-        {% endblock %} 
-        <div class="content">
-            <!-- Your page content here -->
-        </div>
-        <div class="container">
-            <!-- Footer -->
-            <footer class="py-3 my-4 mt-5 text-center">
-                <p class="mb-0">&copy; 2024 Company, EduPort &trade;</p>
-            </footer>
-        </div>
-    </div>
+							<!-- Profile -->
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle {% if request.path == '/student/edit-profile/' or request.path == '/student/change-password/' or request.path == '/student/transactions/' %} active {% endif %}"
+									href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									Profile
+								</a>
+								<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+									<li>
+										<a class="dropdown-item {% if request.path == '/student/transactions/' %} active {% endif %}"
+											href="{% url 'transaction_history' %}">
+											<i class="fa-solid fa-credit-card me-1"></i> My Transactions
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item {% if request.path == '/student/edit-profile/' %} active {% endif %}"
+											href="{% url 'edit_profile' %}">
+											<i class="fa-solid fa-user me-1"></i> Edit Profile
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item {% if request.path == '/student/change-password/' %} active {% endif %}"
+											href="{% url 'change_password' %}">
+											<i class="fa-solid fa-lock me-1"></i> Change Password
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+											<i class="fa-solid fa-power-off me-1"></i> Logout
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script>
-        // Add more stars dynamically
-        function addStars() {
-            const container = document.querySelector('.space-container');
-            for (let i = 0; i < 50; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.width = `${Math.random() * 3 + 1}px`;
-                star.style.height = star.style.width;
-                star.style.animationDelay = `${Math.random() * 4}s`;
-                container.appendChild(star);
-            }
-        }
+		<!-- Modal -->
+		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="backdrop-filter: blr(30px);">
+			<div class="modal-dialog modal-dialog-centered text-dark">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="staticBackdropLabel">Logout warning</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						Hello {{ request.user.username }}, Are you sure you want to logout
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+						<!-- <button type="button" class="btn btn-primary">Understood</button> -->
+						<a href="{% url 'user_logout' %}"  class="btn btn-danger">Logout</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% block content %}
 
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            addStars();
-            updateProgress();
-        });
+		{% endblock %} 
 
-        // greetings
-        function getGreeting(hour, minute) {
-            if (hour >= 0 && hour < 12) {
-                return "Good morning";
-            } else if (hour >= 12 && hour < 17) {
-                return "Good afternoon";
-            } else if (hour >= 17 && hour < 24) {
-                return "Good evening";
-            } else {
-                return "Hello"; // Generic greeting for late night hours
-            }
-        }
+		{% comment %} Footer {% endcomment %}
+		<div class="content">
+			<!-- Your page content here -->
+		</div>
+		<div class="container">
+			<!-- Footer -->
+			<footer class="py-3 my-4 mt-5 text-center">
+				<p class="mb-0">&copy; 2024 Company, EduPort &trade;</p>
+			</footer>
+		</div>
+	</div>
+
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+	<!-- DataTables JS -->
+	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+	<!-- DataTables Buttons -->
+	<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+	<!-- JSZip and PDFMake -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
 
-        // Display current greeting
-        const currentHour = new Date().getHours();
-        const currentMinutes = new Date().getMinutes();
-        const currentGreeting = getGreeting(currentHour);
-        const currentTime = `${currentHour.toString().padStart(2, '0')}:${currentMinutes.toString().padStart(2, '0')}`;
-        document.getElementById('currentGreeting').innerHTML = `${currentGreeting}, `;
 
-        // message js
-        // Wait for the DOM to load
-        document.addEventListener("DOMContentLoaded", function() {
-            // Select the message container
-            const messageContainer = document.getElementById('message-container');
-            
-            // If there is a message container, hide it after 3 seconds (3000 ms)
-            if (messageContainer) {
-                setTimeout(function() {
-                    messageContainer.style.display = 'none';
-                }, 3000);
-            }
-        });
-    </script>
+	<script>
+		// Add more stars dynamically
+		function addStars() {
+			const container = document.querySelector('.space-container');
+			for (let i = 0; i < 50; i++) {
+				const star = document.createElement('div');
+				star.classList.add('star');
+				star.style.top = `${Math.random() * 100}%`;
+				star.style.left = `${Math.random() * 100}%`;
+				star.style.width = `${Math.random() * 3 + 1}px`;
+				star.style.height = star.style.width;
+				star.style.animationDelay = `${Math.random() * 4}s`;
+				container.appendChild(star);
+			}
+		}
+
+		
+		document.addEventListener('DOMContentLoaded', () => {
+			addStars();
+			updateProgress();
+		});
+
+		// greetings
+		function getGreeting(hour, minute) {
+			if (hour >= 0 && hour < 12) {
+				return "Good morning";
+			} else if (hour >= 12 && hour < 17) {
+				return "Good afternoon";
+			} else if (hour >= 17 && hour < 24) {
+				return "Good evening";
+			} else {
+				return "Hello"; // Generic greeting for late night hours
+			}
+		}
+
+
+		// Display current greeting
+		const currentHour = new Date().getHours();
+		const currentMinutes = new Date().getMinutes();
+		const currentGreeting = getGreeting(currentHour);
+		const currentTime = `${currentHour.toString().padStart(2, '0')}:${currentMinutes.toString().padStart(2, '0')}`;
+		document.getElementById('currentGreeting').innerHTML = `${currentGreeting}, `;
+
+		// message js
+		// Wait for the DOM to load
+		document.addEventListener("DOMContentLoaded", function() {
+			// Select the message container
+			const messageContainer = document.getElementById('message-container');
+			
+			// If there is a message container, hide it after 3 seconds (3000 ms)
+			if (messageContainer) {
+				setTimeout(function() {
+					messageContainer.style.display = 'none';
+				}, 3000);
+			}
+		});
+
+		$('#transactionTable').DataTable({
+			dom: 'Bfrtip',
+			buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+			pageLength: 10,
+			order: [[0, 'desc']],
+		});
+	</script>
 </body>
 </html>
