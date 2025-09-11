@@ -1,0 +1,55 @@
+{% extends 'admins/home.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">Pending Course Approvals</h2>
+
+    {% if pending_courses %}
+    <div class="card">
+        <div class="card-body table-responsive">
+            <table id="pendingCoursesTable" class="table table-bordered table-hover nowrap" style="width:100%">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Instructor</th>
+                        <th>Date Submitted</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in pending_courses %}
+                    <tr>
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.instructor }}</td>
+                        <td>{{ course.created_at|date:"M d, Y H:i" }}</td>
+                        <td><span class="badge bg-warning text-dark">Pending</span></td>
+                        <td>
+                            <a href="{% url 'approve_course' course.id %}" class="btn btn-sm btn-success">Approve</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+        <p>No pending courses at the moment.</p>
+    {% endif %}
+</div>
+
+<!-- DataTables Initialization -->
+<script>
+    $(document).ready(function () {
+        $('#pendingCoursesTable').DataTable({
+            responsive: true,
+            language: {
+                searchPlaceholder: "Search courses...",
+                search: ""
+            },
+            pageLength: 10,
+            lengthChange: false
+        });
+    });
+</script>
+{% endblock %}
