@@ -1,0 +1,53 @@
+{% extends 'admins/home.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+
+  <!-- Back Button -->
+  <div class="mb-4">
+    <a href="{% url 'blog_list' %}" class="btn btn-outline-primary rounded-pill px-4">
+      <i class="bi bi-arrow-left"></i> Back to Blogs
+    </a>
+  </div>
+
+  <!-- Blog Card -->
+  <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+    {% if blog.image %}
+      <img src="{{ blog.image.url }}" 
+           class="img-fluid w-100" 
+           alt="{{ blog.title }}"
+           style="max-height: 400px; object-fit: cover;">
+    {% else %}
+      <img src="{% static 'images/default-blog.jpg' %}" 
+           class="img-fluid w-100" 
+           alt="Default"
+           style="max-height: 400px; object-fit: cover;">
+    {% endif %}
+
+    <div class="card-body p-4">
+      <!-- Blog Title and Date -->
+      <h2 class="fw-bold mb-3">{{ blog.title }}</h2>
+      <p class=" mb-4">
+        <i class="bi bi-calendar-event"></i> &nbsp; {{ blog.created_at|date:"F d, Y" }}
+      </p>
+
+      <!-- Blog Content -->
+      <article class="card-text fs-5 lh-lg" style="scroll-behavior: smooth;">
+        {{ blog.content|safe }}
+      </article>
+    </div>
+  </div>
+
+</div>
+
+<div class="mb-5"></div>
+
+<!-- prism.js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="{% static 'js/app.js' %}"></script>
+{% endblock %}
