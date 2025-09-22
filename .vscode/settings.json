@@ -6,5 +6,5 @@
     },
     "workbench.editor.scrollToSwitchTabs": true,
     "prettier.useTabs": false,
-    "editor.tabFocusMode": true
+    "editor.tabFocusMode": false
 }
