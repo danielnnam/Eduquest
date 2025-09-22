@@ -46,14 +46,43 @@ INSTALLED_APPS = [
     'my_app', 
     'student',
     'instructors',
-    'administration',
+    'wallet',    'administration',
     'ckeditor',
     'ckeditor_uploader',
     'widget_tweaks',
 ]
 
+LOGIN_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/login/'
+
+
 # Configure CKEditor in your settings.py:
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',   # <-- Use your own toolbar
+        'extraPlugins': ','.join([
+            'codesnippet',
+            'colorbutton',
+            'colordialog',
+        ]),
+        'codeSnippet_theme': 'monokai_sublime',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+            ['TextColor', 'BGColor'],
+            ['CodeSnippet'],  # <-- This is the button you want
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Table', 'HorizontalRule', 'SpecialChar'],
+            ['Maximize'],
+            ['Source'],
+        ],
+        'height': 400,
+        'width': '100%',
+    }
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -109,6 +138,15 @@ DATABASES = {
     }
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'cyrilnnamsi@gmail.com'
+EMAIL_HOST_PASSWORD = 'ertg ipjd spfk ygek'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 
 # Password validation
@@ -128,6 +166,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# backends auth
+AUTHENTICATION_BACKENDS = [
+    'my_app.backends.InactiveUserBackend',  # Replace with your app name
+]
+
 
 
 # Internationalization
@@ -156,3 +200,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Time in seconds before session expires due to inactivity (e.g., 15 minutes)
+SESSION_COOKIE_AGE = 900  # 900 seconds = 15 minutes
+SESSION_SAVE_EVERY_REQUEST = True  # Refresh the session expiry time on every request
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Optional: session ends when browser closes
