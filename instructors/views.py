@@ -13,6 +13,8 @@ from .models import Instructor, Course, Module, Content
 from .models import Instructor
 from .forms import InstructorRegistrationForm, UserEditForm, InstructorEditForm, InstructorPasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.db.models import Count
+
 
 
 from .forms import (
@@ -103,25 +105,53 @@ def instructor_home(request):
 # -----------------------------
 # Dashboard & Transactions
 # -----------------------------
+# @login_required
+# def instructor_dashboard(request):
+#     instructor = Instructor.objects.get(user=request.user)
+
+#     # Count active courses
+#     active_courses_count = Course.objects.filter(instructor=instructor, is_active=True).count()
+
+#     # Count distinct students who purchased any course of this instructor
+#     students_count = Enrollment.objects.filter(course__instructor=instructor).values('student').distinct().count()
+
+#     context = {
+#         'account_balance': instructor.account_balance,
+#         'total_earnings': instructor.earnings,
+#         'total_withdrawn': instructor.withdrawn,
+#         'active_courses_count': active_courses_count,
+#         'students_count': students_count,
+#     }
+
+#     return render(request, 'mentors/instructor_dashboard.html', context)
+
+
 @login_required
 def instructor_dashboard(request):
     instructor = Instructor.objects.get(user=request.user)
 
-    # Count active courses
-    active_courses_count = Course.objects.filter(instructor=instructor, is_active=True).count()
+    active_courses_count = instructor.courses.filter(is_active=True).count()
 
-    # Count distinct students who purchased any course of this instructor
+    # Total unique students across all courses
     students_count = Enrollment.objects.filter(course__instructor=instructor).values('student').distinct().count()
 
+    # Last 5 courses with student count
+    recent_courses = instructor.courses.annotate(
+        students_count=Count('enrollment')  # use the correct related_name
+    ).order_by('-created_at')[:5]
+
     context = {
+        'active_courses_count': active_courses_count,
+        'students_count': students_count,          # total unique students
         'account_balance': instructor.account_balance,
         'total_earnings': instructor.earnings,
         'total_withdrawn': instructor.withdrawn,
-        'active_courses_count': active_courses_count,
-        'students_count': students_count,
+        'recent_courses': recent_courses,          # each course has .students_count
     }
 
     return render(request, 'mentors/instructor_dashboard.html', context)
+
+
 
 
 @login_required

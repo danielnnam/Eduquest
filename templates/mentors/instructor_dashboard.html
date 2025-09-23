@@ -1,12 +1,13 @@
 {% extends 'mentors/base.html' %}
-  
+
 {% block title %}Dashboard{% endblock %}
-  
+
 {% block content %}
 
 <h1 class="mb-4">Welcome, {{ user.username }}!</h1>
 
 <div class="row">
+    <!-- Active Courses -->
     <div class="col-md-3 mb-4">
         <div class="dashboard-card">
             <div class="card-icon">
@@ -16,71 +17,74 @@
             <p class="fs-2">{{ active_courses_count }}</p>
         </div>
     </div>
+
+    <!-- Total Students -->
     <div class="col-md-3 mb-4">
         <div class="dashboard-card">
             <div class="card-icon">
                 <i class="fs-2 fas fa-user-graduate"></i>
             </div>
-            <h3>Total Students</h3>
-            <p class="fs-2"> {{ students_count }}</p>
+            <h3>Enrolled Students</h3>
+            <p class="fs-2">{{ students_count }}</p>
         </div>
     </div>
+
+    <!-- Account Balance -->
     <div class="col-md-3 mb-4">
         <div class="dashboard-card">
             <div class="card-icon">
-                <i class="fs-2 fas fa-star"></i>
+                <i class="fs-2 fas fa-wallet"></i>
             </div>
-            <h3>Average Rating</h3>
-            <p class="fs-2">4.8</p>
+            <h3>Account Balance</h3>
+            <p class="fs-2">${{ account_balance }}</p>
         </div>
     </div>
+
+    <!-- Total Earnings -->
     <div class="col-md-3 mb-4">
         <div class="dashboard-card">
             <div class="card-icon">
-                <i class="fs-2 fas fa-comments"></i>
+                <i class="fs-2 fas fa-dollar-sign"></i>
             </div>
-            <h3>Unread Messages</h3>
-            <p class="fs-2">7</p>
+            <h3>Total Earnings</h3>
+            <p class="fs-2">${{ total_earnings }}</p>
         </div>
     </div>
 </div>
 
+<!-- Recent Transactions -->
 <div class="row">
-    <div class="col-md-8 mb-4">
+    <div class="col-md-12 mb-4">
         <div class="dashboard-card">
-            <h3 class="mb-3">Recent Transactions / Payout History</h3>
-            <!-- Transactions Table -->
+            <h3 class="mb-3">Recent Courses</h3>
             <div class="card shadow-sm">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Recent Transactions</h5>
-                </div>
-                <div class="card-body">                   
-                    <table id="transactionsTable" class="table table-striped table-bordered">
+                <div class="card-body">
+                    <table id="recentCoursesTable" class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Type</th>
+                                <th>Course Title</th>
+                                <th>Students Enrolled</th>
+                                <th>Course Name</th>
+                                <th>Created At</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for t in transactions %}
+                            {% for course in recent_courses %}
                             <tr>
-                            <td>{{ t.timestamp }}</td>
-                            <td>{{ t.description }}</td>
-                            <td>{{ t.amount }}</td>
-                            <td>
-                                {% if t.transaction_type == "credit" %}
-                                <span class="badge bg-success">Credit</span>
-                                {% else %}
-                                <span class="badge bg-danger">Debit</span>
-                                {% endif %}
-                            </td>
+                                <td>{{ course.name }}</td>
+                                <td>{{ course.students_count }}</td>
+                                <td>
+                                    {% if course.is_active %}
+                                        <span class="badge bg-success">Active</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ course.created_at|date:"Y-m-d" }}</td>
                             </tr>
                             {% empty %}
                             <tr>
-                            <td colspan="4" class="text-center">No transactions yet.</td>
+                                <td colspan="3" class="text-center">No recent courses.</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -89,94 +93,38 @@
             </div>
         </div>
     </div>
+</div>
 
-
-
+<!-- Optional: Quick Actions -->
+<div class="row">
     <div class="col-md-4 mb-4">
-        <div class="dashboard-card">
-            <h3 class="mb-3">Course Engagement</h3>
-            <div class="mb-3">
-                <p>Intro to Astrophysics</p>
-                <div class="progress-cosmic">
-                    <div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <p>Quantum Mechanics</p>
-                <div class="progress-cosmic">
-                    <div class="progress-bar" role="progressbar" style="width: 72%;" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <p>Space Engineering</p>
-                <div class="progress-cosmic">
-                    <div class="progress-bar" role="progressbar" style="width: 68%;" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <p>Planetary Geology</p>
-                <div class="progress-cosmic">
-                    <div class="progress-bar" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
+        <div class="dashboard-card text-center py-4">
+            <h4>Post Announcement</h4>
+            <a href="#" class="btn btn-primary mt-2">Go</a>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="dashboard-card text-center py-4">
+            <h4>Add New Course</h4>
+            <a href="{% url 'instructor_course_create' %}" class="btn btn-success mt-2">Go</a>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="dashboard-card text-center py-4">
+            <h4>Withdraw Earnings</h4>
+            <a href="#" class="btn btn-warning mt-2">Go</a>
         </div>
     </div>
 </div>
 
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <div class="dashboard-card">
-                <h3 class="mb-3">Recent Student Submissions</h3>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item bg-transparent text-white">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Alice Johnson</h5>
-                            <small>3 days ago</small>
-                        </div>
-                        <p class="mb-1">Quantum Mechanics - Week 3 Assignment</p>
-                        <button class="btn btn-cosmic btn-sm">Review</button>
-                    </li>
-                    <li class="list-group-item bg-transparent text-white">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Bob Smith</h5>
-                            <small>4 days ago</small>
-                        </div>
-                        <p class="mb-1">Intro to Astrophysics - Final Project</p>
-                        <button class="btn btn-cosmic btn-sm">Review</button>
-                    </li>
-                    <li class="list-group-item bg-transparent text-white">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Carol Davis</h5>
-                            <small>5 days ago</small>
-                        </div>
-                        <p class="mb-1">Space Engineering - Midterm Exam</p>
-                        <button class="btn btn-cosmic btn-sm">Review</button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-6 mb-4">
-            <div class="dashboard-card">
-                <h3 class="mb-3">Course Announcements</h3>
-                <form>
-                    <div class="mb-3">
-                        <label for="courseSelect" class="form-label">Select Course</label>
-                        <select class="form-select bg-transparent text-white" id="courseSelect">
-                            <option selected>Choose a course...</option>
-                            <option value="1">Intro to Astrophysics</option>
-                            <option value="2">Quantum Mechanics</option>
-                            <option value="3">Space Engineering</option>
-                            <option value="4">Planetary Geology</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="announcementText" class="form-label">Announcement</label>
-                        <textarea class="form-control bg-transparent text-white" id="announcementText" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-cosmic">Post Announcement</button>
-                </form>
-        </div>
-        </div>
-    </div>
-</div>
+<script>
+$(document).ready(function() {
+    $('#transactionsTable').DataTable({
+        "order": [[0, "desc"]],
+        "pageLength": 5,
+        "lengthMenu": [5, 10, 25, 50]
+    });
+});
+</script>
+
 {% endblock %}
