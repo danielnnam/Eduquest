@@ -14,6 +14,8 @@ from .models import Instructor
 from .forms import InstructorRegistrationForm, UserEditForm, InstructorEditForm, InstructorPasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.db.models import Count
+from .forms import InstructorWithdrawalForm
+from .models import InstructorWithdrawalRequest
 
 
 
@@ -221,6 +223,42 @@ def instructor_transactions(request):
     }
 
     return render(request, 'mentors/instructor_transactions.html', context)
+
+
+@login_required
+def instructor_withdraw(request):
+    instructor = Instructor.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = InstructorWithdrawalForm(request.POST)
+        if form.is_valid():
+            withdrawal = form.save(commit=False)
+            withdrawal.instructor = instructor
+
+            if withdrawal.source_account == 'account_balance':
+                if withdrawal.amount > instructor.account_balance:
+                    messages.error(request, "You cannot withdraw more than your Account Balance.")
+                    return redirect('instructor_withdraw')
+            else:  # from earnings
+                if withdrawal.amount > instructor.earnings:
+                    messages.error(request, "You cannot withdraw more than your Earnings.")
+                    return redirect('instructor_withdraw')
+
+            withdrawal.save()
+            messages.success(request, "Withdrawal request sent. Waiting for admin approval.")
+            return redirect('instructor_withdraw')
+    else:
+        form = InstructorWithdrawalForm()
+
+    past_requests = instructor.withdrawal_requests.order_by('-requested_at')[:5]
+
+    return render(request, 'mentors/withdraw.html', {
+        'form': form,
+        'past_requests': past_requests,
+        'account_balance': instructor.account_balance,
+        'earnings': instructor.earnings,
+    })
+
 
 
 

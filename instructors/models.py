@@ -158,3 +158,28 @@ class WalletTransactions(models.Model):
 	def __str__(self):
 		return f"{self.instructor.username} - {self.transaction_type} - {self.amount}"
 
+
+# Withdraw 
+# instructors/models.py
+class InstructorWithdrawalRequest(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('declined', 'Declined'),
+    )
+
+    SOURCE_CHOICES = (
+        ('account_balance', 'Account Balance'),
+        ('earnings', 'Earnings'),
+    )
+
+    instructor = models.ForeignKey('Instructor', on_delete=models.CASCADE, related_name='withdrawal_requests')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    source_account = models.CharField(max_length=20, choices=SOURCE_CHOICES, default='account_balance')
+    requested_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    admin_comment = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.instructor.user.username} - ${self.amount} from {self.source_account} - {self.status}"
+

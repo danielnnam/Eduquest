@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .models import Instructor, Module
 from .models import Course
 from django.contrib.auth.forms import PasswordChangeForm
+from .models import InstructorWithdrawalRequest
 
 
 
@@ -164,3 +165,13 @@ class InstructorContactForm(forms.Form):
     message = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Write your message here...', 'rows': 5})
     )
+
+
+
+class InstructorWithdrawalForm(forms.ModelForm):
+    class Meta:
+        model = InstructorWithdrawalRequest
+        fields = ['amount', 'source_account']
+        widgets = {
+            'source_account': forms.RadioSelect
+        }

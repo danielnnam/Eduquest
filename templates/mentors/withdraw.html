@@ -1,0 +1,166 @@
+{% extends 'mentors/base.html' %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="card shadow-lg rounded-4 border-0">
+        <div class="card-header bg-white border-0 p-4 rounded-top-4">
+            <h2 class="fw-bold mb-0 text-dark">Withdraw Funds</h2>
+        </div>
+
+        <div class="card-body p-4">
+            <!-- Account Balances -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded-3 shadow-sm d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold">Account Balance</span>
+                        <span class="fw-bold text-success">${{ account_balance }}</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded-3 shadow-sm d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold">Earnings</span>
+                        <span class="fw-bold text-primary">${{ earnings }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Withdraw Form -->
+            <form method="POST" id="withdrawForm">
+                {% csrf_token %}
+                
+                <!-- Account Selection -->
+                <div class="mb-3">
+                    <label class="fw-semibold mb-2">Select Source Account</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input account-radio" type="radio" name="source_account" id="balanceAccount" value="balance" {% if account_balance > 0 %}checked{% endif %}>
+                        <label class="form-check-label" for="balanceAccount">Account Balance</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input account-radio" type="radio" name="source_account" id="earningsAccount" value="earnings" {% if account_balance == 0 and earnings > 0 %}checked{% endif %}>
+                        <label class="form-check-label" for="earningsAccount">Earnings</label>
+                    </div>
+                </div>
+
+                <!-- Amount Field -->
+                <div class="mb-3">
+                    <label for="withdrawAmount" class="form-label fw-semibold">Amount</label>
+                    <input type="number" id="withdrawAmount" name="amount" class="form-control rounded-3" placeholder="Enter amount" min="1" required>
+                    <div id="amountError" class="text-danger small mt-1 d-none">Insufficient funds in selected account.</div>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" id="withdrawBtn" class="btn btn-gradient w-100 rounded-pill py-2 fw-semibold">
+                    Request Withdrawal
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Recent Requests -->
+    <div class="card mt-5 shadow-sm rounded-4 border-0">
+        <div class="card-header bg-white border-0 p-4">
+            <h3 class="fw-bold mb-0 text-dark">Recent Withdrawal Requests</h3>
+        </div>
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table id="withdrawalRequests" class="table table-bordered table-striped nowrap">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="fw-semibold text-muted">Amount</th>
+                            <th class="fw-semibold text-muted">From</th>
+                            <th class="fw-semibold text-muted">Status</th>
+                            <th class="fw-semibold text-muted">Requested At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for req in past_requests %}
+                        <tr>
+                            <td class="fw-bold text-dark">${{ req.amount }}</td>
+                            <td class="text-muted">{{ req.get_source_account_display }}</td>
+                            <td>
+                                {% if req.status == "pending" %}
+                                    <span class="badge bg-warning rounded-pill">Pending</span>
+                                {% elif req.status == "approved" %}
+                                    <span class="badge bg-success rounded-pill">Approved</span>
+                                {% else %}
+                                    <span class="badge bg-danger rounded-pill">Declined</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-muted">{{ req.requested_at|date:"Y-m-d H:i" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">No withdrawal requests yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- JS -->
+<script>
+  $(document).ready(function () {
+    $('#withdrawalRequests').DataTable({
+      responsive: true,
+    });
+  });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const withdrawBtn = document.getElementById("withdrawBtn");
+    const withdrawAmount = document.getElementById("withdrawAmount");
+    const radios = document.querySelectorAll(".account-radio");
+    const errorMsg = document.getElementById("amountError");
+
+    let balances = {
+        balance: parseFloat("{{ account_balance|default:0 }}"),
+        earnings: parseFloat("{{ earnings|default:0 }}")
+    };
+
+    function checkFunds() {
+        let selected = document.querySelector(".account-radio:checked");
+        let account = selected ? selected.value : null;
+        let amount = parseFloat(withdrawAmount.value) || 0;
+
+        if (!account || balances[account] <= 0) {
+            withdrawBtn.disabled = true;
+            return;
+        }
+
+        if (amount > balances[account]) {
+            errorMsg.classList.remove("d-none");
+            withdrawBtn.disabled = true;
+        } else {
+            errorMsg.classList.add("d-none");
+            withdrawBtn.disabled = amount <= 0;
+        }
+    }
+
+    radios.forEach(radio => radio.addEventListener("change", checkFunds));
+    withdrawAmount.addEventListener("input", checkFunds);
+
+    checkFunds();
+});
+</script>
+
+<style>
+   
+    .btn-gradient {
+        background: linear-gradient(45deg, #6a11cb, #2575fc);
+        color: #fff;
+        border: none;
+    }
+    .btn-gradient:hover {
+        background: linear-gradient(45deg, #5a0fb0, #1f66e5);
+    }
+    .card { border-radius: 1rem; }
+    .table { border-radius: 0.75rem; overflow: hidden; }
+</style>
+
+{% endblock %}

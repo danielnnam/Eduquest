@@ -22,6 +22,7 @@ urlpatterns =[
     path("admin-dashboard/blogs/<int:pk>/edit/", views.edit_blog_post, name="edit_blog_post"),
     path("admin-dashboard/blogs/<int:pk>/delete/", views.delete_blog_post, name="delete_blog_post"),
     path("transactions/", views.transactions, name="admin_transactions"),
+    path('withdrawal-requests/', views.withdrawal_requests_list, name='withdrawal_requests_list'),
     path('admin/logout/', views.admin_logout, name='admin_logout'),
 
 ]

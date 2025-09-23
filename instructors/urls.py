@@ -33,6 +33,8 @@ urlpatterns =[
 
     path('transactions/', views.instructor_transactions, name='instructor_transactions'),
     path('earnings/', views.instructor_earnings, name='instructor_earnings'),
+    path('withdraw/', views.instructor_withdraw, name='instructor_withdraw'),
+
 
 ]
 

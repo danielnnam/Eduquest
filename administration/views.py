@@ -387,6 +387,7 @@ from .models import BlogPost
 from .forms import BlogPostForm
 from instructors.models import Instructor, Course
 from student.models import Student, Wallet, WalletTransaction, Enrollment
+from instructors.models import InstructorWithdrawalRequest
 
 
 # Helper function to check if user is staff
@@ -716,6 +717,36 @@ def dashboard_data(request):
     }
 
     return JsonResponse(data)
+
+
+@login_required
+@user_passes_test(is_admin)
+def withdrawal_requests_list(request):
+    requests = InstructorWithdrawalRequest.objects.order_by('-requested_at')
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        req_id = request.POST.get('request_id')
+        req = InstructorWithdrawalRequest.objects.get(id=req_id)
+
+        if action == 'approve':
+            if req.source_account == 'account_balance':
+                req.instructor.account_balance -= req.amount
+            else:  # from earnings
+                req.instructor.earnings -= req.amount
+
+            req.instructor.withdrawn += req.amount
+            req.instructor.save()
+            req.status = 'approved'
+            messages.success(request, f"Withdrawal of ${req.amount} from {req.get_source_account_display()} approved.")
+        elif action == 'decline':
+            req.status = 'declined'
+            messages.warning(request, f"Withdrawal of ${req.amount} declined.")
+
+        req.save()
+        return redirect('withdrawal_requests_list')
+
+    return render(request, 'admins/withdrawal_requests_list.html', {'requests': requests})
 
 
 # ------------------- logout -------------------
