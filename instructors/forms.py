@@ -3,6 +3,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Instructor, Module
 from .models import Course
+from django.contrib.auth.forms import PasswordChangeForm
+
+
+
 
 
 class InstructorRegistrationForm(UserCreationForm):
@@ -17,18 +21,67 @@ class InstructorRegistrationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.is_active = True  # Set the user as active immediately
+        user.email = self.cleaned_data.get('email')
+        user.is_active = True
         if commit:
             user.save()
-            instructor = Instructor(
+            Instructor.objects.create(
                 user=user,
-                department=self.cleaned_data['department'],
-                expertise=self.cleaned_data['expertise'],
-                phone=self.cleaned_data['phone']
+                department=self.cleaned_data.get('department'),
+                expertise=self.cleaned_data.get('expertise'),
+                phone=self.cleaned_data.get('phone')
             )
-            instructor.save()
         return user
-    
+
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add bootstrap classes
+        for name, field in self.fields.items():
+            field.widget.attrs.setdefault('class', 'form-control')
+
+
+class InstructorEditForm(forms.ModelForm):
+    class Meta:
+        model = Instructor
+        fields = ['department', 'expertise', 'phone', 'bio', 'profile_picture']
+        widgets = {
+            'expertise': forms.Textarea(attrs={'rows': 4}),
+            'bio': forms.Textarea(attrs={'rows': 4}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Add bootstrap classes except for file input (file input has its own class)
+        for name, field in self.fields.items():
+            if isinstance(field.widget, forms.ClearableFileInput):
+                field.widget.attrs.setdefault('class', 'form-control form-control-file')
+            else:
+                field.widget.attrs.setdefault('class', 'form-control')
+
+
+class InstructorPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        label="Current Password",
+        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Enter current password"})
+    )
+    new_password1 = forms.CharField(
+        label="New Password",
+        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Enter new password"})
+    )
+    new_password2 = forms.CharField(
+        label="Confirm New Password",
+        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Confirm new password"})
+    )
+
+
+
 # Course creation for instructors
 class CourseForm(forms.ModelForm):
     class Meta:
@@ -103,3 +156,11 @@ class ModuleForm(forms.ModelForm):
            }),
         }
 
+class InstructorContactForm(forms.Form):
+    subject = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Subject'})
+    )
+    message = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Write your message here...', 'rows': 5})
+    )
