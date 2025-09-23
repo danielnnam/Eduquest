@@ -108,8 +108,10 @@ class WalletTransaction(models.Model):
     transaction_group_id = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
 
     def __str__(self):
-        who = self.student.username if self.student else (
-            self.instructor.user.username if self.instructor else "N/A"
+        who = (
+            self.student.username if self.student 
+            else getattr(self.instructor.user, "username", "N/A") if self.instructor 
+            else "N/A"
         )
         return f"{who} - {self.transaction_type} - ${self.amount}"
 
