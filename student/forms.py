@@ -38,16 +38,16 @@ class StudentRegistrationForm(forms.ModelForm):
                 student.save()
         return student
     
-    
+
+# Personal Information Edit Form
 class PersonalInfoEditForm(forms.ModelForm):
     class Meta:
-        model = User  # Assuming you're using Django's User model for authentication
+        model = User  
         fields = [
             'first_name',
             'last_name',
             'email',
             'username',
-              # Assuming you have a phone field in your User model or a related profile model
         ]
         widgets = {
             
@@ -69,12 +69,14 @@ class PersonalInfoEditForm(forms.ModelForm):
            })
         }
 
+# Password Change Form
 class PasswordChangeForm(forms.Form):
     current_password = forms.CharField(widget=forms.PasswordInput, label="Current Password")
     new_password = forms.CharField(widget=forms.PasswordInput, label="New Password")
     confirm_new_password = forms.CharField(widget=forms.PasswordInput, label="Confirm New Password")
 
 
+# UserProfileEditForm
 class UserProfileEditForm(forms.ModelForm):
     class Meta:
         model = UserProfile
@@ -86,3 +88,13 @@ class UserProfileEditForm(forms.ModelForm):
                'placeholder': 'Enter phone number'
            })
         }
+
+# StudentAdminForm for admin interface
+class StudentAdminForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['user', 'first_name', 'last_name', 'email', 'phone']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['user'].label = "User  Account"  # Customize label if needed
