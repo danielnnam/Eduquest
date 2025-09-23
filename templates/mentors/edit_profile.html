@@ -1,0 +1,79 @@
+{% extends 'mentors/base.html' %}
+{% load static %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="container py-4 shadow-lg p-3 rounded-3">
+  <h1 class="mb-4">Edit Profile</h1>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Profile Headshot -->
+  <div class="d-flex justify-content-center mb-4">
+    <div class="position-relative">
+      {% if instructor.profile_picture %}
+        <img src="{{ instructor.profile_picture.url }}"
+             class="rounded-circle shadow"
+             alt="Profile Picture"
+             style="width: 150px; height: 150px; object-fit: cover;">
+      {% else %}
+        <!-- Fallback SVG Avatar -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="rounded-circle bg-light shadow"
+             width="150" height="150" fill="currentColor" viewBox="0 0 16 16"
+             style="color: #6c757d; padding: 20px;">
+          <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+          <path fill-rule="evenodd" d="M14 14s-1-1.5-6-1.5S2 14 2 14s1-4 6-4 6 4 6 4z"/>
+        </svg>
+      {% endif %}
+    </div>
+  </div>
+
+  <form method="post" enctype="multipart/form-data" class="row g-4">
+    {% csrf_token %}
+    <div class="col-md-6">
+      <div class="card shadow-sm p-3">
+        <h5 class="mb-3">Account Info</h5>
+
+        {% for field in user_form %}
+          <div class="mb-3">
+            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for err in field.errors %}
+              <div class="text-danger small">{{ err }}</div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm p-3">
+        <h5 class="mb-3">Instructor Info</h5>
+
+        {% for field in instructor_form %}
+          <div class="mb-3">
+            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for err in field.errors %}
+              <div class="text-danger small">{{ err }}</div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+      <a href="{% url 'instructor_dashboard' %}" class="btn btn-secondary ms-2">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

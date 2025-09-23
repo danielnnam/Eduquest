@@ -16,8 +16,15 @@
     <div class="form-wrapper bg-neo p-lg-4 p-4 px-3 mt-3">
         <!-- Content management -->
         <h2 class="h2-login">Manage Content</h2>
-        <a href="{% url 'create_content' module.id %}" class="btn btn-cosmic mt-3"><i class="fa-solid fa-plus-circle"></i> Add New Content</a>
-
+        {% if module.content %}
+            <a href="#" class="btn btn-cosmic mt-3 disabled" aria-disabled="true">
+                <i class="fa-solid fa-plus-circle"></i> Add New Content
+            </a>
+        {% else %}
+            <a href="{% url 'create_content' module.id %}" class="btn btn-cosmic mt-3">
+                <i class="fa-solid fa-plus-circle"></i> Add New Content
+            </a>
+        {% endif %}
         <div class="table-responsive rounded-3 mt-3">
             <table id="quizTable" class="table table-striped table-dark fixed-table rounded-3">
                 <thead>
@@ -53,5 +60,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock %}

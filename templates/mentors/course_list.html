@@ -14,9 +14,16 @@
     <div class="row g-4 mt-2">
         {% for course in page_obj %}
         <div class="col-lg-4 col-12">
-            <a href="{% url 'instructor_course_detail' course.id %}">
+            <a class="nav-link" href="{% url 'instructor_course_detail' course.id %}">
                 <div class="course-card-in">
-                    <div class="course-icon">🚀</div>
+                    <div class="course-icon ">🚀</div>
+                    <div class="mb-2">
+                        {% if course.is_active %}
+                            <span class="badge bg-success">Approved</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">Pending Approval</span>
+                        {% endif %}
+                    </div>
                     <h2 class="course-title-in"><a href="{% url 'instructor_course_detail' course.id %}" class="nav-link">{{ course.name }}</a></h2>
                     <p class="course-description-in">{{ course.description|truncatewords:23|striptags|safe }}</p>
                     <div class="course-stats-in">
