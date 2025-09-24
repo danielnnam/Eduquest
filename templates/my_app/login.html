@@ -31,8 +31,8 @@
                             <p>"Select your role to sign up: Student or Teacher."</p>
                         </div>
                         <div class="modal-footer">
-                            <a href=""><button type="button" class="btn btn-primary">Student</button></a>
-                            <a href=""><button type="button" class="btn btn-secondary">Teacher</button></a>
+                            <a href="{% url 'register_student' %}"><button type="button" class="btn btn-primary">Student</button></a>
+                            <a href="{% url 'register_instructor' %}"><button type="button" class="btn btn-secondary">Teacher</button></a>
                         </div>
                 </div>
                 </div>
