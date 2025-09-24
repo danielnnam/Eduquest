@@ -1,16 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h2>Instructor Registration</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
-</body>
-</html>
+{% extends "mentors/base.html" %}
+{% load static %}
+
+{% block title %}Instructor Registration{% endblock %}
+
+{% block content %}
+<div class="container-fluid min-vh-100 d-flex align-items-center bg-light text-dark py-5 px-3 rounded-3">
+    <div class="row w-100">
+        <!-- Left Info Section -->
+        <div class="col-lg-6 d-flex flex-column justify-content-center px-4 mb-4 mb-lg-0">
+            <h2 class="fw-bold mb-3">Become an Instructor</h2>
+            <p class="text-muted">Share your expertise, connect with students, and grow your teaching career with our platform.</p>
+            <ul class="list-unstyled mt-3">
+                <li class="mb-2">📚 Teach unlimited students worldwide</li>
+                <li class="mb-2">✅ Ensure compliance and quality</li>
+                <li class="mb-2">🔒 Built-in security for your data</li>
+            </ul>
+        </div>
+
+        <!-- Right Form Section -->
+        <div class="col-lg-6 d-flex justify-content-center">
+            <div class="card shadow-lg border-0 rounded-4 p-4 w-100" style="max-width: 420px; background: #ffffff;">
+                <h4 class="text-center text-dark mb-4">Instructor Registration</h4>
+                <div id="formAlert"></div>
+                <form method="post" id="registrationForm" novalidate>
+                    {% csrf_token %}
+                    
+                    <!-- Username & Email -->
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+
+                    <!-- Passwords -->
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password1" class="form-control" required minlength="8">
+                        <div class="form-text text-muted small">At least 8 characters, not entirely numeric.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Confirm Password</label>
+                        <input type="password" name="password2" class="form-control" required>
+                    </div>
+
+                    <!-- Department & Phone -->
+                    <div class="mb-3">
+                        <label class="form-label">Department</label>
+                        <input type="text" name="department" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" name="phone" class="form-control" required pattern="[0-9+ ]+">
+                    </div>
+
+                    <!-- Expertise -->
+                    <div class="mb-3">
+                        <label class="form-label">Expertise</label>
+                        <textarea name="expertise" class="form-control" rows="1" required oninput="autoExpand(this)"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 fw-bold py-2">Register</button>
+                </form>
+
+                <p class="text-center text-muted mt-3 mb-0">
+                    Already have an account? 
+                    <a href="{% url 'login' %}" class="fw-semibold text-decoration-none">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Form Validation & Auto Expand -->
+
+<script>
+    // Auto-expand textarea
+    function autoExpand(textarea) {
+        textarea.style.height = "auto";
+        textarea.style.height = (textarea.scrollHeight) + "px";
+    }
+
+    // Insert Bootstrap alert
+    function showAlert(message, type = "danger") {
+        let alertPlaceholder = document.getElementById("formAlert");
+
+        // Clear previous alert
+        alertPlaceholder.innerHTML = `
+            <div class="alert alert-${type} alert-dismissible fade show" role="alert" id="tempAlert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+
+        // Auto dismiss after 4s
+        setTimeout(() => {
+            let alertEl = document.getElementById("tempAlert");
+            if (alertEl) {
+                let bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
+                bsAlert.close();
+            }
+        }, 3000);
+    }
+
+    // Form validation
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+        let form = this;
+        let password1 = form.password1.value;
+        let password2 = form.password2.value;
+
+        // Reset old alerts
+        document.getElementById("formAlert").innerHTML = "";
+
+        if (password1 !== password2) {
+            event.preventDefault();
+            showAlert("❌ Passwords do not match!");
+        } 
+        else if (password1.length < 8) {
+            event.preventDefault();
+            showAlert("⚠️ Password must be at least 8 characters long!");
+        }
+    });
+</script>
+
+{% endblock %}

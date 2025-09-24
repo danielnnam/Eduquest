@@ -1,53 +1,131 @@
-<!-- students/templates/students/register.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Registration</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center">Student Registration</h1>
-        {% if messages %}
-            <div class="alert alert-success" role="alert">
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
+{% extends "mentors/base.html" %}
+{% load static %}
+
+{% block title %}Student Registration{% endblock %}
+
+{% block content %}
+    <div class="container px-3">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-5">
+                        
+                        <!-- Heading -->
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold text-primary">Student Registration</h2>
+                            <p class="text-muted">Create your student account below.</p>
+                        </div>
+
+                        <!-- Django Messages -->
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <!-- Form Alert Placeholder -->
+                        <div id="formAlert"></div>
+
+                        <!-- Registration Form -->
+                        <form method="POST" id="studentRegistrationForm" novalidate>
+                            {% csrf_token %}
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">First Name</label>
+                                    {{ form.first_name }}
+                                    {% for error in form.first_name.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Last Name</label>
+                                    {{ form.last_name }}
+                                    {% for error in form.last_name.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" name="username" class="form-control" placeholder="Choose a username" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                {{ form.email }}
+                                {% for error in form.email.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" name="password" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Confirm Password</label>
+                                    <input type="password" name="password_confirm" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-2 rounded-3">
+                                Register
+                            </button>
+                        </form>
+
+                        <!-- Footer Note -->
+                        <p class="text-center text-muted mt-4 mb-0">
+                            Already registered? 
+                            <a href="{% url 'login' %}" class="fw-semibold text-decoration-none">Login here</a>
+                        </p>
+                    </div>
+                </div>
             </div>
-        {% endif %}
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" class="form-control" placeholder="Username" required>
-            </div>
-            <div class="form-group">
-                <label for="first_name">First Name</label>
-                {{ form.first_name }}
-                {{ form.first_name.errors }}
-            </div>
-            <div class="form-group">
-                <label for="last_name">Last Name</label>
-                {{ form.last_name }}
-                {{ form.last_name.errors }}
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                {{ form.email }}
-                {{ form.email.errors }}
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
-            </div>
-            <div class="form-group">
-                <label for="password_confirm">Confirm Password</label>
-                <input type="password" name="password_confirm" class="form-control" placeholder="Confirm Password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
+        </div>
     </div>
-</body>
-</html>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Bootstrap alert insert
+        function showAlert(message, type = "danger") {
+            let alertPlaceholder = document.getElementById("formAlert");
+            alertPlaceholder.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert" id="tempAlert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            // Auto dismiss after 4s
+            setTimeout(() => {
+                let alertEl = document.getElementById("tempAlert");
+                if (alertEl) {
+                    let bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
+                    bsAlert.close();
+                }
+            }, 4000);
+        }
+
+        // Form validation
+        document.getElementById("studentRegistrationForm").addEventListener("submit", function(event) {
+            let form = this;
+            let password1 = form.password.value;
+            let password2 = form.password_confirm.value;
+
+            if (password1 !== password2) {
+                event.preventDefault();
+                showAlert("❌ Passwords do not match!");
+            } else if (password1.length < 8) {
+                event.preventDefault();
+                showAlert("⚠️ Password must be at least 8 characters long!");
+            }
+        });
+    </script>
+{% endblock %}
