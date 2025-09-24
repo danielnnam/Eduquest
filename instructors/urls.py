@@ -11,8 +11,8 @@ urlpatterns =[
     path('instructor/pending/', views.instructor_pending_dashboard, name='instructor_pending_dashboard'),
     path('instructor/dashboard/', views.instructor_dashboard, name='instructor_dashboard'),
     path('courses/', views.instructor_course_list, name='instructor_course_list'),
-    path('edit-profile/', views.edit_profile, name='edit_profile'),
-    path('change_password/', views.change_password, name='change_password'),
+    path('edit-profile/', views.tutor_edit_profile, name='tutor_edit_profile'),
+    path('change_password/', views.tutor_change_password, name='tutor_change_password'),
 
 
     path('courses/create/', views.instructor_course_create, name='instructor_course_create'),

@@ -54,7 +54,7 @@ def register_instructor(request):
 
 
 @login_required
-def edit_profile(request):
+def tutor_edit_profile(request):
     instructor = get_object_or_404(Instructor, user=request.user)
     user = request.user
 
@@ -82,7 +82,7 @@ def edit_profile(request):
 
 
 @login_required
-def change_password(request):
+def tutor_change_password(request):
     if request.method == 'POST':
         form = InstructorPasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
