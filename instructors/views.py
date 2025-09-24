@@ -66,7 +66,7 @@ def tutor_edit_profile(request):
             user_form.save()
             instructor_form.save()
             messages.success(request, "Profile updated successfully.")
-            return redirect('edit_profile')  # or another profile page
+            return redirect('tutor_edit_profile')  # or another profile page
         else:
             messages.error(request, "Please correct the errors below.")
     else:
