@@ -1,0 +1,1031 @@
+/* Student Dashboard
+=====================================-------------------------------------- */
+*{
+    font-size: 17px;
+}
+:root {
+    --space-blue: #1a2a6c;
+    --cosmic-purple: #5c258d;
+    --star-yellow: #ffd700;
+    --meteor-orange: #ff6b6b;
+    --planet-green: #4ecdc4;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(1135deg, var(--space-blue), var(--cosmic-purple));
+    /* background-color: rgb(0, 0, 0); */
+    
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+.space-container {
+    position: relative;
+    padding: 0.2rem;
+    padding-top: 1rem;
+}
+.star {
+    position: absolute;
+    background-color: #ffffff;
+    border-radius: 50%;
+    animation: twinkle 4s infinite ease-in-out;
+}
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+.planet {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    z-index: -1;
+    animation: orbit 20s infinite linear;
+}
+@keyframes orbit {
+    from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+}
+.dashboard-card {
+    background: rgba(255, 255, 255, 0.1);
+    /* backdrop-filter: blur(10px); */
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+.dashboard-card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--star-yellow);
+}
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--star-yellow);
+}
+.progress-cosmic {
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+}
+.progress-cosmic .progress-bar {
+    background-color: var(--meteor-orange);
+    transition: width 0.5s ease;
+}
+.nav-cosmic {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+}
+
+.nav-cosmic .nav-link {
+    color: #ffffff;
+    border-radius: 100px;
+    padding: 0.5rem 1rem;
+    margin: 2px;
+}
+
+.nav-cosmic .nav-link:hover, .nav-cosmic .nav-link.active {
+    background-color: var(--star-yellow);
+    color: var(--space-blue);
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar {
+    position: relative;  /* or fixed/sticky if you use those */
+    z-index: 1000;        /* must be higher than .stats-card */
+}
+
+.dropdown-menu {
+    background: rgba(0, 0, 0, 0.9);
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    z-index: 1050;/* <- make sure it's high enough */
+}
+
+
+.dropdown-item {
+    color: #ffffff;
+    padding: 0.5rem 1.3rem;
+    border-radius: 100px;
+    margin: 3px;
+}
+
+.dropdown-item:hover, .dropdown-item.active {
+    background-color: var(--star-yellow);
+    color: var(--space-blue);
+}
+
+.card {
+    position: relative;
+    z-index: 10;     /* Increase to bring above nearby elements */
+    overflow: visible;
+}
+
+.achievement-badge {
+    width: 50px;
+    height: 50px;
+    background-color: var(--planet-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+}
+.achievement-badge:hover {
+    transform: scale(1.1) rotate(15deg);
+}
+
+.btn-cosmic {
+    background-color: var(--star-yellow);
+    color: var(--space-blue);
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+.btn-cosmic:hover {
+    background-color: var(--meteor-orange);
+    color: #ffffff;
+}
+.table-cosmic {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    overflow: hidden;
+}
+.fixed-table {
+    @media (max-width:576px) {
+        width: 1000px; /* Set a fixed width */
+        min-width: 1000px; /* Prevent shrinking below this width */
+    }
+}
+
+/* Fix the height of the table */
+.fixed-table tbody, .fixed-table thead {
+    height: auto; /* Adjust height as needed */
+}
+
+/* Ensure columns have fixed width and prevent content wrapping */
+.fixed-table th, .fixed-table td {
+    padding: 1rem;
+    white-space: nowrp; /* Prevent text from wrapping */
+}
+
+
+/* Course list page styles
+============================================----------------------------------------- */
+.course-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    height: 100%;
+}
+.course-card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--star-yellow);
+}
+.course-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--star-yellow);
+}
+.course-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+.course-description {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+.course-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}   
+
+/* Edit Profile page style
+===================================-------------------------- */
+/* Container styling */
+.profile-form {
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.form-control{
+    padding: 11px;
+    color: black;
+    
+} 
+input[type="text"] {
+    background: #f4f6fb; /* Light, professional background color */
+    color: #333; /* Dark text for readability */
+    border: 1px solid #c0c5ce; /* Soft gray border */
+    border-radius: 5px; /* Subtle rounded corners */
+    padding: 12px 16px; /* Comfortable padding */
+    font-size: 15px; /* Standard, readable font size */
+    transition: all 0.3s ease; /* Smooth transition for interactivity */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Minimal shadow for slight depth */
+    outline: none; /* Removes default outline */
+}
+
+/* Placeholder text style */
+input[type="text"]::placeholder {
+    color: #7a869a; /* Light gray for placeholder text */
+    font-style: italic; /* Italic for differentiation */
+}
+
+input[type="email"] {
+    background: #f4f6fb; /* Light, professional background color */
+    color: #333; /* Dark text for readability */
+}
+
+
+.h2-login {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+.h2-login::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 4px;
+    background-color: orange;
+    margin-top: 0.5rem;
+}
+.btn-close-sm {
+    width: 0.75rem;
+    height: 0.75rem;
+    padding: 0.25rem;
+    margin-right: 5px; 
+}
+
+/* instructors course_list page styles
+====================================------------------------------ */
+.course-card-in {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 15px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.course-warpper{
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.course-icon-in {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--star-yellow);
+}
+
+.course-title-in {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--star-yellow);
+}
+
+.course-description-in {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+
+.course-stats-in {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-bottom: 15px;
+}
+
+.progress-bar-in {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-in {
+    height: 100%;
+    background: var(--meteor-orange);
+    transition: width 0.3s ease;
+}
+
+.course-actions-in {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Instructors create/update course
+======================================--------------------------- */
+
+/* ckeditor.css */
+.django-ckeditor-widget{
+    width: 100%;
+}
+
+/* instructors delete course 
+===========================================-------------------- */
+.del-wrapper{
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+}
+.del-h2 {
+    color: var(--star-yellow);
+    margin-bottom: 20px;
+    font-size: 28px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.warning-icon {
+    font-size: 64px;
+    color: var(--meteor-orange);
+    margin-bottom: 20px;
+}
+
+.del-p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.del-course-name {
+    font-weight: bold;
+    color: var(--star-yellow);
+    font-size: 20px;
+    margin: 10px 0;
+}
+.del-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.btn-delete {
+    background-color: var(--meteor-orange);
+    color: #ffffff;
+}
+
+.btn-delete:hover {
+    background-color: #ff4f4f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+}
+.btn-cancel {
+    background-color: transparent;
+    color: var(--star-yellow);
+    border: 2px solid var(--star-yellow);
+    margin-left: 10px;
+}
+
+.btn-cancel:hover {
+    background-color: var(--star-yellow);
+    color: var(--space-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+}
+
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+
+/* instructors edit module, and courses CRUD
+------------======================================= */
+.form-wrapper{
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+}
+.edit-banner{
+    background: linear-gradient(137deg,#fff 17.57%,#d6ebff 98.39%);
+    color: black;
+}
+.bg-neon{
+    background-color: #190546!important;
+}
+.bg-neon-content{
+    background-color: rgb(13, 1, 43)!important;
+}
+
+.content-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+.content-card:hover {
+    transform: translateY(-5px);
+}
+.content-type {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+.content-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.document {
+    background-color: #e5e7eb;
+    border-radius: 0.375rem;
+    aspect-ratio: 3/4;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+    width: 100%;
+}
+.document img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.375rem;
+}
+.viewer {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    /* max-width: 24rem; */
+    width: 100%;
+    height: 100vh;
+}
+
+/* Course detail styles---------------------------------------------------
+----------------============================================================= */
+
+.bg-module-btn{
+    background-color: #6c77ea;
+    font-size: 20px;
+    font-weight: 600;
+}
+.bg-module-btn:hover{
+    background-color: #6c77ea;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+
+.course-title-detail {
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    margin-bottom: 1rem;
+    @media (max-width:576px) {
+        font-size: 1.4rem;
+    }
+}
+
+.course-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+}
+
+.cosmic-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    @media (max-width:576px) {
+        padding: 1rem;
+    }
+}
+
+.cosmic-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.info-icon {
+    font-size: 1rem;
+    margin-right: 1rem;
+    color: var(--star-yellow);
+}
+
+.course-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.topic-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.topic-item {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.topic-icon {
+    color: var(--star-yellow);
+    margin-right: 1rem;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--star-yellow);
+    margin-bottom: 1rem;
+}
+
+.btn-add-to-cart {
+    background-color: var(--meteor-orange);
+    color: #ffffff;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-add-to-cart:hover {
+    background-color: var(--star-yellow);
+    color: var(--space-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.instructor-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--star-yellow);
+}
+
+.cosmic-divider {
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--star-yellow), transparent);
+    margin: 2rem 0;
+}
+
+.star-rating {
+    color: var(--star-yellow);
+}
+
+.floating-planet {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--planet-green), var(--space-blue));
+    box-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+    animation: float 10s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+
+/* Play Button Wrapper */
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+    border-radius: 50%;
+    cursor: pointer;
+    backdrop-filter: blur(5px); /* Optional: Adds a blur effect for enhanced design */
+}
+
+/* Play Button Icon */
+.play-button i {
+    font-size: 2.5rem;
+    z-index: 1;
+}
+
+/* Optional: Background Image for the Play Button */
+.play-button {
+    background-size: cover;
+    background-position: center;
+    opacity: 0.8; /* Add opacity to the entire button */
+    transition: opacity 0.3s ease;
+    animation: pulse 1.5s infinite;
+}
+
+/* Keyframes for Pulse Effect */
+@keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgb(0, 0, 0);
+    }
+    70% {
+      box-shadow: 0 0 0 20px rgba(0, 123, 255, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+    }
+  }
+
+/* Hover Effect */
+.play-button:hover {
+    opacity: 1; /* On hover, fully reveal the button */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .play-button {
+        width: 60px;
+        height: 60px;
+    }
+    .play-button i {
+        font-size: 2rem;
+    }
+}
+
+
+
+.d-none {
+    display: none;
+}
+   /* Full-Screen Overlay */
+   .video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* High z-index for visibility */
+}
+
+/* Video Container */
+.video-container {
+    position: relative;
+    width: 90%; /* Adjust width for responsiveness */
+    max-width: 1200px; /* Limit maximum width */
+}
+
+/* Video Player */
+.video-player {
+    border-radius: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .video-container {
+        width: 100%;
+    }
+
+    .close-video {
+        font-size: 1.5rem;
+    }
+}
+
+.close-video {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 2rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1100;
+}
+.close-video:hover {
+    color: red;
+}
+.video-player {
+    width: 100%;
+    height: 60vh;
+    border-radius: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .video-thumbnail {
+        height: 30vh;
+    }
+    .video-player {
+        height: 50vh;
+    }
+}
+@media (max-width: 576px) {
+    .close-video {
+        font-size: 1.5rem;
+    }
+}
+
+
+ /* Video Thumbnail */
+ .video-thumbnail {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .video-thumbnail {
+        height: 30vh;
+    }
+    .play-button i {
+        font-size: 2.5rem;
+    }
+}
+
+/* wishlist page */
+
+.fixed-table {
+    @media (max-width:576px) {
+        width: 1000px; /* Set a fixed width */
+        min-width: 1000px; /* Prevent shrinking below this width */
+    }
+}
+
+/* Fix the height of the table */
+.fixed-table tbody, .fixed-table thead {
+    height: auto; /* Adjust height as needed */
+}
+
+/* Ensure columns have fixed width and prevent content wrapping */
+.fixed-table th, .fixed-table td {
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.no-bg .list-group-item {
+    background-color: transparent !important; /* Removes background color */
+    border: none; /* Removes borders if needed */
+    color: white;
+}
+
+.no-bg .list-group-item .badge {
+    background-color: #007bff; /* Keeps the badge styling intact */
+    color: #fff;
+}
+
+.no-bg .tr {
+    background-color: transparent !important; /* Removes background color */
+    border: none; /* Removes borders if needed */
+    color: white;
+}
+
+.custom-no-bg {
+    background-color: transparent !important;
+}
+
+.custom-no-bg th,
+.custom-no-bg td {
+    background-color: transparent !important;
+}
+
+.course-name {
+    max-width: 200px; /* Adjust to your desired width */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.alert-container {
+    max-width: 600px;
+    width: 90%;
+}
+
+.alert {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid;
+    border-radius: 8px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.alert-success {
+    border-color: #28a745; /* Green border for success */
+    background-color: rgba(40, 167, 69, 0.1); /* Light green background */
+    color: #28a745;
+}
+
+.alert-error, .alert-danger {
+    border-color: #dc3545; /* Red border for error */
+    background-color: rgba(220, 53, 69, 0.1); /* Light red background */
+    color: #dc3545;
+}
+
+.alert-info {
+    border-color: #17a2b8; /* Blue border for info */
+    background-color: rgba(23, 162, 184, 0.1); /* Light blue background */
+    color: #17a2b8;
+}
+
+.alert-warning {
+    border-color: #ffc107; /* Yellow border for warning */
+    background-color: rgba(255, 193, 7, 0.1); /* Light yellow background */
+    color: #ffc107;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+/* Students dashboard */
+.students-course-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+.students-course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.progress {
+    height: 10px;
+}
+.card-img-top {
+    height: 160px;
+    object-fit: cover;
+}
+.badge-custom {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.course-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+.stats-card {
+    transition: all 0.3s ease;
+    position: relative; z-index: 1;
+    overflow: visible;
+}
+.stats-card:hover {
+    background-color: #007bff;
+    color: white;
+}
+.stats-card:hover .text-muted {
+    color: #e0e0e0 !important;
+}
+
+
+.container-viewer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    /* padding: 1rem; */
+    /* width: 80%; */
+}
+
+.viewer {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    /* max-width: 24rem; */
+    width: 100%;
+    height: 105vh;
+}
+.header {
+    padding: 1rem;
+    background-color: #00008B;
+    color: white;
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+.content {
+    padding: 1.5rem;
+}
+.document {
+    background-color: #e5e7eb;
+    border-radius: 0.375rem;
+    aspect-ratio: 3/4;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+    width: 100%;
+}
+.document img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.375rem;
+}
+.description {
+    text-align: center;
+    color: #4b5563;
+    margin-bottom: 1rem;
+}
+.download-btn {
+    width: 100%;
+    background-color: #00008B;
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.download-btn:hover {
+    background-color: #2563eb;
+}
+.download-icon {
+    margin-right: 0.5rem;
+}
+
+.video-container {
+    position: relative;
+    overflow: hidden;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
