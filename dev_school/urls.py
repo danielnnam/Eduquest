@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls import handler404, handler500
 from django.shortcuts import render
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 # Custom error handlers
@@ -38,3 +41,6 @@ urlpatterns = [
     path('instructors/', include('instructors.urls')),
     path('administration/', include('administration.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
