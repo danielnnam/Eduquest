@@ -3,8 +3,9 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block content %}
+<h1 class="mb-4">Edit Profile</h1>
 <div class="container py-4 shadow-lg p-3 rounded-3">
-  <h1 class="mb-4">Edit Profile</h1>
+
 
   {% if messages %}
     {% for message in messages %}
@@ -27,10 +28,15 @@
                  style="width: 150px; height: 150px; object-fit: cover;">
         {% else %}
             <!-- Fallback default avatar image -->
-            <img src="{% static 'images/p0xjysh9.png' %}"
-                 class="rounded-circle shadow"
-                 alt="Default Avatar"
-                 style="width: 150px; height: 150px; object-fit: cover;">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+              width="150" height="150" viewBox="0 0 24 24" 
+              class="rounded-circle shadow bg-light"
+              style="padding:12px; border-radius:50%;">
+              <!-- Head -->
+              <circle cx="12" cy="8" r="4" fill="#6c757d"/>
+              <!-- Shoulders -->
+              <path d="M4 20c1.5-4 6-6 8-6s6.5 2 8 6" fill="#6c757d"/>
+          </svg>
         {% endif %}
     </div>
 </div>

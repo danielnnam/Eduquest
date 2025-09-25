@@ -76,11 +76,15 @@
                                                 class="rounded-circle "
                                                 style="object-fit: cover; object-position: center;">
                                         {% else %}
-                                            <img src="{% static 'images/p0xjysh9.png' %}"
-                                                alt="Default Avatar"
-                                                width="42" height="42"
-                                                class="rounded-circle"
-                                                style="object-fit: cover; object-position: center;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" 
+                                                width="45" height="45" viewBox="0 0 24 24" 
+                                                class="rounded-circle shadow bg-light"
+                                                style="padding:12px; border-radius:50%;">
+                                                <!-- Head -->
+                                                <circle cx="12" cy="8" r="4" fill="#6c757d"/>
+                                                <!-- Shoulders -->
+                                                <path d="M4 20c1.5-4 6-6 8-6s6.5 2 8 6" fill="#6c757d"/>
+                                            </svg>
                                         {% endif %}
                                 </a>
 
